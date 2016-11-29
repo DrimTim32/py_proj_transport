@@ -1,0 +1,16 @@
+<Config>
+    <Lines>
+        <Line>
+
+            <Id>0</Id>
+            <Way1>A B C D E F G H </Way1>
+            <Way1Time>10 10 10 10 10 10 10 10</Way1Time>
+            <TimeTable1>14:00,15:00,16:00</TimeTable1>
+
+            <Way2>H G F E D C B A </Way2>
+            <Way2Time>10 10 10 10 10 10 10 10</Way2Time>
+            <TimeTable2>14:00,15:00,16:00</TimeTable2>
+
+        </Line>
+    </Lines>
+</Config>
