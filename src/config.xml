@@ -1,6 +1,19 @@
 <Config>
+
+    <Stops>
+            <!--Contains all stops ( all map)-->
+        A B C D E F G H
+    </Stops>
+    <Connections>
+        <!-- Potrzebne aby wiedziec gdzie robic przesiadki ?? -->
+        A - B
+        B - A
+        B - C
+        ...
+    </Connections>
     <Lines>
         <Line>
+            <!-- One line -->
 
             <Id>0</Id>
             <Way1>A B C D E F G H </Way1>

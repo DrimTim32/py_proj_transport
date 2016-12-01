@@ -1,10 +1,13 @@
 import sys
-import configparser
+from src.Simulation import Simulation
+
+def read_configuration():
+    pass
 
 def entrypoint():
-    config = configparser.ConfigParser()
-
-
+    configuration = read_configuration()
+    simulation = Simulation(configuration)
+    simulation.start()
 
 def main():
         try:
