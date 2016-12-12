@@ -1,4 +1,4 @@
-from typing import List, Dict, Tuple, Set
+from typing import List, Dict, Tuple
 from collections import namedtuple
 
 Edge = namedtuple("Edge", ["node", "weight", "lines"])
@@ -23,7 +23,7 @@ class Node:
             index = next([i for i in range(len(self.__edges)) if self.__edges[i].node is node])
             self.__edges[index].weight = weight
             self.__edges[index].lines = lines
-        self.distance_vectors[node.name]= weight
+        self.distance_vectors[node.name] = weight
 
     @property
     def neighbours(self):
@@ -81,15 +81,14 @@ class Graph:
             for k in self.__graph:
                 curr = tupl[k]
                 if curr is None:
-                    self.__graph[key].distance_vectors[k] = ("",0)
+                    self.__graph[key].distance_vectors[k] = ("", 0)
                     continue
                 if tupl[curr] is None:
-                    self.__graph[key].distance_vectors[k] = (k,dist[k])
+                    self.__graph[key].distance_vectors[k] = (k, dist[k])
                     continue
                 while tupl[curr] != key:
                     curr = tupl[curr]
-                self.__graph[key].distance_vectors[k] = (curr,dist[k])
-
+                self.__graph[key].distance_vectors[k] = (curr, dist[k])
 
     @staticmethod
     def djikstra(graph: Dict[str, Node], node_name: str) -> Dict[str, Tuple[str, int]]:
