@@ -1,5 +1,7 @@
 import sys
-from src.Simulation import Simulation
+
+from Simulation import Simulation
+
 
 def read_configuration():
     pass
