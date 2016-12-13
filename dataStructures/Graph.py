@@ -1,5 +1,6 @@
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Iterator
 from collections import namedtuple
+import math
 
 Edge = namedtuple("Edge", ["node", "weight", "lines"])
 NodeLengthPair = namedtuple("NodeLengthPair", ["node", "length"])
@@ -11,11 +12,19 @@ class Node:
     def __init__(self, name):
         self.name = name
         self.__edges = []  # type: List[Edge]
-        self.distance_vectors = {
-
-        }
+        self.distance_vectors = {}
 
     def add_or_update_neighbour(self, node, weight, lines):
+        """
+        Connects node to current node, if node already connected then updates it.
+        :param node: node to connect
+        :param weight: weight from current node to new node
+        :param lines: lines going from current node to new node
+        :type node: Node
+        :type weight: int
+        :type lines: List[int]
+        :rtype: None
+        """
         nbs = self.neighbours
         if node not in nbs:
             self.__edges.append(Edge(node, weight, lines))
@@ -27,18 +36,48 @@ class Node:
 
     @property
     def neighbours(self):
+        """Returns all neighbours of current node"""
         return [x.node for x in self.__edges]
 
     def __str__(self):
         return self.name
 
 
-def connect_both(node1: Node, node2: Node, weight, lines_right, lines_left):
-    node1.add_or_update_neighbour(node2, weight, lines_right)
-    node2.add_or_update_neighbour(node1, weight, lines_left)
+def connect_both(node1, node2, weight, lines_right, lines_left):
+    """
+    Connects node1 with node2 and node2 with node1
+    :param node1: first node
+    :param node2: second node
+    :param weight: weight on edge
+    :param lines_right: lines from node1 to node2
+    :param lines_left: lines from node2 to node 1
+    :type node1 : Node
+    :type node2 : Node
+    :type weight : int
+    :type lines_right : List[int]
+    :type lines_left : List[int]
+    :return: None
+    .. seealso:: connect_one_way
+    """
+    connect_one_way(node1, node2, weight, lines_right)
+    connect_one_way(node2, node1, weight, lines_left)
 
 
-import math
+def connect_one_way(node1, node2, weight, lines):
+    """
+    Connects node1 to node2
+    :param node1: first node
+    :param node2: second node
+    :param weight: weight on edge
+    :param lines: lines from node1 to node2
+    :type node1 : Node
+    :type node2 : Node
+    :type weight : int
+    :type lines : List[int]
+    :return: None
+    .. seealso:: connect_both
+    """
+    node1.add_or_update_neighbour(node2, weight, lines)
 
 
 class Graph:
@@ -49,16 +88,31 @@ class Graph:
         self.__populate_graph(nodes)
 
     def get_path_between(self, source_name, destination_name):
+        """
+        Returns distance between two nodes and first step to go from source to destination
+        :param source_name: name of source node
+        :param destination_name: name of destination node
+        :type source_name: string
+        :type destination_name: string
+        :return: Tuple with first step and distance
+        :rtype: Tuple[str,int]
+        """
         node1 = self.__graph[source_name]
-        node2 = self.__graph[destination_name]
-        return node1.distance_vectors[node2.name]
+        return node1.distance_vectors[destination_name]
 
     def __populate_graph(self, nodes):
         for node in nodes:
             self.__graph[node.name] = node
-        self.calculate_paths()
+        self.__calculate_paths()
 
     def bfs(self, start):
+        """
+        Iterates over graph using bfs algorithm
+        :param start: first node
+        :type start: str
+        :return:
+        :rtype: Iterator[Node]
+        """
         from queue import Queue
         output_list = []
         queue = Queue()
@@ -73,11 +127,15 @@ class Graph:
                     queue.put(node.name)
         return output_list
 
-    def calculate_paths(self):
+    def __calculate_paths(self):
+        """
+        Calculates whole graph
+        :return: None
+        """
         from copy import deepcopy
-        tmpgraph = deepcopy(self.__graph)
+        tmp_graph = deepcopy(self.__graph)
         for key in self.__graph:
-            (dist, tupl) = self.djikstra(deepcopy(tmpgraph), key)
+            (dist, tupl) = self.__djikstra(deepcopy(tmp_graph), key)
             for k in self.__graph:
                 curr = tupl[k]
                 if curr is None:
@@ -91,29 +149,38 @@ class Graph:
                 self.__graph[key].distance_vectors[k] = (curr, dist[k])
 
     @staticmethod
-    def djikstra(graph: Dict[str, Node], node_name: str) -> Dict[str, Tuple[str, int]]:
-        pred = {key: None for key in graph.keys()}
-        d = {key: math.inf for key in graph.keys()}
-        d[node_name] = 0
-        Q = set(graph.values())  # type : Set[Node]
-        while len(Q) != 0:
-            u = min(Q, key=lambda x: d[x.name])  # type: Node
-            Q.remove(u)
-            for v in u.neighbours:
-                if d[v.name] > d[u.name] + u.distance_vectors[v.name]:
-                    d[v.name] = d[u.name] + u.distance_vectors[v.name]
-                    pred[v.name] = u.name
-                    Q.add(v)
-        return (d, pred)
+    def __djikstra(graph: Dict[str, Node], node_name: str) -> Tuple[Dict[str, int], Dict[str, str]]:
+        """
+        Uses djikstra algorithm to calculate distances bewteen first node and the others
+        :param graph: graph to trvers
+        :param node_name: first node name
+        :type graph: Dict[str,Node]
+        :type node_name: str
+        :return: calculated distances and predecesors
+        :rtype: Tuple[Dict[str,int],Dict[str,str]]
+        """
+        predecessors = {key: None for key in graph.keys()}
+        distances = {key: math.inf for key in graph.keys()}
+        distances[node_name] = 0
+        nodes_set = set(graph.values())  # type : Set[Node]
+        while len(nodes_set) != 0:
+            min_node = min(nodes_set, key=lambda x: distances[x.name])  # type: Node
+            nodes_set.remove(min_node)
+            for neigbour in min_node.neighbours:
+                if distances[neigbour.name] > distances[min_node.name] + min_node.distance_vectors[neigbour.name]:
+                    distances[neigbour.name] = distances[min_node.name] + min_node.distance_vectors[neigbour.name]
+                    predecessors[neigbour.name] = min_node.name
+                    nodes_set.add(neigbour)
+        return distances, predecessors
 
     @property
     def vertices(self):
-        return list(self.__graph.keys())
-
-    @property
-    def edges(self):
-        # TODO : create algorithm generating connections
-        raise NotImplementedError
+        """
+        Retuns all nodes in graph
+        :return:
+        :rtype: List[Node]
+        """
+        return list(self.__graph.values())
 
     def __str__(self):
         pass
