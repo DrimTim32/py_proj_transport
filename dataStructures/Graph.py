@@ -1,7 +1,6 @@
-from typing import List, Dict, Tuple, Iterator
 from collections import namedtuple
 import math
-
+from numpy import inf
 Edge = namedtuple("Edge", ["node", "weight", "lines"])
 NodeLengthPair = namedtuple("NodeLengthPair", ["node", "length"])
 
@@ -83,7 +82,10 @@ def connect_one_way(node1, node2, weight, lines):
 class Graph:
     """Graph structure"""
 
-    def __init__(self, nodes: List[Node]):
+    def __init__(self, nodes):
+        """
+        :type nodes :  List[Node]
+        """
         self.__graph = {}  # type: Dict[str,Node]
         self.__populate_graph(nodes)
 
@@ -149,7 +151,7 @@ class Graph:
                 self.__graph[key].distance_vectors[k] = (curr, dist[k])
 
     @staticmethod
-    def __djikstra(graph: Dict[str, Node], node_name: str) -> Tuple[Dict[str, int], Dict[str, str]]:
+    def __djikstra(graph, node_name):
         """
         Uses djikstra algorithm to calculate distances bewteen first node and the others
         :param graph: graph to trvers
@@ -160,17 +162,17 @@ class Graph:
         :rtype: Tuple[Dict[str,int],Dict[str,str]]
         """
         predecessors = {key: None for key in graph.keys()}
-        distances = {key: math.inf for key in graph.keys()}
+        distances = {key: inf for key in graph.keys()}
         distances[node_name] = 0
         nodes_set = set(graph.values())  # type : Set[Node]
         while len(nodes_set) != 0:
             min_node = min(nodes_set, key=lambda x: distances[x.name])  # type: Node
             nodes_set.remove(min_node)
-            for neigbour in min_node.neighbours:
-                if distances[neigbour.name] > distances[min_node.name] + min_node.distance_vectors[neigbour.name]:
-                    distances[neigbour.name] = distances[min_node.name] + min_node.distance_vectors[neigbour.name]
-                    predecessors[neigbour.name] = min_node.name
-                    nodes_set.add(neigbour)
+            for neighbour in min_node.neighbours:
+                if distances[neighbour.name] > distances[min_node.name] + min_node.distance_vectors[neighbour.name]:
+                    distances[neighbour.name] = distances[min_node.name] + min_node.distance_vectors[neighbour.name]
+                    predecessors[neighbour.name] = min_node.name
+                    nodes_set.add(neighbour)
         return distances, predecessors
 
     @property

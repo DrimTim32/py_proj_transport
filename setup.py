@@ -18,7 +18,7 @@ setup(
     packages= find_packages(),
     url='https://github.com/DrimTim32/py_proj_transport',
     license='MIT',
-    author='gese anna, soból bartek, malinowski marcin',
+    author='gese anna, sobol bartek, malinowski marcin',
     author_email='',
     description='',
     test_suite='setup.my_test_suite',
