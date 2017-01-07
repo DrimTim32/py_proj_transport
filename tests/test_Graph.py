@@ -28,12 +28,11 @@ class GraphTests(unittest.TestCase):
         for letter in "ABCDEFG":
             nodes[letter] = Node(letter)
 
-
         def ass_path_len(a, b, i):
-            self.assert_path_len(graph, a, b, i,"between {0} and {1} should be {2}".format(a,b,i))
+            self.assert_path_len(graph, a, b, i, "between {0} and {1} should be {2}".format(a, b, i))
 
         def conn_nod(a, b, len):
-            self.connect_nodes_without_lines(nodes[a], nodes[b], len )
+            self.connect_nodes_without_lines(nodes[a], nodes[b], len)
 
         connection_list = [
             ("A", "E", 2), ("A", "B", 4), ("A", "D", 1), ("B", "D", 2),
@@ -65,7 +64,7 @@ class GraphTests(unittest.TestCase):
             ("E", "F", 10), ("E", "G", 7),
         ]
         for path in paths_to_check:
-            ass_path_len(path[0],path[1],path[2])
+            ass_path_len(path[0], path[1], path[2])
 
     def test_graph_easy_path_len(self):
         """
@@ -82,9 +81,8 @@ class GraphTests(unittest.TestCase):
         def conn_nod(a, b, len):
             self.connect_nodes_without_lines(nodes[a], nodes[b], len)
 
-
         def ass_path_len(a, b, i):
-            self.assert_path_len(graph, a, b, i,"between {0} and {1} should be {2}".format(a,b,i))
+            self.assert_path_len(graph, a, b, i, "between {0} and {1} should be {2}".format(a, b, i))
 
         conn_nod("A", "B", 1)
         conn_nod("A", "E", 1)
@@ -139,7 +137,7 @@ class GraphTests(unittest.TestCase):
             self.connect_nodes_without_lines(nodes[a], nodes[b], len)
 
         def ass_path_len(a, b, i):
-            self.assert_path_len(graph, a, b, i,"between {0} and {1} should be {2}".format(a,b,i))
+            self.assert_path_len(graph, a, b, i, "between {0} and {1} should be {2}".format(a, b, i))
 
         nodes_list = [node for node in nodes.values()]
         conn_nod(stops_common[0], stops_common[1], 5)
@@ -154,9 +152,10 @@ class GraphTests(unittest.TestCase):
             for q in range(0, len(stops_common)):
                 self.assert_path_len(graph, stops_common[i], stops_common[q], abs(i - q) * 5)
 
-    def assert_path_len(self, graph: Graph, node1: str, node2: str, len: int,msg=None):
+    def assert_path_len(self, graph, node1, node2, len, msg = None):
         tmp = graph.get_path_between(node1, node2)[1]
-        self.assertEqual(tmp, len, (msg+" but was {0}".format(tmp)) if msg is not None else None)
+        self.assertEqual(tmp, len, (msg + " but was {0}".format(tmp)) if msg is not None else None)
 
-    def assert_path_next_move(self, graph: Graph, node1: str, node2: str, next: str):
+
+    def assert_path_next_move(self, graph, node1, node2, next):
         self.assertEqual(graph.get_path_between(node1, node2)[0], next)
