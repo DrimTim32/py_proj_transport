@@ -1,7 +1,8 @@
 from collections import namedtuple
-import math
 from numpy import inf
-Edge = namedtuple("Edge", ["node", "weight", "lines"])
+from Configuration.Config import Config
+
+Edge = namedtuple("Edge", ["node", "weight"])
 NodeLengthPair = namedtuple("NodeLengthPair", ["node", "length"])
 
 
@@ -10,10 +11,11 @@ class Node:
 
     def __init__(self, name):
         self.name = name
-        self.__edges = []  # type: List[Edge]
+        self.__edges = []
+        """:type: list[Edge]"""
         self.distance_vectors = {}
 
-    def add_or_update_neighbour(self, node, weight, lines):
+    def add_or_update_neighbour(self, node, weight):
         """
         Connects node to current node, if node already connected then updates it.
         :param node: node to connect
@@ -26,11 +28,10 @@ class Node:
         """
         nbs = self.neighbours
         if node not in nbs:
-            self.__edges.append(Edge(node, weight, lines))
+            self.__edges.append(Edge(node, weight))
         else:
             index = next([i for i in range(len(self.__edges)) if self.__edges[i].node is node])
             self.__edges[index].weight = weight
-            self.__edges[index].lines = lines
         self.distance_vectors[node.name] = weight
 
     @property
@@ -42,7 +43,7 @@ class Node:
         return self.name
 
 
-def connect_both(node1, node2, weight, lines_right, lines_left):
+def connect_both(node1, node2, weight):
     """
     Connects node1 with node2 and node2 with node1
     :param node1: first node
@@ -58,11 +59,11 @@ def connect_both(node1, node2, weight, lines_right, lines_left):
     :return: None
     .. seealso:: connect_one_way
     """
-    connect_one_way(node1, node2, weight, lines_right)
-    connect_one_way(node2, node1, weight, lines_left)
+    connect_one_way(node1, node2, weight)
+    connect_one_way(node2, node1, weight)
 
 
-def connect_one_way(node1, node2, weight, lines):
+def connect_one_way(node1, node2, weight):
     """
     Connects node1 to node2
     :param node1: first node
@@ -76,17 +77,36 @@ def connect_one_way(node1, node2, weight, lines):
     :return: None
     .. seealso:: connect_both
     """
-    node1.add_or_update_neighbour(node2, weight, lines)
+    node1.add_or_update_neighbour(node2, weight)
 
 
 class Graph:
     """Graph structure"""
 
+    @staticmethod
+    def from_config(configuration):
+        """
+        Builds a graph from configuration object
+        :param configuration:
+        :type configuration: Config
+        :return:
+        :rtype: Graph
+        """
+        nodes = {}
+        """:type : dict[str,Node]"""
+        for s in configuration.graph_dict.keys():
+            nodes[s] = Node(s)
+        for s in configuration.graph_dict.keys():
+            for q in configuration.graph_dict[s]:
+                connect_one_way(nodes[s], nodes[q[0]], q[1])
+        return Graph(nodes.values())
+
     def __init__(self, nodes):
         """
         :type nodes :  List[Node]
         """
-        self.__graph = {}  # type: Dict[str,Node]
+        self.__graph = {}
+        # :type __graph: Dict[str,Node]
         self.__populate_graph(nodes)
 
     def get_path_between(self, source_name, destination_name):
