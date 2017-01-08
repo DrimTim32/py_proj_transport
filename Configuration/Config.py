@@ -8,8 +8,10 @@ class Config:
     def graph_dict(self):
         """
         :return: returns graph description
-        :rtype: dict[str,List[tuple[str,int]]]
+        :rtype: dict[str,list[tuple[str,int]]]
         """
         return {
 
         }
+
+

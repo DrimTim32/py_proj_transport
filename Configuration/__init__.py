@@ -1,1 +1,1 @@
-from Configuration import *
+from Configuration.Config import Config

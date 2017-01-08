@@ -116,8 +116,8 @@ class Graph:
         :param destination_name: name of destination node
         :type source_name: string
         :type destination_name: string
-        :return: Tuple with first step and distance
-        :rtype: Tuple[str,int]
+        :return: Tuple with first step and distance, returns None if there is no such path
+        :rtype: tuple[str,int]
         """
         node1 = self.__graph[source_name]
         return node1.distance_vectors[destination_name]
