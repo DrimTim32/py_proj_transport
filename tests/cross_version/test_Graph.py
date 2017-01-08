@@ -10,7 +10,7 @@ class GraphTests(unittest.TestCase):
         graph = Graph(nodes)
 
     def connect_nodes_without_lines(self, node, node2, dist):
-        connect_both(node, node2, dist, [], [])
+        connect_both(node, node2, dist)
 
     def test_graph_harder_path_len(self):
         """
