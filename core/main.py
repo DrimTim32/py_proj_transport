@@ -1,10 +1,11 @@
 import sys
 
 from Simulation import Simulation
+from Configuration.Config import Config
 
 
 def read_configuration():
-    pass
+    return Config.from_config_file("../Configuration/config.json")
 
 def entrypoint():
     configuration = read_configuration()

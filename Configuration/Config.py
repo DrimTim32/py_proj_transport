@@ -1,8 +1,19 @@
+import json
+
 
 class Config:
+    def __init__(self, stops, connections, lines):
+        self.stops = stops
+        self.connections = connections
+        self.lines = lines
+        # print(self.graph_dict.values())
+
+
     @staticmethod
     def from_config_file(file):
-        pass
+        f = open(file)
+        data = json.load(f)
+        return Config(data['stops'], data['connections'], data['lines'])
 
     @property
     def graph_dict(self):
@@ -10,6 +21,5 @@ class Config:
         :return: returns graph description
         :rtype: dict[str,List[tuple[str,int]]]
         """
-        return {
+        return {key: [tuple(pair) for pair in self.connections.get(key)] for key in self.connections.keys()}
 
-        }
