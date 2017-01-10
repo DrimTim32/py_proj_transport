@@ -6,8 +6,6 @@ class Config:
         self.stops = stops
         self.connections = connections
         self.lines = lines
-        # print(self.graph_dict.values())
-
 
     @staticmethod
     def from_config_file(file):
@@ -23,3 +21,10 @@ class Config:
         """
         return {key: [tuple(pair) for pair in self.connections.get(key)] for key in self.connections.keys()}
 
+    @property
+    def lines_list(self):
+        """
+        :return: returns list of lines
+        :rtype: dict[str,List[tuple[str,int]]]
+        """
+        return []

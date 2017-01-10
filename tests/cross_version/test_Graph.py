@@ -1,5 +1,6 @@
 import unittest
-from dataStructures.Graph import Node, Graph, connect_both
+
+from core.data_structures.Graph import Node, Graph, connect_both
 
 
 class GraphTests(unittest.TestCase):

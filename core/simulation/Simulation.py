@@ -1,6 +1,8 @@
 import time
+
+
 class Simulation:
-    def __init__(self,configuration):
+    def __init__(self, configuration):
         """Read configuration and do sth with it"""
         pass
 
@@ -13,5 +15,3 @@ class Simulation:
             time.sleep(60)
             for _ in range(10):
                 self.__recalculate()
-
-
