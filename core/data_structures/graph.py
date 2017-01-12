@@ -2,7 +2,7 @@ from collections import namedtuple
 
 from numpy import inf
 
-from core.configuration import Config
+from core.configuration import config
 
 Edge = namedtuple("Edge", ["node", "weight"])
 NodeLengthPair = namedtuple("NodeLengthPair", ["node", "length"])
@@ -90,7 +90,7 @@ class Graph:
         """
         Builds a graph from configuration object
         :param configuration:
-        :type configuration: Config
+        :type configuration: config
         :return:
         :rtype: Graph
         """
