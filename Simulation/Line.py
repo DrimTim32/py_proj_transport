@@ -1,5 +1,5 @@
 class Line:
-    def __init__(self,graph,number,timetable: map):
+    def __init__(self,graph,number,timetable):
         self.graph = graph
         self.number = number
         self.timetable = timetable
