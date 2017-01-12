@@ -1,16 +1,16 @@
 import sys
 
-from core.configuration import Config
-from core.simulation import Simulation
+from core.configuration import config
+from core.simulation.simulation import *
 
 
 def read_configuration():
-    return Config.Config.from_config_file("Configuration/config.json")
+    return config.Config.from_config_file("Configuration/config.json")
 
 
 def entrypoint():
     configuration = read_configuration()
-    simulation = Simulation.Simulation(configuration)
+    simulation = Simulation(configuration)
     simulation.start()
 
 

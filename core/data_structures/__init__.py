@@ -1,1 +1,1 @@
-from core.data_structures.Graph import Graph,Node,connect_both
+from core.data_structures.graph import Graph, Node, connect_both
