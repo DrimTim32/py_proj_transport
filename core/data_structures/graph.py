@@ -1,6 +1,8 @@
 from collections import namedtuple
+
 from numpy import inf
-from Configuration.Config import Config
+
+from core.configuration import config
 
 Edge = namedtuple("Edge", ["node", "weight"])
 NodeLengthPair = namedtuple("NodeLengthPair", ["node", "length"])
@@ -11,8 +13,7 @@ class Node:
 
     def __init__(self, name):
         self.name = name
-        self.__edges = []
-        """:type: list[Edge]"""
+        self.__edges = []  # type: list[Edge]
         self.distance_vectors = {}
 
     def add_or_update_neighbour(self, node, weight):
@@ -88,16 +89,16 @@ class Graph:
         """
         Builds a graph from configuration object
         :param configuration:
-        :type configuration: Config
+        :type configuration: config
         :return:
         :rtype: Graph
         """
         nodes = {}
         """:type : dict[str,Node]"""
-        for s in configuration.graph_dict.keys():
+        for s in configuration.Config.graph_dict.keys():
             nodes[s] = Node(s)
-        for s in configuration.graph_dict.keys():
-            for q in configuration.graph_dict[s]:
+        for s in configuration.Config.graph_dict.keys():
+            for q in configuration.Config.graph_dict[s]:
                 connect_one_way(nodes[s], nodes[q[0]], q[1])
         return Graph(nodes.values())
 
@@ -105,8 +106,7 @@ class Graph:
         """
         :type nodes :  List[Node]
         """
-        self.__graph = {}
-        # :type __graph: Dict[str,Node]
+        self.__graph = {}  # type: dict[str,Node]
         self.__populate_graph(nodes)
 
     def get_path_between(self, source_name, destination_name):
