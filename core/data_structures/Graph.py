@@ -1,6 +1,8 @@
 from collections import namedtuple
+
 from numpy import inf
-from Configuration.Config import Config
+
+from core.configuration import Config
 
 Edge = namedtuple("Edge", ["node", "weight"])
 NodeLengthPair = namedtuple("NodeLengthPair", ["node", "length"])
@@ -94,10 +96,10 @@ class Graph:
         """
         nodes = {}
         """:type : dict[str,Node]"""
-        for s in configuration.graph_dict.keys():
+        for s in configuration.Config.graph_dict.keys():
             nodes[s] = Node(s)
-        for s in configuration.graph_dict.keys():
-            for q in configuration.graph_dict[s]:
+        for s in configuration.Config.graph_dict.keys():
+            for q in configuration.Config.graph_dict[s]:
                 connect_one_way(nodes[s], nodes[q[0]], q[1])
         return Graph(nodes.values())
 
