@@ -11,7 +11,7 @@ def read_configuration():
 def entrypoint():
     configuration = read_configuration()
     simulation = Simulation(configuration)
-    simulation.start()
+    simulation.mainloop()
 
 
 def main():

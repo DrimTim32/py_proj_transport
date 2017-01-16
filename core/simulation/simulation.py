@@ -4,14 +4,13 @@ import time
 class Simulation:
     def __init__(self, configuration):
         """Read configuration and do sth with it"""
+        self.finished = False
+
+    def update(self):
         pass
 
-    def __recalculate(self):
-        pass
-
-    def start(self):
-        while True:
+    def mainloop(self):
+        while not self.finished:
             print("IM WORKING")
-            time.sleep(60)
-            for _ in range(10):
-                self.__recalculate()
+            time.sleep(10)
+            self.update()
