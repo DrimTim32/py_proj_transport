@@ -9,9 +9,7 @@ Welcome to py_proj_lights's documentation!
 .. toctree::
    :maxdepth: 2
 
-   Configuration
-   Simulation
-   dataStructures
+   core
 
 
 

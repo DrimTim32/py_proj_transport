@@ -1,1 +1,1 @@
-from core.Simulation import *
+from core.simulation import *

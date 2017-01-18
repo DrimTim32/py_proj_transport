@@ -1,6 +1,15 @@
 core package
 ============
 
+Subpackages
+-----------
+
+.. toctree::
+
+    core.configuration
+    core.data_structures
+    core.simulation
+
 Submodules
 ----------
 

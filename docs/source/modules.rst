@@ -1,11 +1,7 @@
-py_proj_transport
-=================
+core
+====
 
 .. toctree::
    :maxdepth: 4
 
-   Configuration
-   Simulation
    core
-   dataStructures
-   setup

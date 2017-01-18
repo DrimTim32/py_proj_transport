@@ -1,6 +1,6 @@
 import unittest
 
-from core.data_structures.Graph import Node, Graph, connect_both
+from core.data_structures.graph import Node, Graph, connect_both
 
 
 class GraphTests(unittest.TestCase):
@@ -153,10 +153,9 @@ class GraphTests(unittest.TestCase):
             for q in range(0, len(stops_common)):
                 self.assert_path_len(graph, stops_common[i], stops_common[q], abs(i - q) * 5)
 
-    def assert_path_len(self, graph, node1, node2, len, msg = None):
+    def assert_path_len(self, graph, node1, node2, len, msg=None):
         tmp = graph.get_path_between(node1, node2)[1]
         self.assertEqual(tmp, len, (msg + " but was {0}".format(tmp)) if msg is not None else None)
-
 
     def assert_path_next_move(self, graph, node1, node2, next):
         self.assertEqual(graph.get_path_between(node1, node2)[0], next)

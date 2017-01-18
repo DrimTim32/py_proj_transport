@@ -1,6 +1,6 @@
 import unittest
-
-from core.data_structures.Graph import Node, Graph
+from unittest.mock import MagicMock
+from core.data_structures.graph import Node, Graph
 
 
 class GraphIntegrationTests(unittest.TestCase):
