@@ -54,9 +54,6 @@ class Simulation:
         q = [bus for bus in self.buses if bus.current_stop == len(bus.line.routes[bus.route]) - 1]
         for b in q:
             self.buses.remove(b)
-            # for bus in self.buses:
-            #     if bus.current_stop == len(bus.line.routes[bus.route]) - 1:
-            #         self.buses.remove(bus)
 
     def create_graph(self):
         """
