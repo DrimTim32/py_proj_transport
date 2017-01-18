@@ -18,6 +18,35 @@ class Simulation:
         self.bus_collector = BusCollector()
         self.printer = StatusPrinter()
 
+    def mainloop(self):
+        while not self.finished:
+            print('________________________________________________________')
+            print('STEP ', self.steps)
+            for bus in self.buses:
+                print('Bus{', 'line: ', bus.line.number, ' route: ', bus.route, ' last stop:', bus.current_stop_name,
+                      'time to next stop:', bus.ticks_to_next_stop)
+
+            self.steps += 1
+            time.sleep(2)
+            self.update()
+
+    def update(self):
+        self.clean_buses()
+        self.update_buses()
+
+    def update_buses(self):
+        for bus in self.buses:
+            bus.move()
+
+    def generate_buses(self):
+        for line in self.lines:
+            pass
+
+    def clean_buses(self):
+        for bus in self.buses:
+            if bus.current_stop == bus.line.get_last_stop(bus.route) and bus.ticks_count == 0:
+                self.buses.remove(bus)
+
     def create_graph(self):
         """
           A - 1 - B - 2 - C - 1 - D
@@ -41,30 +70,5 @@ class Simulation:
         conn_nod("D", "C", 1)
         self.graph = Graph([nodes[key] for key in nodes])
 
-    def update(self):
-        self.clean_buses()
-
-    def update_buses(self):
-        for bus in self.buses:
-            pass
-
-    def generate_buses(self):
-        for line in self.lines:
-            pass
-
-    def clean_buses(self):
-        for bus in self.buses:
-            if bus.current_stop == bus.line.get_last_stop(bus.route) and bus.ticks_count == 0:
-                self.buses.remove(bus)
-
-    def mainloop(self):
-        while not self.finished:
-            print('________________________________________________________')
-            print('STEP ', self.steps)
-            for bus in self.buses:
-                print('Bus{', 'line: ', bus.line, ' route: ', bus.route, ' last stop:', bus.current_stop,
-                      'time to next stop:', bus.ticks_to_next_stop)
-
-            self.steps += 1
-            time.sleep(2)
-            self.update()
+    def create_lines(self):
+        pass

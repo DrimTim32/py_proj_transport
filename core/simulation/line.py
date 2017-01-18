@@ -1,6 +1,6 @@
 from collections import namedtuple
 
-LineStop = namedtuple('LineStop', ['name', 'time_to_next'])
+LineStop = namedtuple('LineStop', ['name', 'time_to_next_stop'])
 
 
 class Line:
