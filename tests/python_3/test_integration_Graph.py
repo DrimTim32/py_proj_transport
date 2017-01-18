@@ -1,5 +1,5 @@
 import unittest
-
+from unittest.mock import MagicMock
 from core.data_structures.graph import Node, Graph
 
 
