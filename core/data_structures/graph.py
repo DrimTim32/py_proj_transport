@@ -13,8 +13,7 @@ class Node:
 
     def __init__(self, name):
         self.name = name
-        self.__edges = []
-        """:type: list[Edge]"""
+        self.__edges = []  # type: list[Edge]
         self.distance_vectors = {}
 
     def add_or_update_neighbour(self, node, weight):
@@ -107,8 +106,7 @@ class Graph:
         """
         :type nodes :  List[Node]
         """
-        self.__graph = {}
-        # :type __graph: Dict[str,Node]
+        self.__graph = {}  # type: dict[str,Node]
         self.__populate_graph(nodes)
 
     def get_path_between(self, source_name, destination_name):
