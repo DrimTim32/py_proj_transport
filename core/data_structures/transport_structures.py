@@ -21,14 +21,15 @@ class Bus:
         Bus class
     """
 
-    def __init__(self, line):
+    def __init__(self, line, route):
         self.current_stop = 0
         self.line = line
-        self.__ticks_to_next_stop = line[0][1]
+        self.route = route
+        self.ticks_to_next_stop = line[0][1]
         self.ticks_count = -1
 
     def move_from_stop(self):
-        if self.ticks_count == self.__ticks_to_next_stop:
+        if self.ticks_count == self.ticks_to_next_stop:
             self.ticks_count = -1
             self.current_stop = self.line[0][0]
         self.ticks_count += 1
