@@ -22,7 +22,6 @@ class Simulation:
 
         self.create_graph()
         self.create_lines()
-        self.buses.append(Bus(self.lines[0], 0))
 
     def mainloop(self):
         while not self.finished:
@@ -38,6 +37,7 @@ class Simulation:
         self.steps += 1
         self.clean_buses()
         self.update_buses()
+        self.generate_buses()
 
     def update_buses(self):
         for bus in self.buses:
@@ -45,12 +45,18 @@ class Simulation:
 
     def generate_buses(self):
         for line in self.lines:
-            pass
+            new_buses = line.tick()
+            for i in range(len(new_buses)):
+                if new_buses[i]:
+                    self.buses.append(Bus(line, i))
 
     def clean_buses(self):
-        for bus in self.buses:
-            if bus.current_stop == len(bus.line.routes[bus.route]) - 1:
-                self.buses.remove(bus)
+        q = [bus for bus in self.buses if bus.current_stop == len(bus.line.routes[bus.route]) - 1]
+        for b in q:
+            self.buses.remove(b)
+            # for bus in self.buses:
+            #     if bus.current_stop == len(bus.line.routes[bus.route]) - 1:
+            #         self.buses.remove(bus)
 
     def create_graph(self):
         """
@@ -76,20 +82,20 @@ class Simulation:
         self.graph = Graph([nodes[key] for key in nodes])
 
     def create_lines(self):
-        route1 = []
+        route1, route2 = [], []
         route1.append(LineStop("E", 1))
         route1.append(LineStop("F", 5))
         route1.append(LineStop("B", 2))
         route1.append(LineStop("C", 1))
         route1.append(LineStop("D", 0))
-        route2 = []
+
         route2.append(LineStop("D", 1))
         route2.append(LineStop("C", 2))
         route2.append(LineStop("B", 5))
         route2.append(LineStop("F", 1))
         route2.append(LineStop("E", 0))
 
-        self.lines.append(Line("0", 10, 10, 10, route1, route2))
+        self.lines.append(Line("0", 10, 20, 20, route1, route2))
 
         stops = ["Krowodrza Gorka", "Krowoderskich", "Batalionu", "Makowskiego", "Lobzow", "Mazowiecka", "Biprostal",
                  "Korek1", "Korek2",
@@ -102,4 +108,4 @@ class Simulation:
         for i in range(len(stops)):
             route1.append(LineStop(stops[i], times[i]))
         route2 = route1[::-1]
-        self.lines.append(Line("194", 10, 10, 10, route1, route2))
+        # self.lines.append(Line("194", 10, 10, 10, route1, route2))
