@@ -2,6 +2,7 @@ import time
 
 from core.data_structures import Graph
 from core.data_structures.transport_structures import Bus
+from core.data_structures.transport_structures import Stop
 from core.simulation.bus_collector import BusCollector
 from core.simulation.generators import BusGenerator
 from core.simulation.line import LineStop, Line
@@ -15,10 +16,12 @@ class Simulation:
         self.steps = 0
         self.buses = []
         self.lines = []
+        self.stops = {}
         self.bus_generator = BusGenerator()
         self.bus_collector = BusCollector()
         self.printer = StatusPrinter()
 
+        self.create_stops(config.stops)
         self.graph = Graph.from_config(config.graph_dict)
         """
              A - 1 - B - 2 - C - 1 - D
@@ -49,6 +52,19 @@ class Simulation:
         for bus in self.buses:
             bus.move()
 
+    def update_passengers(self):
+        for bus in self.buses:
+            if bus.ticks_to_next_stop == 0:
+                Simulation.transfer(self.stops[bus.next_stop_name], bus)
+
+    @staticmethod
+    def transfer(stop, bus):
+        for bus_group in bus.passengers:
+            if bus_group.destination == stop.name:
+                bus.passengers.remove(bus_group)
+                break
+                # TODO reszta
+
     def generate_buses(self):
         for line in self.lines:
             new_buses = line.tick()
@@ -75,3 +91,6 @@ class Simulation:
                                        self.graph[curr_route[i], curr_route[i + 1]] if i < len(curr_route) - 1 else 0))
 
             self.lines.append(Line(line, route1, route2))
+
+    def create_stops(self, stops):
+        self.stops = {stop_name: Stop(stop_name) for stop_name in stops}

@@ -3,17 +3,31 @@ class PassengersGroup:
         Group of passengers going to the same bus stop
     """
 
-    def __init__(self, stop_name, group_count):
+    def __init__(self, destination, count):
         """
         Inits passenger group
-        :param stop_name: destination stop name
-        :param group_count: how much passengers are going to destination
+        :param destination: destination stop name
+        :param count: how much passengers are going to destination
         """
-        self.stop_name = stop_name
-        self.count = group_count
+        self.destination = destination
+        self.count = count
 
     def __add__(self, other):
-        return PassengersGroup(self.stop_name, self.count + other.count)
+        """
+        :param other:
+         :type other: PassengersGroup
+        :return:
+        """
+        if self.destination != other.destination and not isinstance(other, PassengersGroup):
+            raise Exception
+
+        return PassengersGroup(self.destination, self.count + other.count)
+
+
+class Stop:
+    def __init__(self, name):
+        self.name = name
+        self.passengers = []
 
 
 class Bus:
@@ -30,6 +44,7 @@ class Bus:
         self.next_stop_name = self.line.routes[self.route][self.current_stop + 1].name
         self.ticks_count = 0
         self.route_len = len(self.line.routes[self.route])
+        self.passengers = []
 
     def move(self):
         if self.ticks_count == self.ticks_to_next_stop:
@@ -39,7 +54,7 @@ class Bus:
             self.ticks_to_next_stop = self.line.routes[self.route][self.current_stop].time_to_next_stop
             self.current_stop_name = self.line.routes[self.route][self.current_stop].name
             self.next_stop_name = self.line.routes[self.route][
-                self.current_stop + 1].name if self.current_stop < self.route_len - 1  else "None"
+                self.current_stop + 1].name if self.current_stop < self.route_len - 1 else "None"
             self.ticks_count = 0
         else:
             self.ticks_count += 1
