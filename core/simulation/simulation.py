@@ -34,18 +34,19 @@ class Simulation:
 
     def mainloop(self):
         while not self.finished:
+            self.update()
             print('________________________________________________________')
             print('STEP ', self.steps)
             for bus in self.buses:
                 print('Bus{', 'line:', bus.line.number, 'route:', bus.route, 'last stop:', bus.current_stop_name,
-                      ' next stop:', bus.next_stop_name, 'time to next:', bus.time_to_next_stop())
-            self.update()
+                      ' next stop:', bus.next_stop_name, 'time to next:', bus.time_to_next_stop)
+
             time.sleep(0.1)
 
     def update(self):
         self.steps += 1
-        self.clean_buses()
         self.update_buses()
+        self.clean_buses()
         self.generate_buses()
 
     def update_buses(self):
@@ -55,15 +56,30 @@ class Simulation:
     def update_passengers(self):
         for bus in self.buses:
             if bus.ticks_to_next_stop == 0:
-                Simulation.transfer(self.stops[bus.next_stop_name], bus)
+                self.transfer_out(self.stops[bus.current_stop_name], bus)
+                self.transfer_between(self.stops[bus.current_stop_name], bus)
+                self.transfer_in(self.stops[bus.current_stop_name], bus)
 
-    @staticmethod
-    def transfer(stop, bus):
-        for bus_group in bus.passengers:
+    def transfer_out(self, stop, bus):
+        for bus_group in bus.passengers:  # wysiadanie
             if bus_group.destination == stop.name:
                 bus.passengers.remove(bus_group)
                 break
-                # TODO reszta
+
+    def transfer_in(self, stop, bus):
+        for stop_group in stop.passengers:  # wsiadanie
+            dest = stop_group.destination
+            if self.graph.get_path_between(stop.name, dest)[0] == bus.next_stop_name:
+                for i in range(len(bus.passengers)):
+                    if bus.passengers[i].destination == dest:
+                        bus.passengers[i] += stop_group
+                        break
+                if i == len(bus.passengers):
+                    bus.passengers.append(stop_group)
+
+    def transfer_between(self, stop, bus):
+        for bus_group in bus.passengers:  # przesiadanie
+            pass  # TODO
 
     def generate_buses(self):
         for line in self.lines:

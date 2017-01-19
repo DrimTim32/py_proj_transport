@@ -47,17 +47,19 @@ class Bus:
         self.passengers = []
 
     def move(self):
-        if self.ticks_count == self.ticks_to_next_stop:
+        if self.time_to_next_stop == 1:
+            self.current_stop_name = self.next_stop_name
+            self.next_stop_name = self.line.routes[self.route][
+                self.current_stop + 2].name if self.current_stop < self.route_len - 2 else "None"
+        if self.time_to_next_stop == 0:
             self.current_stop += 1
             if self.current_stop == self.route_len:
                 return
             self.ticks_to_next_stop = self.line.routes[self.route][self.current_stop].time_to_next_stop
-            self.current_stop_name = self.line.routes[self.route][self.current_stop].name
-            self.next_stop_name = self.line.routes[self.route][
-                self.current_stop + 1].name if self.current_stop < self.route_len - 1 else "None"
             self.ticks_count = 0
         else:
             self.ticks_count += 1
 
+    @property
     def time_to_next_stop(self):
         return self.ticks_to_next_stop - self.ticks_count
