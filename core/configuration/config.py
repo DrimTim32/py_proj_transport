@@ -24,7 +24,7 @@ class Config:
     @property
     def lines_list(self):
         """
-        :return: returns list of lines
-        :rtype: dict[str,List[tuple[str,int]]]
+        :return: returns dict of lines
+        :rtype: dict[str,dict[str,str]]
         """
-        return []
+        return {line.get("id"): {k: line.get(k) for k in line if k != "id"} for line in self.lines}

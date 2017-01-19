@@ -21,14 +21,28 @@ class Bus:
         Bus class
     """
 
-    def __init__(self, line):
-        self.current_stop = 0
+    def __init__(self, line, route):
         self.line = line
-        self.__ticks_to_next_stop = line[0][1]
-        self.ticks_count = -1
+        self.route = route
+        self.current_stop = 0
+        self.ticks_to_next_stop = self.line.routes[self.route][self.current_stop].time_to_next_stop
+        self.current_stop_name = self.line.routes[self.route][self.current_stop].name
+        self.next_stop_name = self.line.routes[self.route][self.current_stop + 1].name
+        self.ticks_count = 0
+        self.route_len = len(self.line.routes[self.route])
 
-    def move_from_stop(self):
-        if self.ticks_count == self.__ticks_to_next_stop:
-            self.ticks_count = -1
-            self.current_stop = self.line[0][0]
-        self.ticks_count += 1
+    def move(self):
+        if self.ticks_count == self.ticks_to_next_stop:
+            self.current_stop += 1
+            if self.current_stop == self.route_len:
+                return
+            self.ticks_to_next_stop = self.line.routes[self.route][self.current_stop].time_to_next_stop
+            self.current_stop_name = self.line.routes[self.route][self.current_stop].name
+            self.next_stop_name = self.line.routes[self.route][
+                self.current_stop + 1].name if self.current_stop < self.route_len - 1  else "None"
+            self.ticks_count = 0
+        else:
+            self.ticks_count += 1
+
+    def time_to_next_stop(self):
+        return self.ticks_to_next_stop - self.ticks_count
