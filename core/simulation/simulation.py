@@ -21,7 +21,7 @@ class Simulation:
         self.printer = StatusPrinter()
 
         self.create_graph()
-        self.create_lines()
+        self.create_lines(config.lines_list)
 
     def mainloop(self):
         while not self.finished:
@@ -51,7 +51,7 @@ class Simulation:
                     self.buses.append(Bus(line, i))
 
     def clean_buses(self):
-        q = [bus for bus in self.buses if bus.current_stop == len(bus.line.routes[bus.route]) - 1]
+        q = [bus for bus in self.buses if bus.current_stop == bus.line.last_stop(bus.route)]
         for b in q:
             self.buses.remove(b)
 
@@ -78,31 +78,8 @@ class Simulation:
         conn_nod("D", "C", 1)
         self.graph = Graph([nodes[key] for key in nodes])
 
-    def create_lines(self):
-        route1, route2 = [], []
-        route1.append(LineStop("E", 1))
-        route1.append(LineStop("F", 5))
-        route1.append(LineStop("B", 2))
-        route1.append(LineStop("C", 1))
-        route1.append(LineStop("D", 0))
-
-        route2.append(LineStop("D", 1))
-        route2.append(LineStop("C", 2))
-        route2.append(LineStop("B", 5))
-        route2.append(LineStop("F", 1))
-        route2.append(LineStop("E", 0))
-
-        self.lines.append(Line("0", 10, 20, 20, route1, route2))
-
-        stops = ["Krowodrza Gorka", "Krowoderskich", "Batalionu", "Makowskiego", "Lobzow", "Mazowiecka", "Biprostal",
-                 "Korek1", "Korek2",
-                 "Korek3", "AGH", "Cracovia", "Jubilat", "Konopnickiej", "MOST GRUNWALDZKI", "Szwedzka", "Kapelanka",
-                 "Slomiana",
-                 "Kobierzynska", "Lipinskiego", "Grota", "Rostworowskiego", "Norymberska", "Ruczaj", "UJ",
-                 "Chmieleniec", "Maki"]
-        times = [2] * len(stops)
-        route1 = []
-        for i in range(len(stops)):
-            route1.append(LineStop(stops[i], times[i]))
-        route2 = route1[::-1]
-        # self.lines.append(Line("194", 10, 10, 10, route1, route2))
+    def create_lines(self, lines):
+        for line in lines.values():
+            route1 = [LineStop(stop, 1) for stop in line["route1"]]
+            route2 = [LineStop(stop, 1) for stop in line["route2"]]
+            self.lines.append(Line(line, route1, route2))

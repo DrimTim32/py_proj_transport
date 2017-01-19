@@ -4,18 +4,21 @@ LineStop = namedtuple('LineStop', ['name', 'time_to_next_stop'])
 
 
 class Line:
-    def __init__(self, number, bus_capacity, frequency1, frequency2, route1, route2):
-        self.number = number
-        self.bus_capacity = bus_capacity
-        self.frequencies = [frequency1, frequency2]
+    def __init__(self, line_data, route1, route2):
+        self.number = line_data['id']
+        self.bus_capacity = line_data['bus_capacity']
+        self.frequencies = [line_data['frequency1'], line_data['frequency2']]
         self.routes = [route1, route2]
-        self.last_bus = [frequency1, frequency2]
+        self.last_bus = [line_data['frequency1'], line_data['frequency2']]
 
-    def get_first_stop(self, route):
+    def first_stop_name(self, route):
         return self.routes[route][0].name
 
-    def get_last_stop(self, route):
+    def last_stop_name(self, route):
         return self.routes[route][-1].name
+
+    def last_stop(self, route):
+        return len(self.routes[route]) - 1
 
     def tick(self):
         new_buses = [False, False]
