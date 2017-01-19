@@ -1,6 +1,6 @@
 import time
 
-from core.data_structures import Graph, Node, connect_both
+from core.data_structures import Graph
 from core.data_structures.transport_structures import Bus
 from core.simulation.bus_collector import BusCollector
 from core.simulation.generators import BusGenerator
@@ -15,13 +15,19 @@ class Simulation:
         self.steps = 0
         self.buses = []
         self.lines = []
-        self.graph = None
         self.bus_generator = BusGenerator()
         self.bus_collector = BusCollector()
         self.printer = StatusPrinter()
 
-        self.create_graph()
-        self.create_lines(config.lines_list)
+        self.graph = Graph.from_config(config.graph_dict)
+        """
+             A - 1 - B - 2 - C - 1 - D
+             |       |
+             1       5
+             |       |
+             E - 1 - F
+           """
+        self.create_lines(config.lines_dict)
 
     def mainloop(self):
         while not self.finished:
@@ -55,31 +61,17 @@ class Simulation:
         for b in q:
             self.buses.remove(b)
 
-    def create_graph(self):
-        """
-          A - 1 - B - 2 - C - 1 - D
-          |       |
-          1       5
-          |       |
-          E - 1 - F
-        """
-        nodes = {}
-        for letter in "ABCDEF":
-            nodes[letter] = Node(letter)
-
-        def conn_nod(a, b, length):
-            connect_both(nodes[a], nodes[b], length)
-
-        conn_nod("A", "B", 1)
-        conn_nod("A", "E", 1)
-        conn_nod("E", "F", 1)
-        conn_nod("F", "B", 5)
-        conn_nod("B", "C", 2)
-        conn_nod("D", "C", 1)
-        self.graph = Graph([nodes[key] for key in nodes])
-
     def create_lines(self, lines):
         for line in lines.values():
-            route1 = [LineStop(stop, 1) for stop in line["route1"]]
-            route2 = [LineStop(stop, 1) for stop in line["route2"]]
+            route1, route2 = [], []
+            curr_route = line['route1']
+            for i in range(len(curr_route)):
+                route1.append(LineStop(curr_route[i],
+                                       self.graph[curr_route[i], curr_route[i + 1]] if i < len(curr_route) - 1 else 0))
+
+            curr_route = line['route2']
+            for i in range(len(curr_route)):
+                route2.append(LineStop(curr_route[i],
+                                       self.graph[curr_route[i], curr_route[i + 1]] if i < len(curr_route) - 1 else 0))
+
             self.lines.append(Line(line, route1, route2))

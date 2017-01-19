@@ -22,7 +22,7 @@ class Config:
         return {key: [tuple(pair) for pair in self.connections.get(key)] for key in self.connections.keys()}
 
     @property
-    def lines_list(self):
+    def lines_dict(self):
         """
         :return: returns dict of lines
         :rtype: dict[str,dict[str,str]]
