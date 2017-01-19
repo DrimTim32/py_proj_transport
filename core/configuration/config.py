@@ -27,4 +27,4 @@ class Config:
         :return: returns dict of lines
         :rtype: dict[str,dict[str,str]]
         """
-        return {line.get("Id"): {k: line.get(k) for k in line if k != "Id"} for line in self.lines}
+        return {line.get("id"): {k: line.get(k) for k in line if k != "id"} for line in self.lines}
