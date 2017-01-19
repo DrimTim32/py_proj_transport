@@ -13,7 +13,7 @@ class Node:
 
     def __init__(self, name):
         self.name = name
-        self.__edges = []  # type: list[Edge]
+        self.edges = []  # type: list[Edge]
         self.distance_vectors = {}
 
     def add_or_update_neighbour(self, node, weight):
@@ -29,16 +29,16 @@ class Node:
         """
         nbs = self.neighbours
         if node not in nbs:
-            self.__edges.append(Edge(node, weight))
+            self.edges.append(Edge(node, weight))
         else:
-            index = next([i for i in range(len(self.__edges)) if self.__edges[i].node is node])
-            self.__edges[index].weight = weight
+            index = next([i for i in range(len(self.edges)) if self.edges[i].node is node])
+            self.edges[index].weight = weight
         self.distance_vectors[node.name] = weight
 
     @property
     def neighbours(self):
         """Returns all neighbours of current node"""
-        return [x.node for x in self.__edges]
+        return [x.node for x in self.edges]
 
     def __str__(self):
         return self.name
@@ -109,6 +109,18 @@ class Graph:
         self.__graph = {}  # type: dict[str,Node]
         self.__populate_graph(nodes)
 
+    def __getitem__(self, input):
+        """
+
+        :param input:
+        :type input: tuple(str,str)
+        :return:
+        """
+        node = self.__graph[input[0]]
+        for edge in node.edges: 
+            if edge.node.name == input[1]:
+                return edge.weight
+        return -1
     def get_path_between(self, source_name, destination_name):
         """
         Returns distance between two nodes and first step to go from source to destination
