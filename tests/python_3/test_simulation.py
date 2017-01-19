@@ -9,7 +9,7 @@ from core.simulation import Simulation
 if sys.version_info[0] >= 3:
     from unittest.mock import PropertyMock, patch
 else:
-    from mock import PropertyMock
+    from mock import PropertyMock, patch
 
 
 class SimulationTest(unittest.TestCase):
