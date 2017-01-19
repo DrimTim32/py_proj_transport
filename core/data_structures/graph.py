@@ -85,20 +85,20 @@ class Graph:
     """Graph structure"""
 
     @staticmethod
-    def from_config(configuration):
+    def from_config(dictionary):
         """
         Builds a graph from configuration object
-        :param configuration:
-        :type configuration: config
+        :param dictionary:
+        :type dictionary: dict[str,List[tuple[str,int]]]
         :return:
         :rtype: Graph
         """
         nodes = {}
-        """:type : dict[str,Node]"""
-        for s in configuration.Config.graph_dict.keys():
+        
+        for s in dictionary:
             nodes[s] = Node(s)
-        for s in configuration.Config.graph_dict.keys():
-            for q in configuration.Config.graph_dict[s]:
+        for s in dictionary:
+            for q in dictionary[s]:
                 connect_one_way(nodes[s], nodes[q[0]], q[1])
         return Graph(nodes.values())
 
@@ -117,10 +117,11 @@ class Graph:
         :return:
         """
         node = self.__graph[input[0]]
-        for edge in node.edges: 
+        for edge in node.edges:
             if edge.node.name == input[1]:
                 return edge.weight
         return -1
+
     def get_path_between(self, source_name, destination_name):
         """
         Returns distance between two nodes and first step to go from source to destination
