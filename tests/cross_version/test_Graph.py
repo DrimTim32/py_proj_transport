@@ -13,6 +13,13 @@ class GraphTests(unittest.TestCase):
     def connect_nodes_without_lines(self, node, node2, dist):
         connect_both(node, node2, dist)
 
+    def assert_path_len(self, graph, node1, node2, len, msg=None):
+        tmp = graph.get_path_between(node1, node2)[1]
+        self.assertEqual(tmp, len, (msg + " but was {0}".format(tmp)) if msg is not None else None)
+
+    def assert_path_next_move(self, graph, node1, node2, next):
+        self.assertEqual(graph.get_path_between(node1, node2)[0], next)
+
     def test_graph_harder_path_len(self):
         """
           A - - 2 - - E
@@ -153,9 +160,34 @@ class GraphTests(unittest.TestCase):
             for q in range(0, len(stops_common)):
                 self.assert_path_len(graph, stops_common[i], stops_common[q], abs(i - q) * 5)
 
-    def assert_path_len(self, graph, node1, node2, len, msg=None):
-        tmp = graph.get_path_between(node1, node2)[1]
-        self.assertEqual(tmp, len, (msg + " but was {0}".format(tmp)) if msg is not None else None)
 
-    def assert_path_next_move(self, graph, node1, node2, next):
-        self.assertEqual(graph.get_path_between(node1, node2)[0], next)
+
+    def test_get_edges(self):
+        """
+                  A - 1 - B - 2 - C - 1 - D
+                  |       |
+                  1       5
+                  |       |
+                  E - 1 - F
+                """
+        nodes = {}
+        for letter in "ABCDEF":
+            nodes[letter] = Node(letter)
+
+        def conn_nod(a, b, len):
+            self.connect_nodes_without_lines(nodes[a], nodes[b], len)
+
+        conn_nod("A", "B", 1)
+        conn_nod("A", "E", 1)
+        conn_nod("E", "F", 1)
+        conn_nod("F", "B", 5)
+        conn_nod("B", "C", 2)
+        conn_nod("D", "C", 1)
+        graph = Graph([nodes[key] for key in nodes])
+
+        self.assertEqual(graph["A","B"],1)
+        self.assertEqual(graph["A","E"],1)
+        self.assertEqual(graph["E","F"],1)
+        self.assertEqual(graph["F","B"],5)
+        self.assertEqual(graph["B","C"],2)
+        self.assertEqual(graph["D","C"],1)
