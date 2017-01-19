@@ -34,6 +34,7 @@ class Bus:
     """
         Bus class
     """
+    BUS_COUNTER = 1
 
     def __init__(self, line, route):
         self.line = line
@@ -45,6 +46,8 @@ class Bus:
         self.ticks_count = 0
         self.route_len = len(self.line.routes[self.route])
         self.passengers = []
+        self.id = Bus.BUS_COUNTER
+        Bus.BUS_COUNTER += 1
 
     def move(self):
         if self.time_to_next_stop == 1:
