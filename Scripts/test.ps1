@@ -9,19 +9,19 @@ write-host "Starting tests..."
 if($version -eq 2)
 {
 	write-host "Testing python 2"
-	python2 .\setup.py test
+	python2 .\setup.py -q test -q
 }
 elseif($version -eq 3)
 {
 	write-host "Testing python 3"
-	python .\setup.py test
+	python .\setup.py -q test -q
 } 
 else
 {
 	write-host "Testing python 2"
-	python2 .\setup.py test
+	python2 .\setup.py -q test -q
 	write-host "Testing python 3"
-	python .\setup.py test
+	python .\setup.py -q test -q
 }
 
 write-host "Removing not important directories ..."
