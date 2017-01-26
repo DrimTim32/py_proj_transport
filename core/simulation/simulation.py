@@ -73,7 +73,7 @@ class Simulation:
             dest = stop_group.destination
             if self.__graph.get_path_between(stop.name, dest)[0] == bus.next_stop_name:
                 in_groups.append(stop_group)
-        bus.fill(in_groups)  # TODO czy to zapdejtuje ludzi na przystanku?
+        bus.fill(in_groups)  # TODO czy to zapdejtuje ludzi na przystanku?tt
 
     def __transfer_between(self, stop, bus):
         for bus_group in bus.passengers:  # przesiadanie
