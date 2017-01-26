@@ -1,3 +1,6 @@
+from copy import deepcopy
+
+
 class Bus:
     """
         Bus class
@@ -41,6 +44,43 @@ class Bus:
             self.__ticks_count = 0
         else:
             self.__ticks_count += 1
+
+    def fill(self, passenger_groups):
+        """
+        Fills bus with passengers from passenger groups
+        :param passenger_groups: array of passenger groups
+        :type passenger_groups list[PassengerGroup]
+        :rtype: None
+        :return: None
+        """
+        groups_c = 0
+        for group in passenger_groups:
+            groups_c += group.count
+        c = self.__count()
+        if c + groups_c <= self.line.bus_capacity:
+            for i in range(len(passenger_groups)):
+                stop_group = passenger_groups[i]
+                for j in range(len(self.passengers)):
+                    bus_group = self.passengers[i]
+                    if bus_group.destination == stop_group.destination:
+                        bus_group += stop_group
+                        stop_group.count = 0
+                        break
+                if j == len(self.passengers):
+                    self.passengers.append(deepcopy(stop_group))
+                    stop_group.count = 0  # chuj nie wiem co robie nie krzyczeć
+        else:
+            pass
+
+    def __count(self):
+        """
+        :return: number of passengers in bus
+        :rtype: int
+        """
+        c = 0
+        for group in self.passengers:
+            c += group.count
+        return c
 
     @property
     def time_to_next_stop(self):

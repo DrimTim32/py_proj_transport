@@ -17,5 +17,7 @@
       "route2": ["D", "C", "B", "F", "E"],
       "frequency2": 20
     }
+  ],
+  "passengers": [
   ]
 }
