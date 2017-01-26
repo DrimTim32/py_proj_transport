@@ -12,4 +12,6 @@ else:
 
 class GraphTests(unittest.TestCase):
     def test_bus_creation(self):
-        pass
+        with mock.patch('core.configuration.config.Config.graph_dict', new_callable=PropertyMock) as graph_dict:
+            pass
+
