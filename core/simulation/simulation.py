@@ -1,9 +1,8 @@
 import time
 
 from core.data_structures import Graph
-from core.data_structures.transport_structures import Bus
-from core.data_structures.transport_structures import Stop
-from core.simulation.bus_collector import BusCollector
+from core.simulation.bus import Bus
+from core.simulation.stop import Stop
 from core.simulation.generators import BusGenerator
 from core.simulation.line import LineStop, Line
 from core.simulation.status_printer import StatusPrinter
@@ -18,7 +17,6 @@ class Simulation:
         self.lines = []
         self.stops = {}
         self.bus_generator = BusGenerator()
-        self.bus_collector = BusCollector()
         self.printer = StatusPrinter()
 
         self.__create_stops(config.stops)
