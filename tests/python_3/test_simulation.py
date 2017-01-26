@@ -40,7 +40,7 @@ class SimulationTest(unittest.TestCase):
 
                 def foo():
                     bardzo_ladna_kopia_updejt()
-                    for bus in simulation.buses:
+                    for bus in simulation.__buses:
                         if bus.route == 0:
                             if bus.id not in fajny_slownik.keys():
                                 fajny_slownik[bus.id] = []
@@ -50,10 +50,10 @@ class SimulationTest(unittest.TestCase):
                                 fajny_slownik[bus.id].append(bus.current_stop_name + bus.next_stop_name)
 
                 def fajny_mejnloop():
-                    while not simulation.finished:
+                    while not simulation.__finished:
                         foo()
-                        if simulation.steps == 33:
-                            simulation.finished = True
+                        if simulation.__steps == 33:
+                            simulation.__finished = True
 
                 simulation.mainloop = fajny_mejnloop
                 simulation.mainloop()

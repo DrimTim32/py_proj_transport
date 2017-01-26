@@ -5,18 +5,18 @@ class PassengersGroup:
 
     def __init__(self, destination, count):
         """
-        Inits passenger group
         :param destination: destination stop name
         :param count: how much passengers are going to destination
+        :type count: int
         """
         self.destination = destination
         self.count = count
 
     def __add__(self, other):
         """
-        :param other:
-         :type other: PassengersGroup
-        :return:
+        :param other: PassengerGroup to be added
+        :type other: PassengersGroup
+        :return: sum of PassengerGroups
         """
         if self.destination != other.destination and not isinstance(other, PassengersGroup):
             raise Exception
