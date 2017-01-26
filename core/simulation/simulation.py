@@ -77,7 +77,7 @@ class Simulation:
         bus.fill(in_groups)  # TODO czy to zapdejtuje ludzi na przystanku?tt
 
     def __transfer_between(self, stop, bus):
-        for i in range(len(bus.passengers)):  # wysiadanie do przesaidki
+        for i in range(len(bus.passengers)):  # wysiadanie do przesaidkif
             bus_group = bus.passengers[i]
             if self.__graph.get_path_between(stop.name, bus_group.destination)[0] != bus.next_stop_name:
                 for j in range(len(stop.passengers)):
