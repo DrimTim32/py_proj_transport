@@ -8,7 +8,7 @@ class Line:
         self.number = line_data['id']
         self.bus_capacity = line_data['bus_capacity']
         self.frequencies = [line_data['frequency1'], line_data['frequency2']]
-        self.routes = [route1, route2]
+        self.routes = [[LineStop('P', 1)] + route1, [LineStop('P', 1)] + route2]
         self.last_bus = [line_data['frequency1'], line_data['frequency2']]
 
     def first_stop_name(self, route):

@@ -1,7 +1,6 @@
 import sys
-
 import unittest
-from core.configuration.config import Config
+
 from core.data_structures.graph import Graph
 
 if sys.version_info[0] >= 3:
