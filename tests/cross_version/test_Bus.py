@@ -1,11 +1,8 @@
 import unittest
 import sys
-import pytest
+import unittest
 from core.simulation.bus import Bus
 from core.simulation.line import Line, LineStop
-
-from utils.helpers import fullname
-from core.simulation.line import Line
 
 if sys.version_info[0] >= 3:
     import unittest.mock as mock
@@ -13,7 +10,6 @@ if sys.version_info[0] >= 3:
 else:
     import mock
     from mock import PropertyMock
-
 
 class BusTests(unittest.TestCase):
     line_name = fullname(Line)

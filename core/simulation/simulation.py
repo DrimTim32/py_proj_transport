@@ -1,4 +1,5 @@
 import time
+from copy import deepcopy
 
 from core.data_structures import Graph
 from core.simulation import Bus
@@ -19,20 +20,16 @@ class Simulation:
         self._buses = []
         self.__lines = []
         self.__stops = {}
-        self.__bus_generator = BusGenerator()
-
         self.__create_stops(config.stops)
         self.__graph = Graph.from_config(config.graph_dict)
-        """
-             A - 1 - B - 2 - C - 1 - D
-             |       |
-             1       5
-             |       |
-             E - 1 - F
-        """
         self.__create_lines(config.lines_dict)
+        self.__bus_generator = BusGenerator()
 
     def mainloop(self):
+        """
+        Main loop
+        :return: None
+        """
         while not self.finished:
             self.__update()
             self._print()
@@ -71,19 +68,27 @@ class Simulation:
                 break
 
     def __transfer_in(self, stop, bus):
-        for stop_group in stop.passengers:  # wsiadanie
+        in_groups = []
+        for i in range(len(stop.passengers)):  # wsiadanie
+            stop_group = stop.passengers[i]
             dest = stop_group.destination
             if self.__graph.get_path_between(stop.name, dest)[0] == bus.next_stop_name:
-                for i in range(len(bus.passengers)):
-                    if bus.passengers[i].destination == dest:
-                        bus.passengers[i] += stop_group
-                        break
-                if i == len(bus.passengers):
-                    bus.passengers.append(stop_group)
+                in_groups.append(stop_group)
+        bus.fill(in_groups)  # TODO czy to zapdejtuje ludzi na przystanku?tt
 
     def __transfer_between(self, stop, bus):
-        for bus_group in bus.passengers:  # przesiadanie
-            pass  # TODO
+        for i in range(len(bus.passengers)):  # wysiadanie do przesaidkif
+            bus_group = bus.passengers[i]
+            if self.__graph.get_path_between(stop.name, bus_group.destination)[0] != bus.next_stop_name:
+                for j in range(len(stop.passengers)):
+                    stop_group = stop.passengers[j]
+                    if stop_group.destination == bus_group.destination:
+                        stop_group += bus_group
+                        bus_group.coutn = 0
+                        break
+                if j == len(stop.passengers):
+                    stop.passengers.append(deepcopy(bus_group))
+                    bus_group.count = 0
 
     def __generate_buses(self):
         for line in self.__lines:
