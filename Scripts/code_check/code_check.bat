@@ -10,6 +10,7 @@ if "%1"=="-d" goto ldirectory
 if "%1"=="" goto lexecute
 goto lerror
 
+
 :lfilename
 shift
 set @filename=%1

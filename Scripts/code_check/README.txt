@@ -14,4 +14,4 @@ code_check.bat usage:
  Which directory should be tested
 
 More info:
-If file and full output are required whole raport is dumped as html
+If file and full output are required whole raport is dumped as html.
