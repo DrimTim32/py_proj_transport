@@ -61,7 +61,7 @@ class SimulationTest(unittest.TestCase):
                 simulation.mainloop()
                 def empty():
                     pass
-                simulation.print = empty
+                simulation._print = empty
                 pathsy = ['PA', 'A', 'AD', 'AD', 'D', 'DC', 'DC', 'DC', 'C', 'CB', 'B', 'BE', 'BE', 'E', 'EF', 'EF','F']
                 print(pathsy)
                 self.assertEqual(len(simulation.fajny_slownik), 2)

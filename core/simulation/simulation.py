@@ -35,10 +35,10 @@ class Simulation:
     def mainloop(self):
         while not self.finished:
             self.__update()
-            self.print()
+            self._print()
             time.sleep(0.1)
 
-    def print(self):
+    def _print(self):
         if self.steps >= 1:
             print('________________________________________________________')
             print('STEP ', self.steps)
