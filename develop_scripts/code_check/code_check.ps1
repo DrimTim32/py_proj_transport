@@ -24,7 +24,7 @@ if ($extended  -ne "s")
 if($filename  -ne "")
 {
     write-host "File dump is enabled, no output will be visible in console"
-    $filename  = "../../docs/"+$filename
+    $filename  = "../../docs/code_check/"+$filename
 }
 $type = "text"
 if($filename -ne "" -and $filename  -ne " " -and $extended  -eq "f")

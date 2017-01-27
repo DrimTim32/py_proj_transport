@@ -9,7 +9,7 @@ with open("requirements.txt", 'r') as f:
 setup(
     name='py_proj_lights',
     version='1.0',
-    packages= find_packages(),
+    packages=find_packages(),
     url='https://github.com/DrimTim32/py_proj_transport',
     license='MIT',
     author='gese anna, sobol bartek, malinowski marcin',
