@@ -16,7 +16,7 @@ class Simulation:
         """
         self.finished = False
         self.steps = -1
-        self.__buses = []
+        self._buses = []
         self.__lines = []
         self.__stops = {}
         self.__bus_generator = BusGenerator()
@@ -34,31 +34,31 @@ class Simulation:
 
     def mainloop(self):
         while not self.finished:
-            self._update()
-            self.__print()
+            self.__update()
+            self.print()
             time.sleep(0.1)
 
-    def __print(self):
+    def print(self):
         if self.steps >= 1:
             print('________________________________________________________')
             print('STEP ', self.steps)
-            for bus in self.__buses:
+            for bus in self._buses:
                 print('Bus{ id:', bus.id, 'line:', bus.line.number, 'route:', bus.route, 'last stop:',
                       bus.current_stop_name,
                       ' next stop:', bus.next_stop_name, 'time to next:', bus.time_to_next_stop)
 
-    def _update(self):
+    def __update(self):
         self.steps += 1
         self.__update_buses()
         self.__clean_buses()
         self.__generate_buses()
 
     def __update_buses(self):
-        for bus in self.__buses:
+        for bus in self._buses:
             bus.move()
 
     def __update_passengers(self):
-        for bus in self.__buses:
+        for bus in self._buses:
             if bus.ticks_to_next_stop == 0:
                 self.__transfer_out(self.__stops[bus.current_stop_name], bus)
                 self.__transfer_between(self.__stops[bus.current_stop_name], bus)
@@ -90,12 +90,12 @@ class Simulation:
             new_buses = line.tick()
             for i in range(len(new_buses)):
                 if new_buses[i]:
-                    self.__buses.append(Bus(line, i))
+                    self._buses.append(Bus(line, i))
 
     def __clean_buses(self):
-        q = [bus for bus in self.__buses if bus.current_stop == bus.line.last_stop(bus.route)]
+        q = [bus for bus in self._buses if bus.current_stop == bus.line.last_stop(bus.route)]
         for b in q:
-            self.__buses.remove(b)
+            self._buses.remove(b)
 
     def __create_lines(self, lines):
         for line in lines.values():
