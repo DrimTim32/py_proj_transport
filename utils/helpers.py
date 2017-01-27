@@ -1,4 +1,7 @@
-def fullname(o):
+def get_full_class_name(o):
+    """
+    Returns full class name
+    """
     return o.__module__ + "." + o.__name__
 
 

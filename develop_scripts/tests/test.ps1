@@ -15,8 +15,8 @@ write-host "Starting tests..."
 #version choose
 if($coverage -ne "no")
 {
-    coverage erase
     write-host "Getting coverage "
+    coverage erase
     if($version -eq 2){
         python2 -m coverage run ./setup.py test
     }
@@ -27,7 +27,8 @@ if($coverage -ne "no")
         python2 -m coverage run ./setup.py test
         python -m coverage run -a ./setup.py test
     }
-    coverage html -d docs/coverage
+    #coverage html -d docs/coverage
+    coverage html
 }
 elseif($version -eq 2)
 {

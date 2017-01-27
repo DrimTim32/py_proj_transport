@@ -1,5 +1,5 @@
 import pytest
-from utils.helpers import fullname
+from utils.helpers import get_full_class_name
 import sys
 import unittest
 from core.simulation.bus import Bus
@@ -13,7 +13,7 @@ else:
     from mock import PropertyMock
 
 class BusTests(unittest.TestCase):
-    line_name = fullname(Line)
+    line_name = get_full_class_name(Line)
 
     @staticmethod
     def get_empty_line():
@@ -44,9 +44,7 @@ for c in counts:
 q = [item for sublist in q for item in sublist]
 
 
-@pytest.mark.parametrize(("steps", "stops"),
-                         q
-                         )
+@pytest.mark.parametrize(("steps", "stops"),q)
 def test_move(steps, stops):
     with mock.patch(BusTests.line_name + ".routes", new_callable=PropertyMock) as mocked_routes:
 

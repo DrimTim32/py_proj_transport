@@ -2,7 +2,7 @@ import sys
 import unittest
 from core.configuration.config import Config
 from core.data_structures.graph import Graph
-from utils.helpers import fullname
+from utils.helpers import get_full_class_name
 try:
     from mock import patch, mock_open, mock, PropertyMock
 except ImportError:
@@ -19,7 +19,7 @@ class GraphMockIntegrationTests(unittest.TestCase):
         :rtype: Graph
         :return: Filled graph
         """
-        name = fullname(Config)
+        name = get_full_class_name(Config)
         self.assertEqual('core.configuration.config.Config', name,
                          "Config directory has changed, please check! Should be {} but was ".format(
                              'core.configuration.config.Config', name))
