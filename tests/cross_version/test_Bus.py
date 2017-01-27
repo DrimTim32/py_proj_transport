@@ -3,6 +3,8 @@ import sys
 from core.simulation.bus import Bus
 from core.simulation.line import Line
 
+from utils.helpers import fullname
+from core.simulation.line import Line
 
 if sys.version_info[0] >= 3:
     import unittest.mock as mock
@@ -11,7 +13,15 @@ else:
     import mock
     from mock import PropertyMock
 
-class GraphTests(unittest.TestCase):
-    def test_bus_creation(self):
-        pass
 
+class BusTests(unittest.TestCase):
+    @staticmethod
+    def get_empty_line():
+        return Line({'id': 0, 'bus_capacity': 0, "frequency1": 0, "frequency2": 0}, [], [])
+
+    def BusTests(self):
+        line_name = fullname(Line)
+        with mock.patch(line_name + ".routes", new_callable=PropertyMock) as mocked_routes:
+            mocked_routes.return_value = [["A"], ["B"]]
+            line = BusTests.get_empty_line()
+            assert line.routes != [["A"], ["B"]]

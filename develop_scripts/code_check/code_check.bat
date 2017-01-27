@@ -1,7 +1,7 @@
 @ECHO OFF
-set @filename=" "
-set @extended="s"
 set @directory=""
+set @extended="s"
+set @filename=" "
 
 :init
 if "%1"=="-f" goto lfilename

@@ -1,7 +1,9 @@
 $pythonScript = "code_check.py"
-$filename = $args[2]
-$extended = $args[1]
+
 $directory = $args[0]
+$extended = $args[1]
+$filename = $args[2]
+
 write-host $args
 write-host "ARGUMENTS?"
 if ($directory -eq " " -or $directory -eq "")

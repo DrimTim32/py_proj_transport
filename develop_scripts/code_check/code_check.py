@@ -1,13 +1,16 @@
-
 import os
 import re
 import sys
+
 total = 0.0
+count = 0
+
+
 BASE_DIRECTORY = os.getcwd()
 EXTENDED = ""
 TYPE = "text"
-count = 0
-excluded_directories = ["scripts", "tests", "docs"]
+
+excluded_directories = ["develop_scripts", "tests", "docs"]
 excluded_files = ["__init__.py", "setup.py", "conftest.py"]
 
 def check(module):
@@ -33,6 +36,7 @@ def check(module):
 
 
 if __name__ == "__main__":
+
     BASE_DIRECTORY = sys.argv[1]
     EXTENDED = sys.argv[2]
     TYPE = sys.argv[3]
