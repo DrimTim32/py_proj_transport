@@ -1,6 +1,3 @@
-from copy import deepcopy
-
-
 class Bus:
     """
         Bus class
@@ -74,26 +71,24 @@ class Bus:
         Fills bus with passengers from passenger groups
         :param passenger_groups: array of passenger groups
         :type passenger_groups list[PassengerGroup]
-        :rtype: None
-        :return: None
+        :rtype: list{PassengerGroup]
+        :return: list of passengers groups of passengers who didn't fit into the bus
         """
-        groups_c = 0
+        in_count = 0
         for group in passenger_groups:
-            groups_c += group.count
-        c = self.__count()
-        if c + groups_c <= self.line.bus_capacity:
-            for i in range(len(passenger_groups)):
-                stop_group = passenger_groups[i]
-                for j in range(len(self.passengers)):
+            in_count += group.count
+        if self.__count() + in_count <= self.line.bus_capacity:
+            for stop_group in passenger_groups:
+                for i in range(len(self.passengers)):
                     bus_group = self.passengers[i]
                     if bus_group.destination == stop_group.destination:
                         bus_group += stop_group
                         break
-                if j == len(self.passengers):
-                    self.passengers.append(deepcopy(stop_group))
-                stop_group.count = 0  # chuj nie wiem co robie nie krzyczeć
+                if i == len(self.passengers):
+                    self.passengers.append(stop_group)
+            return []
         else:
-            pass
+            return []
 
     def __count(self):
         """

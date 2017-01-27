@@ -6,7 +6,7 @@ class PassengersGroup:
     def __init__(self, destination, count):
         """
         :param destination: destination stop name
-        :param count: how much passengers are going to destination
+        :param count: number of passengers heading to destination stop
         :type count: int
         """
         self.__destination = destination
