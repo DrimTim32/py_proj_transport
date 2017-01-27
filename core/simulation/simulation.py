@@ -4,6 +4,7 @@ from core.data_structures import Graph
 from core.simulation import Bus
 from core.simulation.generators import BusGenerator
 from core.simulation.line import LineStop, Line
+from core.simulation.passenger_group import PassengersGroup
 from core.simulation.stop import Stop
 
 
@@ -20,6 +21,9 @@ class Simulation:
         self.__lines = []
         self.__stops = {}
         self.__create_stops(config.stops)
+        print(self.__stops)
+        self.__stops['D'].passengers.append(PassengersGroup('C', 15))
+        self.__stops['D'].passengers.append(PassengersGroup('B', 25))
         self.__graph = Graph.from_config(config.graph_dict)
         self.__create_lines(config.lines_dict)
         self.__bus_generator = BusGenerator()
@@ -42,10 +46,16 @@ class Simulation:
                 print('Bus{ id:', bus.id, 'line:', bus.line.number, 'route:', bus.route, 'last stop:',
                       bus.current_stop_name,
                       ' next stop:', bus.next_stop_name, 'time to next:', bus.time_to_next_stop)
+                if bus.passengers:
+                    for group in bus.passengers:
+                        print(group.destination, group.count)
+                else:
+                    print(0)
 
     def __update(self):
         self.steps += 1
         self.__update_buses()
+        self.__update_passengers()
         self.__clean_buses()
         self.__generate_buses()
 
@@ -55,7 +65,7 @@ class Simulation:
 
     def __update_passengers(self):
         for bus in self._buses:
-            if bus.ticks_to_next_stop == 0:
+            if bus.time_to_next_stop == 0:
                 Simulation.__transfer_out(self.__stops[bus.current_stop_name], bus)
                 self.__transfer_between(self.__stops[bus.current_stop_name], bus)
                 self.__transfer_in(self.__stops[bus.current_stop_name], bus)
@@ -72,15 +82,17 @@ class Simulation:
         for stop_group in stop.passengers:  # wsiadanie
             destination = stop_group.destination
             if self.__graph.get_path_between(stop.name, destination)[0] == bus.next_stop_name:
+                print(bus.next_stop_name, self.__graph.get_path_between(stop.name, destination)[0])
                 in_groups.append(stop_group)
-                stop.passengers.remove(stop_group)
+        stop.passengers = [group for group in stop.passengers if group not in in_groups]
         groups_after_fill = bus.fill(in_groups)
         for group in groups_after_fill:
             stop.passengers.append(group)
 
     def __transfer_between(self, stop, bus):
-        for bus_group in bus.passengers:  # wysiadanie do przesaidkif
+        for bus_group in bus.passengers:  # wysiadanie do przesiadki
             if self.__graph.get_path_between(stop.name, bus_group.destination)[0] != bus.next_stop_name:
+                j = 0
                 for j in range(len(stop.passengers)):
                     stop_group = stop.passengers[j]
                     if stop_group.destination == bus_group.destination:

@@ -1,3 +1,8 @@
+from random import shuffle
+
+from core.simulation.passenger_group import PassengersGroup
+
+
 class Bus:
     """
         Bus class
@@ -74,11 +79,14 @@ class Bus:
         :rtype: list{PassengerGroup]
         :return: list of passengers groups of passengers who didn't fit into the bus
         """
+        count = self.__count()
         in_count = 0
+        space = self.line.bus_capacity - count
         for group in passenger_groups:
             in_count += group.count
-        if self.__count() + in_count <= self.line.bus_capacity:
+        if space >= in_count:
             for stop_group in passenger_groups:
+                i = 0
                 for i in range(len(self.passengers)):
                     bus_group = self.passengers[i]
                     if bus_group.destination == stop_group.destination:
@@ -88,7 +96,32 @@ class Bus:
                     self.passengers.append(stop_group)
             return []
         else:
-            return []
+            passengers = []
+            for group in passenger_groups:
+                passengers += [group.destination] * group.count
+            print(passengers)
+            shuffle(passengers)
+
+            lucky_passengers = passengers[0:space]
+            Bus.fill_with_groups(lucky_passengers, self.passengers)
+            print(lucky_passengers)
+            passengers = passengers[space:]
+            not_lucky_passenger_groups = []
+            Bus.fill_with_groups(passengers, not_lucky_passenger_groups)
+            return not_lucky_passenger_groups
+
+    @staticmethod
+    def fill_with_groups(passengers, group_list):
+        for passenger in passengers:
+            i = 0
+            for i in range(len(group_list)):
+                group = group_list[i]
+                if passenger == group.destination:
+                    group.count += 1
+                    break
+            if i == len(group_list):
+                print(len(group_list))
+                group_list.append(PassengersGroup(passenger, 1))
 
     def __count(self):
         """
