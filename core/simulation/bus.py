@@ -92,7 +92,7 @@ class Bus:
                         break
                 if j == len(self.passengers):
                     self.passengers.append(deepcopy(stop_group))
-                    stop_group.count = 0  # chuj nie wiem co robie nie krzyczeć
+                    stop_group.count = 0  # chuj nie wiem co robie nie krzyczec
         else:
             pass
 
