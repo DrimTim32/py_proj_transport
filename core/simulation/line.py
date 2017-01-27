@@ -56,7 +56,7 @@ class Line:
         return self.__routes
 
     @property
-    def last_bus(self): 
+    def last_bus(self):
         return self.__last_bus
 
     def first_stop_name(self, route):

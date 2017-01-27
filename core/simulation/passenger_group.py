@@ -9,8 +9,12 @@ class PassengersGroup:
         :param count: how much passengers are going to destination
         :type count: int
         """
-        self.destination = destination
+        self.__destination = destination
         self.count = count
+
+    @property
+    def destination(self):
+        return self.__destination
 
     def __add__(self, other):
         """
@@ -18,7 +22,7 @@ class PassengersGroup:
         :type other: PassengersGroup
         :return: sum of PassengerGroups
         """
-        if self.destination != other.destination and not isinstance(other, PassengersGroup):
+        if not isinstance(other, PassengersGroup) or self.destination != other.destination:
             raise Exception
 
         return PassengersGroup(self.destination, self.count + other.count)
