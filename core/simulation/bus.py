@@ -12,16 +12,40 @@ class Bus:
         :type route: int
         """
         Bus.BUS_COUNTER += 1
-        self.line = line
-        self.route = route
-        self.current_stop = 0
-        self.current_stop_name = self.line.routes[self.route][self.current_stop].name
-        self.next_stop_name = self.line.routes[self.route][self.current_stop + 1].name
         self.passengers = []
-        self.id = Bus.BUS_COUNTER
+        self.__line = line
+        self.__current_stop = 0
+        self.__route = route
+        self.__current_stop_name = self.line.routes[self.route][self.current_stop].name
+        self.__next_stop_name = self.line.routes[self.route][self.current_stop + 1].name
+        self.__id = Bus.BUS_COUNTER
         self.__time_to_next_stop_base = self.line.routes[self.route][self.current_stop].time_to_next_stop
         self.__ticks_count = 0
         self.__route_len = len(self.line.routes[self.route])
+
+    @property
+    def route(self):
+        return self.__route
+
+    @property
+    def current_stop_name(self):
+        return self.__current_stop_name
+
+    @property
+    def next_stop_name(self):
+        return self.__next_stop_name
+
+    @property
+    def id(self):
+        return self.__id
+
+    @property
+    def current_stop(self):
+        return self.__current_stop
+
+    @property
+    def line(self):
+        return self.__line
 
     def move(self):
         """
@@ -30,12 +54,12 @@ class Bus:
         :return: mone
         """
         if self.time_to_next_stop == 1:
-            self.current_stop_name = self.next_stop_name
-            self.next_stop_name = self.line.routes[self.route][
-                self.current_stop + 2].name if self.current_stop < self.__route_len - 2 else "None"
+            self.__current_stop_name = self.next_stop_name
+            self.__next_stop_name = self.line.routes[self.route][
+                self.__current_stop + 2].name if self.current_stop < self.__route_len - 2 else "None"
         if self.time_to_next_stop == 0:
-            self.current_stop += 1
-            if self.current_stop == self.__route_len:
+            self.__current_stop += 1
+            if self.__current_stop == self.__route_len:
                 return
             self.__time_to_next_stop_base = self.line.routes[self.route][self.current_stop].time_to_next_stop
             self.__ticks_count = 0

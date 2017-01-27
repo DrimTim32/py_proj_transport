@@ -1,6 +1,7 @@
 import unittest
 import sys
-from core.simulation import bus
+from core.simulation.bus import Bus
+from core.simulation.line import Line
 
 
 if sys.version_info[0] >= 3:
@@ -12,6 +13,5 @@ else:
 
 class GraphTests(unittest.TestCase):
     def test_bus_creation(self):
-        with mock.patch('core.configuration.config.Config.graph_dict', new_callable=PropertyMock) as graph_dict:
-            pass
+        pass
 
