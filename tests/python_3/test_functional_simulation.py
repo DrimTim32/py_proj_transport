@@ -1,7 +1,7 @@
 import sys
 import types
 import unittest
-from Utils.helpers import add_property, add_variable
+from utils.helpers import add_property, add_variable
 from copy import copy
 
 from core.configuration import Config

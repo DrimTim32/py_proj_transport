@@ -2,7 +2,7 @@ import sys
 import unittest
 from core.configuration.config import Config
 from core.data_structures.graph import Graph
-from Utils.helpers import fullname
+from utils.helpers import fullname
 try:
     from mock import patch, mock_open, mock, PropertyMock
 except ImportError:
