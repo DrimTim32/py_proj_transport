@@ -1,11 +1,10 @@
 import sys
 import types
 import unittest
-from Utils.helpers import add_property, add_variable
-from copy import copy
 
 from core.configuration import Config
 from core.simulation import Simulation
+from utils.helpers import add_property, add_variable
 
 if sys.version_info[0] >= 3:
     from unittest.mock import PropertyMock, patch

@@ -33,7 +33,7 @@ class Simulation:
         while not self.finished:
             self.__update()
             self._print()
-            time.sleep(0.1)
+            time.sleep(0.5)
 
     def _print(self):
         if self.steps >= 1:
@@ -84,11 +84,10 @@ class Simulation:
                     stop_group = stop.passengers[j]
                     if stop_group.destination == bus_group.destination:
                         stop_group += bus_group
-                        bus_group.coutn = 0
                         break
                 if j == len(stop.passengers):
                     stop.passengers.append(deepcopy(bus_group))
-                    bus_group.count = 0
+                bus_group.count = 0
 
     def __generate_buses(self):
         for line in self.__lines:

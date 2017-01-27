@@ -88,11 +88,10 @@ class Bus:
                     bus_group = self.passengers[i]
                     if bus_group.destination == stop_group.destination:
                         bus_group += stop_group
-                        stop_group.count = 0
                         break
                 if j == len(self.passengers):
                     self.passengers.append(deepcopy(stop_group))
-                    stop_group.count = 0  # chuj nie wiem co robie nie krzyczeć
+                stop_group.count = 0  # chuj nie wiem co robie nie krzyczeć
         else:
             pass
 
