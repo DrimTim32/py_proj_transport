@@ -10,3 +10,4 @@ import sys
 def test_on_buitlin(obj,type):
     builtin =  "builtins." if sys.version_info[0] >= 3 else "__builtin__."
     assert get_full_class_name(obj) == builtin+type
+  
