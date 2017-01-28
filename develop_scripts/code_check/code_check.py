@@ -41,7 +41,7 @@ if __name__ == "__main__":
     EXTENDED = sys.argv[2]
     TYPE = sys.argv[3]
     if len(sys.argv) > 4:
-        sys.stdout = open(sys.argv[4], 'w')
+        sys.stdout = open(sys.argv[4], 'w+')
 
     for root, dirs, files in os.walk(BASE_DIRECTORY):
         for ignore in excluded_directories:

@@ -36,7 +36,7 @@ class Simulation:
         while not self.finished:
             self.__update()
             self._print()
-            time.sleep(0.5)
+            time.sleep(0.1)
 
     def _print(self):
         if self.steps >= 1:
