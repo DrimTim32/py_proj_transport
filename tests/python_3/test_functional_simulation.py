@@ -1,7 +1,7 @@
 import sys
+import time
 import types
 import unittest
-import time
 
 from core.configuration import Config
 from core.simulation import Simulation
@@ -32,7 +32,7 @@ class SimulationTest(unittest.TestCase):
                     0: {'id': 0, 'bus_capacity': 20, 'frequency1': 17, 'frequency2': 17,
                         'route1': ['A', 'D', 'C', 'B', 'E', 'F'],
                         'route2': ['F', 'E', 'B', 'A']}}
-                config = Config({}, {}, {})
+                config = Config({}, {}, {}, {})
                 config.stops = ["A", "B", "C", "D", "E", "F"]
                 simulation = Simulation(config)
 
