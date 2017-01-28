@@ -1,6 +1,6 @@
 import pytest
 from core.simulation.passenger_group import PassengersGroup
-from utils.helpers import get_full_class_name
+from tests_utils.helpers import get_full_class_name
 import sys
 
 if sys.version_info[0] >= 3:
