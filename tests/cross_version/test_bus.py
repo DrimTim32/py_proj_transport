@@ -40,7 +40,8 @@ class BusTests(unittest.TestCase):
             assert bus2.current_stop == 0
 
 
-counts = [[i] * (2 * i - 1) for i in range(2, 7)]
+N = 7
+counts = [[i] * ((2 * i) + N + 1) for i in range(2, N)]
 q = []
 for c in counts:
     q.append(list(zip([i for i in range(1, len(c) - 1)], c)))
@@ -68,7 +69,7 @@ def test_move(steps, stops):
         bus2.move()
 
         stop = 0
-        for i in range(steps):
+        for i in range(min(3 * stops - 4, steps)):  # 4 because of 4 = 2 ticks from end + 2 ticks from start
             bus.move()
             bus2.move()
             if 2 - (i % 3) == 0:
@@ -80,9 +81,15 @@ def test_move(steps, stops):
             assert bus2.time_to_next_stop == 2 - (i % 3), "i = {}".format(i)
             assert bus2.current_stop_name == 'r' + str(stop)
             assert bus2.current_stop == (i // 3) + 1, "i = {}".format(i)
-        if stops * 2 <= steps:
-            assert bus.next_stop_name is None
-            assert bus2.next_stop_name is None
+
+        if steps >= 3 * stops:
+            for i in range(steps - 3 * stops + 1):
+                bus2.move()
+                bus.move()
+            assert bus.next_stop_name == "None", "steps {} stops {} i {} ".format(steps, stops, i)
+            assert bus2.next_stop_name == "None"
+            assert bus.next_stop_name == "None"
+            assert bus2.next_stop_name == "None"
         else:
-            assert bus.next_stop_name is not None
-            assert bus2.next_stop_name is not None
+            assert bus.next_stop_name != "None"
+            assert bus2.next_stop_name != "None"
