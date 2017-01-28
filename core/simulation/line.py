@@ -66,7 +66,7 @@ class Line:
         :return: Name of the first stop on given route
         :rtype: str
         """
-        return self.routes[route][0].name
+        return self.routes[route][1].name
 
     def last_stop_name(self, route):
         """

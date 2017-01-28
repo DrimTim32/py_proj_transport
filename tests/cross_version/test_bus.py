@@ -86,8 +86,6 @@ def test_move(steps, stops):
             for i in range(steps - 3 * stops + 1):
                 bus2.move()
                 bus.move()
-            assert bus.next_stop_name == "None", "steps {} stops {} i {} ".format(steps, stops, i)
-            assert bus2.next_stop_name == "None"
             assert bus.next_stop_name == "None"
             assert bus2.next_stop_name == "None"
         else:
