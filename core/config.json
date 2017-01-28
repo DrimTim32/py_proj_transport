@@ -16,6 +16,14 @@
       "frequency1": 20,
       "route2": ["D", "C", "B", "F", "E"],
       "frequency2": 20
+    },
+    {
+      "id": 1,
+      "bus_capacity": 20,
+      "route1": ["E", "A", "B"],
+      "frequency1": 20,
+      "route2": ["B", "A", "E"],
+      "frequency2": 20
     }
   ],
   "passengers": [
