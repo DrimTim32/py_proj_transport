@@ -33,3 +33,16 @@ class PassengersGroup:
             raise TypeError("Cannot sum groups with two different destinations")
 
         return PassengersGroup(self.destination, self.count + other.count)
+
+    def __iadd__(self, other):
+        """
+               :param other: PassengersGroup to be added
+               :type other: PassengersGroup
+               :return: sum of PassengersGroups
+               """
+        if not isinstance(other, PassengersGroup):
+            raise TypeError("Cannot sum two different instances")
+        if self.destination != other.destination:
+            raise TypeError("Cannot sum groups with two different destinations")
+        self.count+=other.count
+        return self

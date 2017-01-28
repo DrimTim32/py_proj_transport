@@ -23,6 +23,7 @@ def get_empty_line():
 
 def get_group(count, name="!"):
     gr = PassengersGroup(name, count)
+    gr.name = name
     gr.count = count
     return gr
 
@@ -101,7 +102,7 @@ def test_move(steps, stops):
             assert bus2.next_stop_name != "None"
 
 
-def PassengerGroupEquality(a, b):
+def passenger_group_equality(a, b):
     return a.count == b.count and a.destination == b.destination
 
 
@@ -117,13 +118,93 @@ class TestFill(TestBase):
             assert isinstance(bus.passengers[0], PassengersGroup)
             assert bus.passengers[0].count == 10
 
-    def test_too_much_basic(self):
+    def test_overflow_basic(self):
         with mock.patch(BusTests.line_name + ".bus_capacity", new_callable=PropertyMock) as mocked_bus_capacity:
             mocked_bus_capacity.return_value = 10
             group = get_group(30, "A")
             bus = Bus(get_empty_line(), 0)
-            self.areListsEqual(bus.passengers, [] )
-            self.areListsEqual([PassengersGroup("A", 20)], bus.fill([group]), PassengerGroupEquality)
+            self.areListsEqual(bus.passengers, [])
+            after_fill = bus.fill([group])
+            self.areListsEqual([PassengersGroup("A", 20)], after_fill, passenger_group_equality)
             assert len(bus.passengers) == 1
+            assert bus.count == 10
             assert isinstance(bus.passengers[0], PassengersGroup)
-            self.areEqual(bus.passengers[0],PassengersGroup("A",10),PassengerGroupEquality)
+            self.areEqual(bus.passengers[0], PassengersGroup("A", 10), passenger_group_equality)
+
+    def test_two_different_in_one(self):
+        with mock.patch(BusTests.line_name + ".bus_capacity", new_callable=PropertyMock) as mocked_bus_capacity:
+            mocked_bus_capacity.return_value = 20
+            group1 = get_group(10, "A")
+            group2 = get_group(10, "B")
+            bus = Bus(get_empty_line(), 0)
+            self.areListsEqual(bus.passengers, [])
+            after_fill = bus.fill([group1, group2])
+            assert after_fill == []
+            assert bus.count == 20
+            assert len(bus.passengers) == 2
+            assert group1 in bus.passengers
+            assert group2 in bus.passengers
+            assert bus.passengers[0] != bus.passengers[1]
+
+    def test_two_different_in_one_overflow(self):
+        with mock.patch(BusTests.line_name + ".bus_capacity", new_callable=PropertyMock) as mocked_bus_capacity:
+            mocked_bus_capacity.return_value = 20
+            group1 = get_group(10, "A")
+            group2 = get_group(30, "B")
+            bus = Bus(get_empty_line(), 0)
+            self.areListsEqual(bus.passengers, [])
+            after_fill = bus.fill([group1, group2])
+            assert sum([i.count for i in after_fill]) == 20
+            assert after_fill != []
+            assert bus.count == 20
+            assert len(bus.passengers) == 2
+            assert bus.passengers[0] != bus.passengers[1]
+
+    def test_two_different_in_two_overflow(self):
+        with mock.patch(BusTests.line_name + ".bus_capacity", new_callable=PropertyMock) as mocked_bus_capacity:
+            mocked_bus_capacity.return_value = 20
+            group1 = get_group(10, "A")
+            group2 = get_group(30, "B")
+            bus = Bus(get_empty_line(), 0)
+            self.areListsEqual(bus.passengers, [])
+            after_fill = bus.fill([group1])
+            assert after_fill == []
+            assert bus.count == 10
+            assert len(bus.passengers) == 1
+            after_fill = bus.fill([group2])
+            self.areListsEqual(after_fill, [get_group(20, "B")], passenger_group_equality)
+            assert bus.count == 20
+            assert len(bus.passengers) == 2
+
+    def test_add_the_same_overflow(self):
+        with mock.patch(BusTests.line_name + ".bus_capacity", new_callable=PropertyMock) as mocked_bus_capacity:
+            mocked_bus_capacity.return_value = 20
+            group1 = get_group(10, "A")
+            group2 = get_group(30, "A")
+            bus = Bus(get_empty_line(), 0)
+            self.areListsEqual(bus.passengers, [])
+            after_fill = bus.fill([group1])
+            assert bus.count == 10
+            assert len(bus.passengers) == 1
+            after_fill = bus.fill([group2])
+            self.areListsEqual(after_fill, [get_group(20, "A")], passenger_group_equality)
+            assert bus.count == 20
+            assert len(bus.passengers) == 1
+            self.areEqual(bus.passengers[0],get_group(20,"A"),passenger_group_equality)
+
+    def test_add_the_same(self):
+        with mock.patch(BusTests.line_name + ".bus_capacity", new_callable=PropertyMock) as mocked_bus_capacity:
+            mocked_bus_capacity.return_value = 20
+            group1 = get_group(10, "A")
+            group2 = get_group(9, "A")
+            bus = Bus(get_empty_line(), 0)
+            assert bus.passengers == []
+            after_fill = bus.fill([group1])
+            assert after_fill == []
+            assert bus.count == 10
+            assert len(bus.passengers) == 1
+            after_fill = bus.fill([group2])
+            assert after_fill == []
+            assert bus.count == 19
+            assert len(bus.passengers) == 1
+            self.areEqual(bus.passengers[0],get_group(19,"A"),passenger_group_equality)
