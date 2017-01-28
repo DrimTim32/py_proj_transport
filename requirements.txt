@@ -1,3 +1,4 @@
 pygame
 pytest-runner
+numpy
 future
