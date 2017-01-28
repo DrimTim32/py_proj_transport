@@ -5,7 +5,7 @@ import time
 
 from core.configuration import Config
 from core.simulation import Simulation
-from utils.helpers import add_property, add_variable
+from tests_utils.helpers import add_property, add_variable
 
 if sys.version_info[0] >= 3:
     from unittest.mock import PropertyMock, patch

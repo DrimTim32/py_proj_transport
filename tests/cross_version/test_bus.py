@@ -5,8 +5,9 @@ import pytest
 
 from core.simulation.bus import Bus
 from core.simulation.line import Line, LineStop
-from utils.helpers import get_full_class_name
 from core.simulation.passenger_group import PassengersGroup
+from tests_utils.TestsBase import TestBase
+from tests_utils.helpers import get_full_class_name
 
 if sys.version_info[0] >= 3:
     import unittest.mock as mock
@@ -20,10 +21,11 @@ def get_empty_line():
     return Line({'id': 0, 'bus_capacity': 0, "frequency1": 0, "frequency2": 0}, [LineStop('', 0)], [LineStop('', 0)])
 
 
-def get_group(count):
-    gr = PassengersGroup("!", count)
+def get_group(count, name="!"):
+    gr = PassengersGroup(name, count)
     gr.count = count
     return gr
+
 
 N = 7
 counts = [[i] * ((2 * i) + N + 1) for i in range(2, N)]
@@ -98,7 +100,12 @@ def test_move(steps, stops):
             assert bus.next_stop_name != "None"
             assert bus2.next_stop_name != "None"
 
-class TestFill():
+
+def PassengerGroupEquality(a, b):
+    return a.count == b.count and a.destination == b.destination
+
+
+class TestFill(TestBase):
     def test_basic(self):
         with mock.patch(BusTests.line_name + ".bus_capacity", new_callable=PropertyMock) as mocked_bus_capacity:
             mocked_bus_capacity.return_value = 10
@@ -112,12 +119,11 @@ class TestFill():
 
     def test_too_much_basic(self):
         with mock.patch(BusTests.line_name + ".bus_capacity", new_callable=PropertyMock) as mocked_bus_capacity:
-            mocked_bus_capacity.return_value = 30
-            group = get_group(10)
+            mocked_bus_capacity.return_value = 10
+            group = get_group(30, "A")
             bus = Bus(get_empty_line(), 0)
-            assert bus.passengers == []
-            #assert [PassengersGroup()] == bus.fill([group])
-            #assert len(bus.passengers) == 1
-            #assert isinstance(bus.passengers[0], PassengersGroup)
-            #assert bus.passengers[0].count == 10
-
+            self.areListsEqual(bus.passengers, [] )
+            self.areListsEqual([PassengersGroup("A", 20)], bus.fill([group]), PassengerGroupEquality)
+            assert len(bus.passengers) == 1
+            assert isinstance(bus.passengers[0], PassengersGroup)
+            self.areEqual(bus.passengers[0],PassengersGroup("A",10),PassengerGroupEquality)

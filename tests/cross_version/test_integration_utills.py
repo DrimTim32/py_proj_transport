@@ -4,7 +4,7 @@ from core.data_structures import Graph, Node
 from core.simulation import Stop, Simulation, Bus, PassengersGroup
 from core.simulation.generators import BusGenerator
 from core.simulation.line import LineStop, Line
-from utils.helpers import get_full_class_name
+from tests_utils.helpers import get_full_class_name
 
 
 @pytest.mark.parametrize(("obj", "type"), [
