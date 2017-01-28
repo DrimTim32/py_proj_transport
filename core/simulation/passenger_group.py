@@ -23,9 +23,9 @@ class PassengersGroup:
 
     def __add__(self, other):
         """
-        :param other: PassengerGroup to be added
+        :param other: PassengersGroup to be added
         :type other: PassengersGroup
-        :return: sum of PassengerGroups
+        :return: sum of PassengersGroups
         """
         if not isinstance(other, PassengersGroup):
             raise TypeError("Cannot sum two different instances")

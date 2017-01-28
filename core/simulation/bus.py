@@ -2,6 +2,9 @@ from random import shuffle
 
 from core.simulation.passenger_group import PassengersGroup
 
+"""
+File containing Bus class
+"""
 
 class Bus:
     """
@@ -30,26 +33,50 @@ class Bus:
 
     @property
     def route(self):
+        """
+        :return: bus route index
+        :rtype: int
+        """
         return self.__route
 
     @property
     def current_stop_name(self):
+        """
+        :return: name of the current stop
+        :rtype: str
+        """
         return self.__current_stop_name
 
     @property
     def next_stop_name(self):
+        """
+        :return: name of the next stop
+        :rtype: str
+        """
         return self.__next_stop_name
 
     @property
     def id(self):
+        """
+        :return: bus id
+        :rtype: int
+        """
         return self.__id
 
     @property
     def current_stop(self):
+        """
+        :return: current stop index
+        :rtype: int
+        """
         return self.__current_stop
 
     @property
     def line(self):
+        """
+        :return: bus line
+        :rtype: Line
+        """
         return self.__line
 
     def move(self):
@@ -75,8 +102,8 @@ class Bus:
         """
         Fills bus with passengers from passenger groups
         :param passenger_groups: array of passenger groups
-        :type passenger_groups list[PassengerGroup]
-        :rtype: list{PassengerGroup]
+        :type passenger_groups list[PassengersGroup]
+        :rtype: list{PassengersGroup]
         :return: list of passengers groups of passengers who didn't fit into the bus
         """
         count = self.__count()
@@ -87,11 +114,12 @@ class Bus:
         if space >= in_count:
             for stop_group in passenger_groups:
                 i = 0
-                for i in range(len(self.passengers)):
+                while i in range(len(self.passengers)):
                     bus_group = self.passengers[i]
                     if bus_group.destination == stop_group.destination:
                         bus_group += stop_group
                         break
+                    i += 1
                 if i == len(self.passengers):
                     self.passengers.append(stop_group)
             return []
@@ -99,12 +127,10 @@ class Bus:
             passengers = []
             for group in passenger_groups:
                 passengers += [group.destination] * group.count
-            print(passengers)
             shuffle(passengers)
 
             lucky_passengers = passengers[0:space]
             Bus.fill_with_groups(lucky_passengers, self.passengers)
-            print(lucky_passengers)
             passengers = passengers[space:]
             not_lucky_passenger_groups = []
             Bus.fill_with_groups(passengers, not_lucky_passenger_groups)
@@ -112,15 +138,23 @@ class Bus:
 
     @staticmethod
     def fill_with_groups(passengers, group_list):
+        """
+        fills group_list with PassengersGrpups made from passenegers
+        :param passengers: list of destination stop names, one for every passenger
+        :param group_list:
+        :type passengers: list[str]
+        :type group_list: list[PassengersGroup]
+        :return:
+        """
         for passenger in passengers:
             i = 0
-            for i in range(len(group_list)):
+            while i in range(len(group_list)):
                 group = group_list[i]
                 if passenger == group.destination:
                     group.count += 1
                     break
+                i += 1
             if i == len(group_list):
-                print(len(group_list))
                 group_list.append(PassengersGroup(passenger, 1))
 
     def __count(self):

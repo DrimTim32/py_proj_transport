@@ -4,7 +4,6 @@ from core.data_structures import Graph
 from core.simulation import Bus
 from core.simulation.generators import BusGenerator
 from core.simulation.line import LineStop, Line
-from core.simulation.passenger_group import PassengersGroup
 from core.simulation.stop import Stop
 
 
@@ -21,12 +20,19 @@ class Simulation:
         self.__lines = []
         self.__stops = {}
         self.__create_stops(config.stops)
-        print(self.__stops)
-        self.__stops['D'].passengers.append(PassengersGroup('C', 15))
-        self.__stops['D'].passengers.append(PassengersGroup('B', 25))
+        # self.__stops['F'].passengers.append(PassengersGroup('A', 25))
+        # self.__stops['D'].passengers.append(PassengersGroup('C', 20))
+        # self.__stops['D'].passengers.append(PassengersGroup('B', 35))
         self.__graph = Graph.from_config(config.graph_dict)
         self.__create_lines(config.lines_dict)
         self.__bus_generator = BusGenerator()
+        """
+                   A - 1 - B - 2 - C - 1 - D
+                   |       |
+                   1       5
+                   |       |
+                   E - 1 - F
+        """
 
     def mainloop(self):
         """
@@ -39,6 +45,10 @@ class Simulation:
             time.sleep(0.1)
 
     def _print(self):
+        """
+        tego nie bydzie, nie komentuje
+        :return:
+        """
         if self.steps >= 1:
             print('________________________________________________________')
             print('STEP ', self.steps)
@@ -53,6 +63,10 @@ class Simulation:
                     print(0)
 
     def __update(self):
+        """
+        updates simulation state
+        :return: None
+        """
         self.steps += 1
         self.__update_buses()
         self.__update_passengers()
@@ -82,7 +96,6 @@ class Simulation:
         for stop_group in stop.passengers:  # wsiadanie
             destination = stop_group.destination
             if self.__graph.get_path_between(stop.name, destination)[0] == bus.next_stop_name:
-                print(bus.next_stop_name, self.__graph.get_path_between(stop.name, destination)[0])
                 in_groups.append(stop_group)
         stop.passengers = [group for group in stop.passengers if group not in in_groups]
         groups_after_fill = bus.fill(in_groups)
@@ -93,11 +106,12 @@ class Simulation:
         for bus_group in bus.passengers:  # wysiadanie do przesiadki
             if self.__graph.get_path_between(stop.name, bus_group.destination)[0] != bus.next_stop_name:
                 j = 0
-                for j in range(len(stop.passengers)):
+                while j in range(len(stop.passengers)):
                     stop_group = stop.passengers[j]
                     if stop_group.destination == bus_group.destination:
                         stop_group += bus_group
                         break
+                    j += 1
                 if j == len(stop.passengers):
                     stop.passengers.append(bus_group)
                 bus.passengers.remove(bus_group)
