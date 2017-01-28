@@ -8,21 +8,26 @@ if sys.version_info[0] >= 3:
 else:
     import mock
 
-from mock import PropertyMock
+from mock import PropertyMock, MagicMock
 
 from core.simulation.stop import Stop
+
+
 def test_create():
     s = Stop("name")
-    assert s.name == 0
+    assert s.name == 'name'
     for i in range(10):
         assert s.count(str(i)) == 0
 
-def test_count(dests, counts):
+
+@pytest.mark.parametrize("dest", ["A", "B", "C"])
+@pytest.mark.parametrize("count", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+def test_coun_one_group(dest, count):
     s = Stop("")
     name = get_full_class_name(PassengersGroup)
-    for i in range(counts):
-        with mock.patch(name+"destination",  new_callable=PropertyMock) as mocked_destination:
-            mocked_destination.return_value = dests[i]
-            with mock.patch(name + "count") as mocked_count:
-                mocked_count.return_value = counts[i]
-                group = PassengersGroup("a",0)
+    with mock.patch(name + ".destination", new_callable=PropertyMock) as mocked_destination:
+        mocked_destination.return_value = dest
+        group = PassengersGroup("a", 0)
+        group.count = count
+        s.passengers.append(group)
+        assert s.count(dest) == count
