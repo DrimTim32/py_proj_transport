@@ -6,6 +6,7 @@ from core.simulation.passenger_group import PassengersGroup
 File containing Bus class
 """
 
+
 class Bus:
     """
         Bus class
@@ -130,14 +131,14 @@ class Bus:
             shuffle(passengers)
 
             lucky_passengers = passengers[0:space]
-            Bus.fill_with_groups(lucky_passengers, self.passengers)
+            Bus.__fill_with_groups(lucky_passengers, self.passengers)
             passengers = passengers[space:]
             not_lucky_passenger_groups = []
-            Bus.fill_with_groups(passengers, not_lucky_passenger_groups)
+            Bus.__fill_with_groups(passengers, not_lucky_passenger_groups)
             return not_lucky_passenger_groups
 
     @staticmethod
-    def fill_with_groups(passengers, group_list):
+    def __fill_with_groups(passengers, group_list):
         """
         fills group_list with PassengersGrpups made from passenegers
         :param passengers: list of destination stop names, one for every passenger

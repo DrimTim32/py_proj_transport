@@ -19,6 +19,7 @@ class Simulation:
         self._buses = []
         self.__lines = []
         self.__stops = {}
+        self.__traffic = config.traffic_data_dict
         self.__create_stops(config.stops)
         # self.__stops['F'].passengers.append(PassengersGroup('A', 25))
         # self.__stops['D'].passengers.append(PassengersGroup('C', 20))
