@@ -1,10 +1,11 @@
 import sys
+import time
 import types
 import unittest
-from copy import copy
 
 from core.configuration import Config
 from core.simulation import Simulation
+from utils.helpers import add_property, add_variable
 
 if sys.version_info[0] >= 3:
     from unittest.mock import PropertyMock, patch
@@ -31,35 +32,41 @@ class SimulationTest(unittest.TestCase):
                     0: {'id': 0, 'bus_capacity': 20, 'frequency1': 17, 'frequency2': 17,
                         'route1': ['A', 'D', 'C', 'B', 'E', 'F'],
                         'route2': ['F', 'E', 'B', 'A']}}
-                config = Config({}, {}, {})
+                config = Config({}, {}, {}, {})
                 config.stops = ["A", "B", "C", "D", "E", "F"]
                 simulation = Simulation(config)
-                bardzo_ladna_kopia_updejt = copy(simulation._update)
 
-                fajny_slownik = {}
-
-                def foo():
-                    bardzo_ladna_kopia_updejt()
-                    for bus in simulation.buses:
+                def mocked_update(self):
+                    for bus in self._buses:
                         if bus.route == 0:
-                            if bus.id not in fajny_slownik.keys():
-                                fajny_slownik[bus.id] = []
+                            if bus.id not in self.fajny_slownik.keys():
+                                self.fajny_slownik[bus.id] = []
                             if bus.time_to_next_stop == 0:
-                                fajny_slownik[bus.id].append(bus.current_stop_name)
+                                self.fajny_slownik[bus.id].append(bus.current_stop_name)
                             else:
-                                fajny_slownik[bus.id].append(bus.current_stop_name + bus.next_stop_name)
+                                self.fajny_slownik[bus.id].append(bus.current_stop_name + bus.next_stop_name)
 
-                def fajny_mejnloop():
-                    while not simulation.finished:
-                        foo()
-                        if simulation.steps == 33:
-                            simulation.finished = True
 
-                simulation.mainloop = fajny_mejnloop
+                def finished(q):
+                    time.sleep = lambda x: None
+                    if q.count_finished == 35:
+                        return True
+                    q.count_finished += 1
+                    q.mocked_update()
+                    return False
+
+                add_property(simulation, "finished", finished)
+                from types import MethodType
+                simulation.mocked_update = MethodType(mocked_update, simulation)
+                add_variable(simulation, "count_finished", 0)
+                add_variable(simulation, "fajny_slownik", {})
                 simulation.mainloop()
-
-                pathsy = ['PA', 'A', 'AD', 'AD', 'D', 'DC', 'DC', 'DC', 'C', 'CB', 'B', 'BE', 'BE', 'E', 'EF', 'EF',
-                          'F']
-                for path in fajny_slownik.values():
+                def empty():
+                    pass
+                simulation._print = empty
+                pathsy = ['PA', 'A', 'AD', 'AD', 'D', 'DC', 'DC', 'DC', 'C', 'CB', 'B', 'BE', 'BE', 'E', 'EF', 'EF','F']
+                print(pathsy)
+                self.assertEqual(len(simulation.fajny_slownik), 2)
+                for path in simulation.fajny_slownik.values():
+                    print(path)
                     self.assertEqual(path, pathsy)
-                self.assertEqual(len(fajny_slownik), 2)

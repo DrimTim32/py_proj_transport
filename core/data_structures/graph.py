@@ -2,10 +2,13 @@ from collections import namedtuple
 
 from numpy import inf
 
-from core.configuration import config
-
 Edge = namedtuple("Edge", ["node", "weight"])
 NodeLengthPair = namedtuple("NodeLengthPair", ["node", "length"])
+
+try:
+    from queue import Queue
+except ImportError:
+    from Queue import Queue
 
 
 class Node:
@@ -94,7 +97,7 @@ class Graph:
         :rtype: Graph
         """
         nodes = {}
-        
+
         for s in dictionary:
             nodes[s] = Node(s)
         for s in dictionary:
@@ -148,7 +151,6 @@ class Graph:
         :return:
         :rtype: Iterator[Node]
         """
-        from queue import Queue
         output_list = []
         queue = Queue()
         queue.put(start)
