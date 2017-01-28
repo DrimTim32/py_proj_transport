@@ -1,6 +1,7 @@
 import sys
 import types
 import unittest
+import time
 
 from core.configuration import Config
 from core.simulation import Simulation
@@ -45,7 +46,9 @@ class SimulationTest(unittest.TestCase):
                             else:
                                 self.fajny_slownik[bus.id].append(bus.current_stop_name + bus.next_stop_name)
 
+
                 def finished(q):
+                    time.sleep = lambda x: None
                     if q.count_finished == 35:
                         return True
                     q.count_finished += 1
