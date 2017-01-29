@@ -44,5 +44,5 @@ class PassengersGroup:
             raise TypeError("Cannot sum two different instances")
         if self.destination != other.destination:
             raise TypeError("Cannot sum groups with two different destinations")
-        self.count+=other.count
+        self.count += other.count
         return self

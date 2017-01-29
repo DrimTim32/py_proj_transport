@@ -2,6 +2,7 @@
 This file provides base class for tests, API is compatibile with unittest.TestCase
 """
 import unittest
+
 from conftest import pytest_assertrepr_compare
 
 
@@ -9,7 +10,8 @@ class TestBase(unittest.TestCase):
     """
     Testing base class
     """
-    def areListsEqual(self, list1, list2, equality_method=lambda x, y: x == y):
+
+    def are_lists_equal(self, list1, list2, equality_method=lambda x, y: x == y):
         """
         Checks if two lists are equal using equality method
         :param list1: first list
@@ -22,11 +24,11 @@ class TestBase(unittest.TestCase):
                 "length of {} is not equal to length of {}\n {} != {}".format(list1, list2, len(list1), len(list2)))
         try:
             for i in range(len(list1)):
-                self.areEqual(list1[i], list2[i], equality_method)
+                self.are_equal(list1[i], list2[i], equality_method)
         except AssertionError as err:
             raise AssertionError("Assertion error on element {}: {}".format(i, err))
 
-    def areEqual(self, obj1, obj2, equality_method=lambda x, y: x == y):
+    def are_equal(self, obj1, obj2, equality_method=lambda x, y: x == y):
         """
         Checks if two objecs are are equal using equality method
         :param obj1: first object

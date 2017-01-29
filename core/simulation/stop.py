@@ -16,12 +16,12 @@ class Stop:
         :return: number of passengers waiting for bus to specific destination
         :rtype: int
         """
-        c = 0
+        count = 0
         for group in self.passengers:
             if group.destination == destination:
-                c = group.count
+                count = group.count
                 break
-        return c
+        return count
 
     @property
     def name(self):

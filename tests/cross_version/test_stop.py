@@ -2,7 +2,9 @@
 This file contains tests for Stop class
 """
 import sys
+
 import pytest
+
 from core.simulation.passenger_group import PassengersGroup
 from core.simulation.stop import Stop
 from tests_utils.helpers import get_full_class_name

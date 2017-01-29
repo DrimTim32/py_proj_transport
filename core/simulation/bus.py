@@ -163,10 +163,10 @@ class Bus:
         :return: number of passengers in bus
         :rtype: int
         """
-        c = 0
+        count = 0
         for group in self.passengers:
-            c += group.count
-        return c
+            count += group.count
+        return count
 
     @property
     def time_to_next_stop(self):

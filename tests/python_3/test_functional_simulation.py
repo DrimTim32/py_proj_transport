@@ -2,7 +2,6 @@
 This file contains functional tests for simulation class
 """
 import sys
-
 import time
 import unittest
 

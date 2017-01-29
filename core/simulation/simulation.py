@@ -144,9 +144,9 @@ class Simulation:
                     self._buses.append(Bus(line, i))
 
     def __clean_buses(self):
-        q = [bus for bus in self._buses if bus.current_stop == bus.line.last_stop(bus.route)]
-        for b in q:
-            self._buses.remove(b)
+        buses_to_remove = [bus for bus in self._buses if bus.current_stop == bus.line.last_stop(bus.route)]
+        for bus in buses_to_remove:
+            self._buses.remove(bus)
 
     def __create_lines(self, lines):
         for line in lines.values():

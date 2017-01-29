@@ -9,9 +9,9 @@ class Config:
         self.traffic_data = traffic_data
 
     @staticmethod
-    def from_config_file(file):
-        f = open(file)
-        data = json.load(f)
+    def from_config_file(file_name):
+        file = open(file_name)
+        data = json.load(file)
         return Config(data['stops'], data['connections'], data['lines'], data['traffic_data'])
 
     @property

@@ -2,7 +2,9 @@
 This file contains test for Bus class
 """
 import sys
+
 import pytest
+
 from core.simulation import Bus
 from core.simulation.line import Line, LineStop
 from core.simulation.passenger_group import PassengersGroup
@@ -156,13 +158,13 @@ class TestFill(TestBase):
             mocked_bus_capacity.return_value = 10
             group = get_group(30, "A")
             bus = Bus(get_empty_line(), 0)
-            self.areListsEqual(bus.passengers, [])
+            self.are_lists_equal(bus.passengers, [])
             after_fill = bus.fill([group])
-            self.areListsEqual([PassengersGroup("A", 20)], after_fill, passenger_group_equality)
+            self.are_lists_equal([PassengersGroup("A", 20)], after_fill, passenger_group_equality)
             assert len(bus.passengers) == 1
             assert bus.count == 10
             assert isinstance(bus.passengers[0], PassengersGroup)
-            self.areEqual(bus.passengers[0], PassengersGroup("A", 10), passenger_group_equality)
+            self.are_equal(bus.passengers[0], PassengersGroup("A", 10), passenger_group_equality)
 
     def test_two_different_in_one(self):
         """
@@ -173,7 +175,7 @@ class TestFill(TestBase):
             group1 = get_group(10, "A")
             group2 = get_group(10, "B")
             bus = Bus(get_empty_line(), 0)
-            self.areListsEqual(bus.passengers, [])
+            self.are_lists_equal(bus.passengers, [])
             after_fill = bus.fill([group1, group2])
             assert after_fill == []
             assert bus.count == 20
@@ -191,7 +193,7 @@ class TestFill(TestBase):
             group1 = get_group(10, "A")
             group2 = get_group(30, "B")
             bus = Bus(get_empty_line(), 0)
-            self.areListsEqual(bus.passengers, [])
+            self.are_lists_equal(bus.passengers, [])
             after_fill = bus.fill([group1, group2])
             assert sum([i.count for i in after_fill]) == 20
             assert after_fill != []
@@ -208,13 +210,13 @@ class TestFill(TestBase):
             group1 = get_group(10, "A")
             group2 = get_group(30, "B")
             bus = Bus(get_empty_line(), 0)
-            self.areListsEqual(bus.passengers, [])
+            self.are_lists_equal(bus.passengers, [])
             after_fill = bus.fill([group1])
             assert after_fill == []
             assert bus.count == 10
             assert len(bus.passengers) == 1
             after_fill = bus.fill([group2])
-            self.areListsEqual(after_fill, [get_group(20, "B")], passenger_group_equality)
+            self.are_lists_equal(after_fill, [get_group(20, "B")], passenger_group_equality)
             assert bus.count == 20
             assert len(bus.passengers) == 2
 
@@ -227,15 +229,15 @@ class TestFill(TestBase):
             group1 = get_group(10, "A")
             group2 = get_group(30, "A")
             bus = Bus(get_empty_line(), 0)
-            self.areListsEqual(bus.passengers, [])
+            self.are_lists_equal(bus.passengers, [])
             after_fill = bus.fill([group1])
             assert bus.count == 10
             assert len(bus.passengers) == 1
             after_fill = bus.fill([group2])
-            self.areListsEqual(after_fill, [get_group(20, "A")], passenger_group_equality)
+            self.are_lists_equal(after_fill, [get_group(20, "A")], passenger_group_equality)
             assert bus.count == 20
             assert len(bus.passengers) == 1
-            self.areEqual(bus.passengers[0], get_group(20, "A"), passenger_group_equality)
+            self.are_equal(bus.passengers[0], get_group(20, "A"), passenger_group_equality)
 
     def test_add_the_same(self):
         """
@@ -255,4 +257,4 @@ class TestFill(TestBase):
             assert after_fill == []
             assert bus.count == 19
             assert len(bus.passengers) == 1
-            self.areEqual(bus.passengers[0], get_group(19, "A"), passenger_group_equality)
+            self.are_equal(bus.passengers[0], get_group(19, "A"), passenger_group_equality)
