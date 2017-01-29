@@ -1,2 +1,3 @@
 pytest-runner
+numpy
 future

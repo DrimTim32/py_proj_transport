@@ -2,7 +2,8 @@ import time
 
 from core.data_structures import Graph
 from core.simulation import Bus
-from core.simulation.generators import BusGenerator
+from core.simulation import PassengersGroup
+from core.simulation.generators import BusGenerator, PoissonPassengerGenerator
 from core.simulation.line import LineStop, Line
 from core.simulation.stop import Stop
 
@@ -26,6 +27,7 @@ class Simulation:
         self.__graph = Graph.from_config(config.graph_dict)
         self.__create_lines(config.lines_dict)
         self.__bus_generator = BusGenerator()
+        self.__passengers_generator = PoissonPassengerGenerator(config.traffic_data_dict)
         """
                    A - 1 - B - 2 - C - 1 - D
                    |       |
@@ -68,10 +70,28 @@ class Simulation:
         :return: None
         """
         self.steps += 1
+        self.__update_stops()
         self.__update_buses()
         self.__update_passengers()
         self.__clean_buses()
         self.__generate_buses()
+
+    def __update_stops(self):
+        for src in self.__stops.keys():
+            for dest in self.__stops.keys():
+                if src is not dest:
+                    new_passengers = self.__passengers_generator.generate(src, dest)
+                    if new_passengers > 0:
+                        source_stop = self.__stops[src]
+                        i = 0
+                        while i in range(len(source_stop.passengers)):
+                            stop_group = source_stop.passengers[i]
+                            if stop_group.destination == dest:
+                                stop_group.count += new_passengers
+                                break
+                            i += 1
+                        if i == len(source_stop.passengers):
+                            source_stop.passengers.append(PassengersGroup(dest, new_passengers))
 
     def __update_buses(self):
         for bus in self._buses:
