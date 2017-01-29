@@ -1,7 +1,7 @@
 import sys
 
 from core.configuration import config
-from core.simulation.simulation import *
+from core.simulation.simulation import Simulation
 
 
 def read_configuration():

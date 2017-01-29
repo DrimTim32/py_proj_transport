@@ -107,7 +107,7 @@ class Bus:
         :rtype: list{PassengersGroup]
         :return: list of passengers groups of passengers who didn't fit into the bus
         """
-        count = self.count()
+        count = self.count
         in_count = 0
         space = self.line.bus_capacity - count
         for group in passenger_groups:
@@ -157,16 +157,16 @@ class Bus:
                 i += 1
             if i == len(group_list):
                 group_list.append(PassengersGroup(passenger, 1))
-
+    @property
     def count(self):
         """
         :return: number of passengers in bus
         :rtype: int
         """
-        c = 0
+        count = 0
         for group in self.passengers:
-            c += group.count
-        return c
+            count += group.count
+        return count
 
     @property
     def time_to_next_stop(self):

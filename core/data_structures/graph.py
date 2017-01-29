@@ -1,5 +1,7 @@
+"""
+This file contains Node and Graph classes with related functions.
+"""
 from collections import namedtuple
-
 from numpy import inf
 
 Edge = namedtuple("Edge", ["node", "weight"])
@@ -98,11 +100,11 @@ class Graph:
         """
         nodes = {}
 
-        for s in dictionary:
-            nodes[s] = Node(s)
-        for s in dictionary:
-            for q in dictionary[s]:
-                connect_one_way(nodes[s], nodes[q[0]], q[1])
+        for node_name in dictionary:
+            nodes[node_name] = Node(node_name)
+        for node_name in dictionary:
+            for second_node_data in dictionary[node_name]:
+                connect_one_way(nodes[node_name], nodes[second_node_data[0]], second_node_data[1])
         return Graph(nodes.values())
 
     def __init__(self, nodes):
@@ -112,16 +114,16 @@ class Graph:
         self.__graph = {}  # type: dict[str,Node]
         self.__populate_graph(nodes)
 
-    def __getitem__(self, input):
+    def __getitem__(self, item_tuple):
         """
 
-        :param input:
-        :type input: tuple(str,str)
+        :param item_tuple:
+        :type item_tuple: tuple(str,str)
         :return:
         """
-        node = self.__graph[input[0]]
+        node = self.__graph[item_tuple[0]]
         for edge in node.edges:
-            if edge.node.name == input[1]:
+            if edge.node.name == item_tuple[1]:
                 return edge.weight
         return -1
 

@@ -10,7 +10,7 @@ EXTENDED = ""
 TYPE = "text"
 
 excluded_directories = ["develop_scripts", "tests", "docs"]
-excluded_files = ["__init__.py", "setup.py", "conftest.py"]
+excluded_files = ["__init__.py", "setup.py", "custom_assertions.py","conftest.py"]
 
 
 def check(module):
