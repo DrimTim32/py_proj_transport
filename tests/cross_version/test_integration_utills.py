@@ -1,3 +1,6 @@
+"""
+This file contains integration tests of utils module
+"""
 import pytest
 
 from core.data_structures import Graph, Node
@@ -7,7 +10,7 @@ from core.simulation.line import LineStop, Line
 from tests_utils.helpers import get_full_class_name
 
 
-@pytest.mark.parametrize(("obj", "type"), [
+@pytest.mark.parametrize(("cls", "full_name"), [
     (Stop, "core.simulation.stop.Stop"),
     (Simulation, "core.simulation.simulation.Simulation"),
     (PassengersGroup, "core.simulation.passenger_group.PassengersGroup"),
@@ -18,5 +21,10 @@ from tests_utils.helpers import get_full_class_name
     (LineStop, "core.simulation.line.LineStop"),
     (Line, "core.simulation.line.Line"),
 ])
-def test_on_buitlin(obj, type):
-    assert get_full_class_name(obj) == type
+def test_on_buitlin(cls, full_name):
+    """
+    Tests get_full_class_name method
+    :param cls: class
+    :param full_name: full class name
+    """
+    assert get_full_class_name(cls) == full_name

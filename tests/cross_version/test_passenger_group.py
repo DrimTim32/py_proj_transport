@@ -2,16 +2,15 @@ import pytest
 
 from core.simulation.passenger_group import PassengersGroup
 
-
 @pytest.mark.parametrize(("dest", "count"),
                          [
                              ("A", 10),
                              ("B", 123),
                              ("G", 12),
                              ("B", 112),
-                         ]
-                         )
+                         ])
 def test_create(dest, count):
+    """Tests if Passenger group is created correctly"""
     group = PassengersGroup(dest, count)
     assert group.count == count
     assert group.destination == dest
@@ -19,12 +18,14 @@ def test_create(dest, count):
 
 @pytest.mark.parametrize("count", [-1, -2, -3, -4, -5, -6, -99, -12321])
 def test_bad_count_create(count):
+    """Checks if negative count raises an error"""
     with pytest.raises(ValueError) as exceptionInfo:
         g = PassengersGroup("DEST", count)
     assert 'count' in str(exceptionInfo.value)
 
 
 def test_bad_dest_create():
+    """Checks if empty destination raises an error"""
     with pytest.raises(ValueError) as exceptionInfo:
         g = PassengersGroup("", 123)
     assert 'destination' in str(exceptionInfo.value)
