@@ -1,3 +1,6 @@
+"""
+This file contains graph integration tests
+"""
 import unittest
 
 from core.configuration.config import Config
@@ -11,6 +14,10 @@ except ImportError:
 
 
 class GraphMockIntegrationTests(unittest.TestCase):
+    """
+    Test suite for graph integration tests
+    """
+
     def graph_mock_graph_dict(self, graph_dict_input):
         """
         Tests assertions
@@ -21,15 +28,13 @@ class GraphMockIntegrationTests(unittest.TestCase):
         :return: Filled graph
         """
         name = get_full_class_name(Config)
-        self.assertEqual('core.configuration.config.Config', name,
-                         "Config directory has changed, please check! Should be {} but was ".format(
-                             'core.configuration.config.Config', name))
         with mock.patch(name + ".graph_dict", new_callable=PropertyMock) as graph_dict:
             graph_dict.return_value = graph_dict_input
             graph = Graph.from_config(graph_dict_input)
             return graph
 
     def test_graph_from_simple_config(self):
+        """Tests simple graph from config"""
         graph = self.graph_mock_graph_dict({
             "A": [("B", 10)],
             "B": [("A", 10)]
@@ -38,6 +43,7 @@ class GraphMockIntegrationTests(unittest.TestCase):
         self.assertEqual(graph.get_path_between("B", "A"), ("A", 10))
 
     def test_line_graph(self):
+        """Tests line graph from config"""
         graph = self.graph_mock_graph_dict({
             "A": [("B", 10)],
             "B": [("A", 10), ("C", 10)],
@@ -52,6 +58,7 @@ class GraphMockIntegrationTests(unittest.TestCase):
         self.assertEqual(graph.get_path_between("D", "C"), ("C", 10))
 
     def test_one_way_graph(self):
+        """Tests one way graph from config"""
         graph = self.graph_mock_graph_dict({
             "A": [("B", 10)],
             "B": [("C", 10)],
@@ -66,6 +73,7 @@ class GraphMockIntegrationTests(unittest.TestCase):
         self.assertEqual(graph.get_path_between("C", "B"), ("", 0))
 
     def test_different_numbers_graph(self):
+        """Tests line graph with different numbers from config"""
         graph = self.graph_mock_graph_dict({
             "A": [("B", 1)],
             "B": [("C", 2)],
