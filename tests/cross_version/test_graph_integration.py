@@ -1,34 +1,41 @@
-import sys
+"""
+This file contains graph integration tests
+"""
 import unittest
 
+from core.configuration.config import Config
 from core.data_structures.graph import Graph
+from tests_utils.helpers import get_full_class_name
 
-if sys.version_info[0] >= 3:
-    import unittest.mock as mock
-    from unittest.mock import PropertyMock
-else:
-    import mock
-    from mock import PropertyMock
-
-
-def graph_mock_graph_dict(graph_dict_input):
-    """
-    Tests assertions
-    :param graph_dict_input: value returned from config graph_dict
-    :param assertions: methods asserting graph
-    :type assertions: list[lambda]
-    :rtype: Graph
-    :return: Filled graph
-    """
-    with mock.patch('core.configuration.config.Config.graph_dict', new_callable=PropertyMock) as graph_dict:
-        graph_dict.return_value = graph_dict_input
-        graph = Graph.from_config(graph_dict_input)
-        return graph
+try:
+    from mock import patch, mock_open, mock, PropertyMock
+except ImportError:
+    from unittest.mock import patch, mock_open
 
 
 class GraphMockIntegrationTests(unittest.TestCase):
+    """
+    Test suite for graph integration tests
+    """
+
+    def graph_mock_graph_dict(self, graph_dict_input):
+        """
+        Tests assertions
+        :param graph_dict_input: value returned from config graph_dict
+        :param assertions: methods asserting graph
+        :type assertions: list[lambda]
+        :rtype: Graph
+        :return: Filled graph
+        """
+        name = get_full_class_name(Config)
+        with mock.patch(name + ".graph_dict", new_callable=PropertyMock) as graph_dict:
+            graph_dict.return_value = graph_dict_input
+            graph = Graph.from_config(graph_dict_input)
+            return graph
+
     def test_graph_from_simple_config(self):
-        graph = graph_mock_graph_dict({
+        """Tests simple graph from config"""
+        graph = self.graph_mock_graph_dict({
             "A": [("B", 10)],
             "B": [("A", 10)]
         })
@@ -36,7 +43,8 @@ class GraphMockIntegrationTests(unittest.TestCase):
         self.assertEqual(graph.get_path_between("B", "A"), ("A", 10))
 
     def test_line_graph(self):
-        graph = graph_mock_graph_dict({
+        """Tests line graph from config"""
+        graph = self.graph_mock_graph_dict({
             "A": [("B", 10)],
             "B": [("A", 10), ("C", 10)],
             "C": [("B", 10), ("D", 10)],
@@ -50,7 +58,8 @@ class GraphMockIntegrationTests(unittest.TestCase):
         self.assertEqual(graph.get_path_between("D", "C"), ("C", 10))
 
     def test_one_way_graph(self):
-        graph = graph_mock_graph_dict({
+        """Tests one way graph from config"""
+        graph = self.graph_mock_graph_dict({
             "A": [("B", 10)],
             "B": [("C", 10)],
             "C": [("D", 10)],
@@ -64,7 +73,8 @@ class GraphMockIntegrationTests(unittest.TestCase):
         self.assertEqual(graph.get_path_between("C", "B"), ("", 0))
 
     def test_different_numbers_graph(self):
-        graph = graph_mock_graph_dict({
+        """Tests line graph with different numbers from config"""
+        graph = self.graph_mock_graph_dict({
             "A": [("B", 1)],
             "B": [("C", 2)],
             "C": [("D", 3)],
