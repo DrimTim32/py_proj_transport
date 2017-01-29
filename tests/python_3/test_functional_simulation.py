@@ -1,6 +1,9 @@
+"""
+This file contains functional tests for simulation class
+"""
 import sys
+
 import time
-import types
 import unittest
 
 from core.configuration import Config
@@ -14,12 +17,10 @@ else:
 
 
 class SimulationTest(unittest.TestCase):
-    @staticmethod
-    def copy_func(f, name=None):
-        return types.FunctionType(f.func_code, f.func_globals, name or f.func_name,
-                                  f.func_defaults, f.func_closure)
+    """Class for testing simulation class"""
 
     def test_graph_and_lines(self):
+        """Tests simulation with graph and lines"""
         with patch('core.configuration.Config.graph_dict', new_callable=PropertyMock) as mock_graph_dict:
             with patch('core.configuration.Config.lines_dict', new_callable=PropertyMock) as mock_lines_dict:
                 with patch('core.configuration.Config.traffic_data_dict',
@@ -45,39 +46,32 @@ class SimulationTest(unittest.TestCase):
 
                     simulation = Simulation(config)
 
-                    def mocked_update(self):
-                        for bus in self._buses:
-                            if bus.route == 0:
-                                if bus.id not in self.fajny_slownik.keys():
-                                    self.fajny_slownik[bus.id] = []
-                                if bus.time_to_next_stop == 0:
-                                    self.fajny_slownik[bus.id].append(bus.current_stop_name)
-                                else:
-                                    self.fajny_slownik[bus.id].append(bus.current_stop_name + bus.next_stop_name)
+                def mocked_update(mocked_self):
+                    """Mocked update """
+                    for bus in mocked_self._buses:
+                        if bus.route == 0:
+                            if bus.id not in mocked_self.mocked_dict.keys():
+                                mocked_self.mocked_dict[bus.id] = []
+                            if bus.time_to_next_stop == 0:
+                                mocked_self.mocked_dict[bus.id].append(bus.current_stop_name)
+                            else:
+                                mocked_self.mocked_dict[bus.id].append(bus.current_stop_name + bus.next_stop_name)
 
-                    def finished(q):
-                        time.sleep = lambda x: None
-                        if q.count_finished == 35:
-                            return True
-                        q.count_finished += 1
-                        q.mocked_update()
-                        return False
+                def finished(mocked_self):
+                    time.sleep = lambda x: None
+                    if mocked_self.count_finished == 35:
+                        return True
+                    mocked_self.count_finished += 1
+                    mocked_self.mocked_update()
+                    return False
 
-                    add_property(simulation, "finished", finished)
-                    from types import MethodType
-                    simulation.mocked_update = MethodType(mocked_update, simulation)
-                    add_variable(simulation, "count_finished", 0)
-                    add_variable(simulation, "fajny_slownik", {})
-                    simulation.mainloop()
-
-                    def empty():
-                        pass
-
-                    simulation._print = empty
-                    pathsy = ['PA', 'A', 'AD', 'AD', 'D', 'DC', 'DC', 'DC', 'C', 'CB', 'B', 'BE', 'BE', 'E', 'EF', 'EF',
-                              'F']
-                    print(pathsy)
-                    self.assertEqual(len(simulation.fajny_slownik), 2)
-                    for path in simulation.fajny_slownik.values():
-                        print(path)
-                        self.assertEqual(path, pathsy)
+                add_property(simulation, "finished", finished)
+                from types import MethodType
+                simulation.mocked_update = MethodType(mocked_update, simulation)
+                add_variable(simulation, "count_finished", 0)
+                add_variable(simulation, "mocked_dict", {})
+                simulation.mainloop()
+                paths = ['PA', 'A', 'AD', 'AD', 'D', 'DC', 'DC', 'DC', 'C', 'CB', 'B', 'BE', 'BE', 'E', 'EF', 'EF', 'F']
+                self.assertEqual(len(simulation.mocked_dict), 2)
+                for path in simulation.mocked_dict.values():
+                    self.assertEqual(path, paths)

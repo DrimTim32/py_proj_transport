@@ -19,43 +19,46 @@ def test_create(dest, count):
 @pytest.mark.parametrize("count", [-1, -2, -3, -4, -5, -6, -99, -12321])
 def test_bad_count_create(count):
     """Checks if negative count raises an error"""
-    with pytest.raises(ValueError) as exceptionInfo:
-        g = PassengersGroup("DEST", count)
-    assert 'count' in str(exceptionInfo.value)
+    with pytest.raises(ValueError) as exception_info:
+        PassengersGroup("DEST", count)
+    assert 'count' in str(exception_info.value)
 
 
 def test_bad_dest_create():
     """Checks if empty destination raises an error"""
-    with pytest.raises(ValueError) as exceptionInfo:
-        g = PassengersGroup("", 123)
-    assert 'destination' in str(exceptionInfo.value)
+    with pytest.raises(ValueError) as exception_info:
+        PassengersGroup("", 123)
+    assert 'destination' in str(exception_info.value)
 
 
 @pytest.mark.parametrize(("count1"), [1, 2, 3, 4, 5, 6])
 @pytest.mark.parametrize(("count2"), [1, 2, 3, 4, 5, 6])
 def test_good_sum(count1, count2):
-    gr1 = PassengersGroup("dest", count1)
-    gr2 = PassengersGroup("dest", count2)
-    gr3 = gr1 + gr2
-    assert gr1.destination == gr3.destination
-    assert gr2.destination == gr3.destination
-    assert gr3.count == count1 + count2
+    """Tests if sum is being calculated properly"""
+    group1 = PassengersGroup("dest", count1)
+    group2 = PassengersGroup("dest", count2)
+    group3 = group1 + group2
+    assert group1.destination == group3.destination
+    assert group2.destination == group3.destination
+    assert group3.count == count1 + count2
 
 
 @pytest.mark.parametrize(("dest1"), ["a", "b", "c"])
 @pytest.mark.parametrize(("dest2"), ["g", "e", "f"])
 def test_bad_dest_sum(dest1, dest2):
-    g1 = PassengersGroup(dest1, 0)
-    g2 = PassengersGroup(dest2, 0)
-    with pytest.raises(TypeError) as exceptionInfo:
-        g3 = g1 + g2
-    assert 'destination' in str(exceptionInfo.value)
-    assert 'groups' in str(exceptionInfo.value)
+    """Tests if sum of two groups throw an exception if groups have different destinations"""
+    group1 = PassengersGroup(dest1, 0)
+    group2 = PassengersGroup(dest2, 0)
+    with pytest.raises(TypeError) as exception_info:
+        group1 + group2
+    assert 'destination' in str(exception_info.value)
+    assert 'groups' in str(exception_info.value)
 
 
 @pytest.mark.parametrize(("obj"), [1, "a", 0.33, object()])
 def test_bad_type_sum(obj):
-    g1 = PassengersGroup("dest", 123)
-    with pytest.raises(TypeError) as exceptionInfo:
-        g3 = g1 + obj
-    assert 'instance' in str(exceptionInfo.value)
+    """Tests if second object is not a group"""
+    group = PassengersGroup("dest", 123)
+    with pytest.raises(TypeError) as exception_info:
+        group + obj
+    assert 'instance' in str(exception_info.value)
