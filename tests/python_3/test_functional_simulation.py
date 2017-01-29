@@ -74,3 +74,4 @@ class SimulationTest(unittest.TestCase):
                 self.assertEqual(len(simulation.mocked_dict), 2)
                 for path in simulation.mocked_dict.values():
                     self.assertEqual(path, paths)
+
