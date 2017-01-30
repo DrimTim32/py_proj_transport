@@ -27,7 +27,7 @@ if($coverage -ne "no")
         python2 -m coverage run ./setup.py test
         python -m coverage run -a ./setup.py test
     }
-    #coverage html -d docs/coverage
+    write-host "Generating coverage file..."
     coverage html
 }
 elseif($version -eq 2)
