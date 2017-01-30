@@ -3,7 +3,7 @@ This file contains functional tests passenger generation
 """
 import sys
 
-import scipy.stats as st
+import numpy as np
 
 from core.configuration import Config
 from core.simulation import Simulation
@@ -32,16 +32,25 @@ def test_passenger_generation():
                                                   'B': {'A': 0, 'B': 0}}
 
                 generated = []
+                model = []
+                mean = 120 / 60
                 simulation = Simulation(config)
                 simulation.refresh()
                 simulation.refresh()
+
                 for i in range(100000):
                     simulation.refresh()
-                    generated.append(simulation.stops['A'].passengers[0].count)
+                    if simulation.stops['A'].passengers:
+                        generated.append(simulation.stops['A'].passengers[0].count)
 
                 for i in range(len(generated) - 1, 0, -1):
                     generated[i] -= generated[i - 1]
+                    model.append(np.random.poisson(2))
+                model.append(np.random.poisson(2))
+                generated = np.sort(np.array(generated))
+                model = np.sort(np.array(model))
+                res = sum(np.abs(generated - model) != 0)
 
-                prob = st.poisson.cdf(generated, 2)
-                print(prob)
-                assert 3 == 6
+                assert res / len(
+                    generated) <= 0.02, " jak nie dziolo to odpalic od nowa i nie narzekac, " \
+                                        "bo tak naprawde dziala tylko czasem nie"
