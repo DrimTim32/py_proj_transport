@@ -1,4 +1,5 @@
 import sys
+import time
 
 from core.configuration import config
 from core.simulation.simulation import Simulation
@@ -11,7 +12,9 @@ def read_configuration():
 def entrypoint():
     configuration = read_configuration()
     simulation = Simulation(configuration)
-    simulation.mainloop()
+    while True:
+        simulation.refresh()
+        time.sleep(0.2)
 
 
 def main():
