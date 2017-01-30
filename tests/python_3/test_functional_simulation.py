@@ -92,7 +92,7 @@ class SimulationTest(TestBase):
             with patch('core.configuration.Config.lines_dict', new_callable=PropertyMock) as mock_lines_dict:
                 with patch('core.configuration.Config.traffic_data_dict',
                            new_callable=PropertyMock) as mock_traffic_dict:
-                    class mocked_generator:
+                    class MockedGenerator:
                         def __init__(self, empty_argument):
                             self.done = False
 
@@ -124,7 +124,7 @@ class SimulationTest(TestBase):
                                                       'C': {'E': 0, 'F': 1, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
                                                       'B': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0}}
 
-                    simulation = Simulation(config, mocked_generator)
+                    simulation = Simulation(config, MockedGenerator)
                     simulation.refresh()
 
                     self.are_lists_equal(simulation.stops['C'].passengers, [PassengersGroup('F', 1)],
@@ -178,7 +178,7 @@ class SimulationTest(TestBase):
             with patch('core.configuration.Config.lines_dict', new_callable=PropertyMock) as mock_lines_dict:
                 with patch('core.configuration.Config.traffic_data_dict',
                            new_callable=PropertyMock) as mock_traffic_dict:
-                    class mocked_generator:
+                    class MockedGenerator:
                         def __init__(self, empty_argument):
                             self.done = False
 
@@ -210,7 +210,7 @@ class SimulationTest(TestBase):
                                                       'C': {'E': 0, 'F': 1, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
                                                       'B': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0}}
 
-                    simulation = Simulation(config, mocked_generator)
+                    simulation = Simulation(config, MockedGenerator)
                     simulation.refresh()
 
                     self.are_lists_equal(simulation.stops['C'].passengers, [PassengersGroup('F', 1)],
@@ -229,7 +229,7 @@ class SimulationTest(TestBase):
             with patch('core.configuration.Config.lines_dict', new_callable=PropertyMock) as mock_lines_dict:
                 with patch('core.configuration.Config.traffic_data_dict',
                            new_callable=PropertyMock) as mock_traffic_dict:
-                    class mocked_generator:
+                    class MockedGenerator:
                         def __init__(self, empty_argument):
                             self.done = False
 
@@ -261,7 +261,7 @@ class SimulationTest(TestBase):
                                                       'C': {'E': 0, 'F': 1, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
                                                       'B': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0}}
 
-                    simulation = Simulation(config, mocked_generator)
+                    simulation = Simulation(config, MockedGenerator)
                     for _ in range(11):
                         simulation.refresh()
                     k = 0

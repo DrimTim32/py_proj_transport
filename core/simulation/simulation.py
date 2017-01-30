@@ -13,6 +13,7 @@ class Simulation:
         :param config
         :type config: Config
         """
+        Bus.BUS_COUNTER = 0
         self.finished = False
         self.steps = -1
         self.__buses = []
@@ -50,7 +51,7 @@ class Simulation:
         """
         if not self.finished:
             self.__update()
-            self._print()
+            # self._print()
 
     def _print(self):
         """
