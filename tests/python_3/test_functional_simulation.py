@@ -87,7 +87,7 @@ class SimulationTest(TestBase):
                     self.assertEqual(path, paths)
 
     def test_graph_and_lines_transfer(self):
-        """Tests simulation with graph and lines"""
+        """Tests simulation with graph and lines - choosing better way"""
         with patch('core.configuration.Config.graph_dict', new_callable=PropertyMock) as mock_graph_dict:
             with patch('core.configuration.Config.lines_dict', new_callable=PropertyMock) as mock_lines_dict:
                 with patch('core.configuration.Config.traffic_data_dict',
@@ -105,7 +105,7 @@ class SimulationTest(TestBase):
                     mock_graph_dict.return_value = {'A': [('B', 2), ('D', 2)],
                                                     'B': [('A', 2), ('C', 100), ('E', 2)],
                                                     'C': [('B', 100), ('D', 2)],
-                                                    'D': [('A', 2), ('C', 3)],
+                                                    'D': [('A', 2), ('C', 2)],
                                                     'E': [('B', 2), ('F', 2)],
                                                     'F': [('E', 2)]}
                     mock_lines_dict.return_value = {
@@ -171,3 +171,103 @@ class SimulationTest(TestBase):
                     for _ in range(6):
                         simulation.refresh()
                     self.are_lists_equal(buuu.passengers, [], passenger_group_equality)
+
+    def test_graph_and_lines_transfer_2(self):
+        """Tests simulation with graph and lines - duplication"""
+        with patch('core.configuration.Config.graph_dict', new_callable=PropertyMock) as mock_graph_dict:
+            with patch('core.configuration.Config.lines_dict', new_callable=PropertyMock) as mock_lines_dict:
+                with patch('core.configuration.Config.traffic_data_dict',
+                           new_callable=PropertyMock) as mock_traffic_dict:
+                    class mocked_generator:
+                        def __init__(self, empty_argument):
+                            self.done = False
+
+                        def generate(self, src, dest):
+                            if not self.done and src == 'C' and dest == 'F':
+                                self.done = True
+                                return 1
+                            return 0
+
+                    mock_graph_dict.return_value = {'A': [('B', 2), ('D', 2)],
+                                                    'B': [('A', 2), ('C', 2), ('E', 2)],
+                                                    'C': [('B', 2), ('D', 2)],
+                                                    'D': [('A', 2), ('C', 2)],
+                                                    'E': [('B', 2), ('F', 2)],
+                                                    'F': [('E', 2)]}
+                    mock_lines_dict.return_value = {
+                        0: {'id': 0, 'bus_capacity': 20, 'frequency1': 1000, 'frequency2': 1000,
+                            'route1': ['B', 'A', 'D', 'C'],
+                            'route2': ['C', 'D', 'A', 'B']},
+                        1: {'id': 1, 'bus_capacity': 20, 'frequency1': 1000, 'frequency2': 1000,
+                            'route1': ['C', 'B', 'E', 'F'],
+                            'route2': ['F', 'E', 'B', 'C']}}
+                    config = Config({}, {}, {}, {})
+                    config.stops = ["A", "B", "C", "D", "E", "F"]
+                    mock_traffic_dict.return_value = {'E': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
+                                                      'F': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
+                                                      'D': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
+                                                      'A': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
+                                                      'C': {'E': 0, 'F': 1, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
+                                                      'B': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0}}
+
+                    simulation = Simulation(config, mocked_generator)
+                    simulation.refresh()
+
+                    self.are_lists_equal(simulation.stops['C'].passengers, [PassengersGroup('F', 1)],
+                                         passenger_group_equality)
+                    simulation.refresh()
+                    self.are_lists_equal(simulation.stops['C'].passengers, [],
+                                         passenger_group_equality)
+                    k = 0
+                    for bus in simulation.buses:
+                        k += bus.count
+                    self.are_equal(k, 1)
+
+    def test_graph_and_lines_transfer_3(self):
+        """Tests simulation with graph and lines - looong bus stops"""
+        with patch('core.configuration.Config.graph_dict', new_callable=PropertyMock) as mock_graph_dict:
+            with patch('core.configuration.Config.lines_dict', new_callable=PropertyMock) as mock_lines_dict:
+                with patch('core.configuration.Config.traffic_data_dict',
+                           new_callable=PropertyMock) as mock_traffic_dict:
+                    class mocked_generator:
+                        def __init__(self, empty_argument):
+                            self.done = False
+
+                        def generate(self, src, dest):
+                            if not self.done and src == 'C' and dest == 'F':
+                                self.done = True
+                                return 1
+                            return 0
+
+                    mock_graph_dict.return_value = {'A': [('B', 2), ('D', 2)],
+                                                    'B': [('A', 2), ('C', 2), ('E', 2)],
+                                                    'C': [('B', 8), ('D', 2)],
+                                                    'D': [('A', 2), ('C', 2)],
+                                                    'E': [('B', 2), ('F', 2)],
+                                                    'F': [('E', 2)]}
+                    mock_lines_dict.return_value = {
+                        0: {'id': 0, 'bus_capacity': 20, 'frequency1': 1000, 'frequency2': 1000,
+                            'route1': ['B', 'A', 'D', 'C'],
+                            'route2': ['C', 'D', 'A', 'B']},
+                        1: {'id': 1, 'bus_capacity': 20, 'frequency1': 1000, 'frequency2': 1000,
+                            'route1': ['C', 'B', 'E', 'F'],
+                            'route2': ['F', 'E', 'B', 'C']}}
+                    config = Config({}, {}, {}, {})
+                    config.stops = ["A", "B", "C", "D", "E", "F"]
+                    mock_traffic_dict.return_value = {'E': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
+                                                      'F': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
+                                                      'D': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
+                                                      'A': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
+                                                      'C': {'E': 0, 'F': 1, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
+                                                      'B': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0}}
+
+                    simulation = Simulation(config, mocked_generator)
+                    for _ in range(11):
+                        simulation.refresh()
+                    k = 0
+                    for bus in simulation.buses:
+                        if bus.line.number == 1 and bus.route == 0:
+                            k += 1
+                            self.are_lists_equal(bus.passengers, [PassengersGroup('F', 1)],
+                                                 passenger_group_equality)
+                    self.are_equal(k, 1)
