@@ -23,6 +23,8 @@ class PoissonPassengerGenerator:
         Generates passengers
         :param origin: origin stop name
         :param destination: destination stop name
+        :type origin: str
+        :type destination: str
         :return: how many passengers heading to deastination stop will be added to origin stop
         :rtype: int
         """
