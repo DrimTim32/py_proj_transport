@@ -5,7 +5,6 @@ import pytest
 
 from core.data_structures import Graph, Node
 from core.simulation import Stop, Simulation, Bus, PassengersGroup
-from core.simulation.generators import BusGenerator
 from core.simulation.line import LineStop, Line
 from tests_utils.helpers import get_full_class_name
 
@@ -17,7 +16,6 @@ from tests_utils.helpers import get_full_class_name
     (Bus, "core.simulation.bus.Bus"),
     (Graph, "core.data_structures.graph.Graph"),
     (Node, "core.data_structures.graph.Node"),
-    (BusGenerator, "core.simulation.generators.bus_generator.BusGenerator"),
     (LineStop, "core.simulation.line.LineStop"),
     (Line, "core.simulation.line.Line"),
 ])

@@ -1,8 +1,7 @@
-import numpy as np
-
 """
 File containing PoissonPassengerGenerator class
 """
+import numpy as np
 
 
 class PoissonPassengerGenerator:

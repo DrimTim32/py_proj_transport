@@ -1,7 +1,10 @@
+"""
+File containing main Simulation class
+"""
 from core.data_structures import Graph
 from core.simulation import Bus
 from core.simulation import PassengersGroup
-from core.simulation.generators import BusGenerator, PoissonPassengerGenerator
+from core.simulation.generators import PoissonPassengerGenerator
 from core.simulation.line import LineStop, Line
 from core.simulation.stop import Stop
 
@@ -22,15 +25,8 @@ class Simulation:
         self.__create_stops(config.stops)
         self.__graph = Graph.from_config(config.graph_dict)
         self.__create_lines(config.lines_dict)
-        self.__bus_generator = BusGenerator()
         self.__passengers_generator = passenger_generator(config.traffic_data_dict)
-        """
-                   A - 1 - B - 2 - C - 1 - D
-                   |       |
-                   1       5
-                   |       |
-                   E - 1 - F
-        """
+
 
     @property
     def buses(self):
@@ -51,7 +47,7 @@ class Simulation:
         """
         if not self.finished:
             self.__update()
-            # self._print()
+            self._print()
 
     def _print(self):
         """

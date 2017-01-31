@@ -1,3 +1,6 @@
+"""
+File containing Line class
+"""
 from collections import namedtuple
 
 LineStop = namedtuple('LineStop', ['name', 'time_to_next_stop'])
