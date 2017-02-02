@@ -27,7 +27,6 @@ class Simulation:
         self.__create_lines(config.lines_dict)
         self.__passengers_generator = passenger_generator(config.traffic_data_dict)
 
-
     @property
     def buses(self):
         return self.__buses
@@ -64,6 +63,13 @@ class Simulation:
                 if bus.passengers:
                     for group in bus.passengers:
                         print(group.destination, group.count)
+            for stop in self.__stops.values():
+                print(stop.name, "________________")
+                if stop.passengers:
+                    wait = 0
+                    for group in stop.passengers:
+                        print(group.destination, group.count)
+
                 else:
                     print(0)
 
