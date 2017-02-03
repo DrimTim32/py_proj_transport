@@ -1,2 +1,4 @@
-from core.data_structures.graph import Graph, Node, connect_both
-from core.data_structures.transport_structures import Bus, PassengersGroup
+"""
+Package contains graph data structure
+"""
+from .graph import Graph, Node, connect_both

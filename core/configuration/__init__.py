@@ -1,1 +1,1 @@
-from core.configuration import *
+from .config import Config

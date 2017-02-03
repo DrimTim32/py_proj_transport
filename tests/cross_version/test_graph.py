@@ -1,17 +1,21 @@
+"""
+This file contains Graph class tests
+"""
 import unittest
-
 from core.data_structures.graph import Node, Graph, connect_both
 
 
 class GraphTests(unittest.TestCase):
+    """
+    Test suite for graph
+    """
+
     def test_graph_creation(self):
+        """Test graph creation"""
         nodes = []
         for letter in "ABCDEF":
             nodes.append(Node(letter))
         graph = Graph(nodes)
-
-    def connect_nodes_without_lines(self, node, node2, dist):
-        connect_both(node, node2, dist)
 
     def assert_path_len(self, graph, node1, node2, len, msg=None):
         tmp = graph.get_path_between(node1, node2)[1]
@@ -40,7 +44,7 @@ class GraphTests(unittest.TestCase):
             self.assert_path_len(graph, a, b, i, "between {0} and {1} should be {2}".format(a, b, i))
 
         def conn_nod(a, b, len):
-            self.connect_nodes_without_lines(nodes[a], nodes[b], len)
+            connect_both(nodes[a], nodes[b], len)
 
         connection_list = [
             ("A", "E", 2), ("A", "B", 4), ("A", "D", 1), ("B", "D", 2),
@@ -87,7 +91,7 @@ class GraphTests(unittest.TestCase):
             nodes[letter] = Node(letter)
 
         def conn_nod(a, b, len):
-            self.connect_nodes_without_lines(nodes[a], nodes[b], len)
+            connect_both(nodes[a], nodes[b], len)
 
         def ass_path_len(a, b, i):
             self.assert_path_len(graph, a, b, i, "between {0} and {1} should be {2}".format(a, b, i))
@@ -117,7 +121,7 @@ class GraphTests(unittest.TestCase):
             nodes[name] = Node(name)
 
         def conn_nod(a, b, len):
-            self.connect_nodes_without_lines(nodes[a], nodes[b], len)
+            connect_both(nodes[a], nodes[b], len)
 
         nodes_list = [node for node in nodes.values()]
         for i in range(0, len(stops_common) - 1):
@@ -142,7 +146,7 @@ class GraphTests(unittest.TestCase):
             nodes[name] = Node(name)
 
         def conn_nod(a, b, len):
-            self.connect_nodes_without_lines(nodes[a], nodes[b], len)
+            connect_both(nodes[a], nodes[b], len)
 
         def ass_path_len(a, b, i):
             self.assert_path_len(graph, a, b, i, "between {0} and {1} should be {2}".format(a, b, i))
@@ -160,8 +164,6 @@ class GraphTests(unittest.TestCase):
             for q in range(0, len(stops_common)):
                 self.assert_path_len(graph, stops_common[i], stops_common[q], abs(i - q) * 5)
 
-
-
     def test_get_edges(self):
         """
                   A - 1 - B - 2 - C - 1 - D
@@ -175,7 +177,7 @@ class GraphTests(unittest.TestCase):
             nodes[letter] = Node(letter)
 
         def conn_nod(a, b, len):
-            self.connect_nodes_without_lines(nodes[a], nodes[b], len)
+            connect_both(nodes[a], nodes[b], len)
 
         conn_nod("A", "B", 1)
         conn_nod("A", "E", 1)
@@ -185,9 +187,9 @@ class GraphTests(unittest.TestCase):
         conn_nod("D", "C", 1)
         graph = Graph([nodes[key] for key in nodes])
 
-        self.assertEqual(graph["A","B"],1)
-        self.assertEqual(graph["A","E"],1)
-        self.assertEqual(graph["E","F"],1)
-        self.assertEqual(graph["F","B"],5)
-        self.assertEqual(graph["B","C"],2)
-        self.assertEqual(graph["D","C"],1)
+        self.assertEqual(graph["A", "B"], 1)
+        self.assertEqual(graph["A", "E"], 1)
+        self.assertEqual(graph["E", "F"], 1)
+        self.assertEqual(graph["F", "B"], 5)
+        self.assertEqual(graph["B", "C"], 2)
+        self.assertEqual(graph["D", "C"], 1)
