@@ -1,7 +1,13 @@
+"""
+File containing Config class
+"""
 import json
 
 
 class Config:
+    """
+    Configuration class
+    """
     def __init__(self, stops, connections, lines, traffic_data):
         self.stops = stops
         self.connections = connections
@@ -9,9 +15,15 @@ class Config:
         self.traffic_data = traffic_data
 
     @staticmethod
-    def from_config_file(file):
-        f = open(file)
-        data = json.load(f)
+    def from_config_file(file_name):
+        """
+        :param file_name: name of file with configuration
+        :type file_name: str
+        :return: Config object constructed from given file
+        :rtype: Config
+        """
+        file = open(file_name)
+        data = json.load(file)
         return Config(data['stops'], data['connections'], data['lines'], data['traffic_data'])
 
     @property

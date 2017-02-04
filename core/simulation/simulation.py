@@ -1,50 +1,52 @@
-import time
-
+"""
+File containing main Simulation class
+"""
 from core.data_structures import Graph
 from core.simulation import Bus
 from core.simulation import PassengersGroup
-from core.simulation.generators import BusGenerator, PoissonPassengerGenerator
+from core.simulation.generators import PoissonPassengerGenerator
 from core.simulation.line import LineStop, Line
 from core.simulation.stop import Stop
 
 
 class Simulation:
-    def __init__(self, config):
+    def __init__(self, config, passenger_generator=PoissonPassengerGenerator):
         """
         Read configuration and do sth with it
         :param config
         :type config: Config
         """
+        Bus.BUS_COUNTER = 0
         self.finished = False
         self.steps = -1
-        self._buses = []
+        self.__buses = []
         self.__lines = []
         self.__stops = {}
         self.__create_stops(config.stops)
-        # self.__stops['F'].passengers.append(PassengersGroup('A', 25))
-        # self.__stops['D'].passengers.append(PassengersGroup('C', 20))
-        # self.__stops['D'].passengers.append(PassengersGroup('B', 35))
         self.__graph = Graph.from_config(config.graph_dict)
         self.__create_lines(config.lines_dict)
-        self.__bus_generator = BusGenerator()
-        self.__passengers_generator = PoissonPassengerGenerator(config.traffic_data_dict)
-        """
-                   A - 1 - B - 2 - C - 1 - D
-                   |       |
-                   1       5
-                   |       |
-                   E - 1 - F
-        """
+        self.__passengers_generator = passenger_generator(config.traffic_data_dict)
 
-    def mainloop(self):
+    @property
+    def buses(self):
+        return self.__buses
+
+    @property
+    def stops(self):
+        return self.__stops
+
+    @property
+    def lines(self):
+        return self.__lines
+
+    def refresh(self):
         """
         Main loop
         :return: None
         """
-        while not self.finished:
+        if not self.finished:
             self.__update()
             self._print()
-            time.sleep(0.1)
 
     def _print(self):
         """
@@ -54,13 +56,20 @@ class Simulation:
         if self.steps >= 1:
             print('________________________________________________________')
             print('STEP ', self.steps)
-            for bus in self._buses:
+            for bus in self.__buses:
                 print('Bus{ id:', bus.id, 'line:', bus.line.number, 'route:', bus.route, 'last stop:',
                       bus.current_stop_name,
                       ' next stop:', bus.next_stop_name, 'time to next:', bus.time_to_next_stop)
                 if bus.passengers:
                     for group in bus.passengers:
                         print(group.destination, group.count)
+            for stop in self.__stops.values():
+                print(stop.name, "________________")
+                if stop.passengers:
+                    wait = 0
+                    for group in stop.passengers:
+                        print(group.destination, group.count)
+
                 else:
                     print(0)
 
@@ -94,11 +103,11 @@ class Simulation:
                             source_stop.passengers.append(PassengersGroup(dest, new_passengers))
 
     def __update_buses(self):
-        for bus in self._buses:
+        for bus in self.__buses:
             bus.move()
 
     def __update_passengers(self):
-        for bus in self._buses:
+        for bus in self.__buses:
             if bus.time_to_next_stop == 0:
                 Simulation.__transfer_out(self.__stops[bus.current_stop_name], bus)
                 self.__transfer_between(self.__stops[bus.current_stop_name], bus)
@@ -141,12 +150,12 @@ class Simulation:
             new_buses = line.tick()
             for i in range(len(new_buses)):
                 if new_buses[i]:
-                    self._buses.append(Bus(line, i))
+                    self.__buses.append(Bus(line, i))
 
     def __clean_buses(self):
-        q = [bus for bus in self._buses if bus.current_stop == bus.line.last_stop(bus.route)]
-        for b in q:
-            self._buses.remove(b)
+        buses_to_remove = [bus for bus in self.__buses if bus.current_stop == bus.line.last_stop(bus.route)]
+        for bus in buses_to_remove:
+            self.__buses.remove(bus)
 
     def __create_lines(self, lines):
         for line in lines.values():

@@ -1,3 +1,8 @@
+"""
+File containing Bus class
+"""
+
+
 class Stop:
     """
     Bus Stop class
@@ -16,13 +21,17 @@ class Stop:
         :return: number of passengers waiting for bus to specific destination
         :rtype: int
         """
-        c = 0
+        count = 0
         for group in self.passengers:
             if group.destination == destination:
-                c = group.count
+                count = group.count
                 break
-        return c
+        return count
 
     @property
     def name(self):
+        """
+        :return: name of stop
+        :rtype str
+        """
         return self.__name

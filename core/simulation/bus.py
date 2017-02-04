@@ -1,10 +1,9 @@
-from random import shuffle
-
-from core.simulation.passenger_group import PassengersGroup
-
 """
 File containing Bus class
 """
+from random import shuffle
+
+from core.simulation.passenger_group import PassengersGroup
 
 
 class Bus:
@@ -157,16 +156,17 @@ class Bus:
                 i += 1
             if i == len(group_list):
                 group_list.append(PassengersGroup(passenger, 1))
+
     @property
     def count(self):
         """
         :return: number of passengers in bus
         :rtype: int
         """
-        c = 0
+        count = 0
         for group in self.passengers:
-            c += group.count
-        return c
+            count += group.count
+        return count
 
     @property
     def time_to_next_stop(self):
