@@ -1,6 +1,7 @@
 import sys
 import time
 
+sys.path.append('../../')
 from core.configuration import config
 from core.simulation.simulation import Simulation
 
