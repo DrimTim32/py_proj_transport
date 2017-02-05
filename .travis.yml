@@ -9,5 +9,6 @@ branches:
     - bartek
     - malin-develop
     - ania
+    - master
 script:
     - python setup.py test

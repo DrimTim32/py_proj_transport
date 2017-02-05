@@ -1,29 +1,33 @@
+"""This file contains main file for Cracow demo"""
 import sys
 import time
 
-from core.configuration import config
-from core.simulation.simulation import Simulation
+sys.path.append('../../')
+from core.configuration.config import Config
+from core.simulation import simulation as sim
 
 
 def read_configuration():
-    return config.Config.from_config_file("config.json")
+    """Reads configuration from json file"""
+    return Config.from_config_file("config.json")
 
 
 def entrypoint():
+    """Main entrypoint for application, here logic is executed"""
     configuration = read_configuration()
-    simulation = Simulation(configuration)
+    simulation = sim.Simulation(configuration)
     while True:
         simulation.refresh()
         time.sleep(0.2)
 
 
 def main():
-    entrypoint()
-    # try:
-    #     entrypoint()
-    # except Exception as e:
-    #     print("{0}, message : {1}".format(sys.stderr, e))
-    #     return 2
+    """Start function"""
+    try:
+        entrypoint()
+    except Exception as exception_info:
+        print("{0}, message : {1}".format(sys.stderr, exception_info))
+        return 2
 
 
 if __name__ == "__main__":
