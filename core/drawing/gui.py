@@ -1,12 +1,8 @@
 """This file contains GUI class"""
 import sys
 
-if sys.version_info[0] >= 3:
-    import tkinter as tk
-    from tkinter import ttk
-else:
-    import Tkinter as tk
-    import ttk
+import tkinter as tk
+import tkinter.ttk as ttk
 
 
 class GUI():
