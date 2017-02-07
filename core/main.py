@@ -1,10 +1,8 @@
 import sys
-import time
 
 from configuration import config
-from simulation.simulation import Simulation
-
 from core.drawing.gui import GUI
+from simulation.simulation import Simulation
 
 
 def read_configuration():
@@ -15,9 +13,7 @@ def entrypoint():
     configuration = read_configuration()
     simulation = Simulation(configuration)
     GUI(simulation).run()
-    # while True:
-    #     simulation.refresh()
-    #     time.sleep(0.2)
+
     exit()
 
 
@@ -31,6 +27,7 @@ def main():
     # except Exception as e:
     #     print("{0}, message : {1}".format(sys.stderr, e))
     #     return 2
+
 
 if __name__ == "__main__":
     sys.exit(main())

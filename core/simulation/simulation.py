@@ -3,9 +3,9 @@ File containing main Simulation class
 """
 from data_structures import Graph
 from .bus import Bus
-from .passenger_group import PassengersGroup
 from .generators import PoissonPassengerGenerator
 from .line import LineStop, Line
+from .passenger_group import PassengersGroup
 from .stop import Stop
 
 
@@ -46,7 +46,7 @@ class Simulation:
         """
         if not self.finished:
             self.__update()
-            self._print()
+            # self._print()
 
     def _print(self):
         """
