@@ -1,3 +1,4 @@
+"""This file contains main method for project"""
 import sys
 
 from configuration import config
@@ -18,6 +19,7 @@ def entry_point(path):
     configuration = read_configuration(path)
     print("Configuration readed succesfully.")
     simulation = Simulation(configuration)
+    print("Running simulation.")
     GUI(simulation).run()
     exit()
 
