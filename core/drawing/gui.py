@@ -3,27 +3,30 @@ import tkinter as tk
 from tkinter import ttk
 import collections
 
-class displayWidget():
-    def __init__(self, note, parent, simulation):
+class GUI():
+    def __init__(self, simulation):
+        self.simulation = simulation
+        self.root = tk.Tk()
+        self.note = ttk.Notebook(self.root)
         self.tab1 = []
         self.tab2 = []
         self.tab3 = []
-        self.note = note
-        self.root = parent
-        self.simulation = simulation
+        self.button = []
+        self.create_tabs()
+        self.create_tables()
+        self.root.resizable(height=False, width=False)
+        self.go = True
 
     def create_tabs(self, *args):
-
         self.tab1 = tk.Frame(self.note)
         self.tab2 = tk.Frame(self.note)
         self.tab3 = tk.Frame(self.note)
-        self.buttonb = tk.Button(self.root, text = 'Pause', command = self.root.destroy).pack(side = tk.BOTTOM)
+        self.button = tk.Button(self.root, text = 'Pause', command = self.pause).pack(side = tk.BOTTOM)
 
         self.note.add(self.tab1, text = "     Lines       ")
         self.note.add(self.tab2, text = "     Stops       ")
         self.note.add(self.tab3, text = "     Buses       ")
         self.note.pack(side = tk.TOP)
-        # self.button = tk.Button(self.note, text='Pause', command=self.root.destroy).pack(side=tk.BOTTOM)
 
 
     def create_tables(self):
@@ -119,26 +122,16 @@ class displayWidget():
         cols.append(e)
 
 
-class GUI():
-    def __init__(self, simulation):
-        self.simulation = simulation
-        self.root = tk.Tk()
-        self.note = ttk.Notebook(self.root)
-        self.D = displayWidget(self.note, self.root, self.simulation)
-        self.D.create_tabs()
-        self.D.create_tables()
-        self.root.resizable(height=False, width=False)
-        self.go = True
-
 
     def run(self):
         self.root.after(1000, self.my_mainloop)
         self.root.mainloop()
 
-
+    def pause(self):
+        print("PAUSE")
 
     def my_mainloop(self):
         self.simulation.refresh()
-        self.D.create_tables()
+        self.create_tables()
         self.root.after(3000, self.my_mainloop)
 
