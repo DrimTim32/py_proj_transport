@@ -30,7 +30,7 @@ class GUI():
         self.root.resizable(height=False, width=False)
         self.is_executing = True
 
-    def __create_tabs(self, *args):
+    def __create_tabs(self):
         """
         creates three tabs in GUI
         :return: None
@@ -117,11 +117,11 @@ class GUI():
             self.__add_item(all_stops_info[current_stop][0], self.tab2, current_stop + 1, 0, cols)
             for destination_stop in range(nr_stops):
                 if sys.version_info[0] >= 3:
-                    self.__add_item(all_stops_info[current_stop][1].count(all_stops_info[destination_stop][0]), self.tab2,
-                                  i, j + 1, cols)
+                    self.__add_item(all_stops_info[current_stop][1].count(all_stops_info[destination_stop][0]),
+                                    self.tab2, i, j + 1, cols)
                 else:
                     self.__add_item(all_stops_info[current_stop][1].count(all_stops_info[destination_stop][0]),
-                                   self.tab2, i, j + 1, cols)
+                                    self.tab2, i, j + 1, cols)
                 j += 1
             rows.append(cols)
             i += 1
@@ -163,10 +163,10 @@ class GUI():
         adds single item to grid
         :return: None
         """
-        e = tk.Entry(grid)
-        e.grid(row=i, column=j, sticky=tk.NSEW)
-        e.insert(tk.END, item)
-        cols.append(e)
+        entry = tk.Entry(grid)
+        entry.grid(row=i, column=j, sticky=tk.NSEW)
+        entry.insert(tk.END, item)
+        cols.append(entry)
 
     def run(self):
         """
