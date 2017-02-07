@@ -4,6 +4,8 @@ import time
 from configuration import config
 from simulation.simulation import Simulation
 
+from core.drawing.gui import GUI
+
 
 def read_configuration():
     return config.Config.from_config_file("config.json")
@@ -12,13 +14,18 @@ def read_configuration():
 def entrypoint():
     configuration = read_configuration()
     simulation = Simulation(configuration)
-    while True:
-        simulation.refresh()
-        time.sleep(0.2)
+    GUI(simulation).run()
+    # while True:
+    #     simulation.refresh()
+    #     time.sleep(0.2)
+    exit()
 
 
 def main():
     entrypoint()
+
+
+
     # try:
     #     entrypoint()
     # except Exception as e:

@@ -1,16 +1,16 @@
 import sys
 import tkinter as tk
 from tkinter import ttk
+import collections
 
 class displayWidget():
-    def __init__(self, note, parent, simulation, configuration):
+    def __init__(self, note, parent, simulation):
         self.tab1 =[]
         self.tab2 = []
         self.tab3 = []
         self.note = note
         self.root = parent
         self.simulation = simulation
-        self.configuration = configuration
 
     def create_tabs(self, *args):
         self.tab1 = tk.Frame(self.note)
@@ -27,15 +27,9 @@ class displayWidget():
 
 
     def create_tables(self):
-        rows = []
-        for i in range(5):
-            cols = []
-            for j in range(5):
-                e = tk.Entry(self.tab1)
-                e.grid(row=i, column=j, sticky=tk.NSEW)
-                e.insert(tk.END, '%d.%d' % (i, j))
-                cols.append(e)
-            rows.append(cols)
+        self.create_lines_table()
+        self.create_stops_table()
+        self.create_buses_table()
 
     def create_lines_table(self):
         i = 0
@@ -66,27 +60,27 @@ class displayWidget():
             rows.append(cols)
 
     def create_stops_table(self):
-        # i = 0
-        # stops_count = len(self.configuration.stops)
-        # rows = []
-        # cols = []
-        # self.add_item('name', self.tab2, i, 0, cols)
-        #
-        # for j in range(stops_count):
-        #     self.add_item(('to ' + self.configuration.stops[j]), self.tab2, i, j+1, cols)
-        # rows.append(cols)
-        # i += 1
-        #
-        # for stop in self.configuration.stops:
-        #     cols = []
-        #     self.add_item(stop, self.tab2, i, 0, cols)
-        #     for j in range(stops_count):
-        #         passengers = self.simulation.stops[stop].count(self.configuration.stops[j])
-        #         self.add_item(passengers, self.tab2, i, j + 1, cols)
-        #     rows.append(cols)
-        #     i += 1
-        #     rows.append(cols)
-        pass
+        all_stops_info = collections.OrderedDict(sorted(self.simulation.stops.items()))
+        i = 0
+        rows = []
+        cols = []
+        self.add_item('name', self.tab2, i, 0, cols)
+        j = 0
+        for key in all_stops_info.keys():
+            self.add_item(('to ' + key), self.tab2, i, j+1, cols)
+            j += 1
+        rows.append(cols)
+        i += 1
+
+        for current_stop in all_stops_info:
+            cols = []
+            j = 0
+            self.add_item(current_stop, self.tab2, i, 0, cols)
+            for destination_stop in all_stops_info.keys():
+                self.add_item(all_stops_info[current_stop].count(destination_stop), self.tab2, i, j + 1, cols)
+                j += 1
+            rows.append(cols)
+            i += 1
 
     def create_buses_table(self):
         i = 0
@@ -123,16 +117,13 @@ class displayWidget():
 
 
 class GUI():
-    def __init__(self, simulation, configuration):
+    def __init__(self, simulation):
         self.simulation = simulation
-        self.configuration = configuration
         self.root = tk.Tk()
         self.note = ttk.Notebook(self.root)
-        self.D = displayWidget(self.note, self.root, self.simulation, self.configuration)
+        self.D = displayWidget(self.note, self.root, self.simulation)
         self.D.create_tabs()
-        self.D.create_lines_table()
-        self.D.create_stops_table()
-        self.D.create_buses_table()
+        self.D.create_tables()
         self.root.resizable(height=False, width=False)
 
 
