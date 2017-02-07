@@ -35,11 +35,6 @@ class displayWidget():
         i = 0
         rows = []
         cols = []
-        # tk.Label(self.tab1, text="number").grid(row=0)
-        # tk.Label(self.tab1, text="last stop").grid(row=1)
-        # tk.Label(self.tab1, text="route").grid(row=2)
-        # tk.Label(self.tab1, text="frequency").grid(row=3)
-        # tk.Label(self.tab1, text="bus capacity").grid(row=4)
         self.add_item('number', self.tab1, i, 0, cols)
         self.add_item('last stop', self.tab1, i, 1, cols)
         self.add_item('route', self.tab1, i, 2, cols)
@@ -51,14 +46,16 @@ class displayWidget():
             cols = []
             self.add_item(line.number, self.tab1, i, 0, cols)
             self.add_item(line.last_stop_name(0), self.tab1, i, 1, cols)
-            self.add_item(line.routes[0], self.tab1, i, 2, cols)
+            r = [stop.name for stop in line.routes[0] if stop.name != "P"]
+            self.add_item(r, self.tab1, i, 2, cols)
             self.add_item(line.frequencies[0], self.tab1, i, 3, cols)
             self.add_item(line.bus_capacity, self.tab1, i, 4, cols)
             i += 1
             cols = []
             self.add_item(line.number, self.tab1, i, 0, cols)
             self.add_item(line.last_stop_name(1), self.tab1, i, 1, cols)
-            self.add_item(line.routes[1], self.tab1, i, 2, cols)
+            r = [stop.name for stop in line.routes[1] if stop.name != "P"]
+            self.add_item(r, self.tab1, i, 2, cols)
             self.add_item(line.frequencies[1], self.tab1, i, 3, cols)
             self.add_item(line.bus_capacity, self.tab1, i, 4, cols)
             i += 1
@@ -105,7 +102,8 @@ class displayWidget():
             cols = []
             self.add_item(bus.id, self.tab3, i, 0, cols)
             self.add_item(bus.line.number, self.tab3, i, 1, cols)
-            self.add_item(bus.route, self.tab3, i, 2, cols)
+            r = [stop.name for stop in bus.line.routes[bus.route] if stop.name != "P"]
+            self.add_item(r, self.tab3, i, 2, cols)
             self.add_item(bus.current_stop_name, self.tab3, i, 3, cols)
             self.add_item(bus.next_stop_name, self.tab3, i, 4, cols)
             self.add_item(bus.time_to_next_stop, self.tab3, i, 5, cols)
@@ -139,8 +137,7 @@ class GUI():
 
 
     def my_mainloop(self):
-        print("Hello World!")
         self.simulation.refresh()
         self.D.create_tables()
-        self.root.after(1000, self.my_mainloop)
+        self.root.after(3000, self.my_mainloop)
 
