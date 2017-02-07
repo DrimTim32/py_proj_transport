@@ -35,6 +35,11 @@ class displayWidget():
         i = 0
         rows = []
         cols = []
+        # tk.Label(self.tab1, text="number").grid(row=0)
+        # tk.Label(self.tab1, text="last stop").grid(row=1)
+        # tk.Label(self.tab1, text="route").grid(row=2)
+        # tk.Label(self.tab1, text="frequency").grid(row=3)
+        # tk.Label(self.tab1, text="bus capacity").grid(row=4)
         self.add_item('number', self.tab1, i, 0, cols)
         self.add_item('last stop', self.tab1, i, 1, cols)
         self.add_item('route', self.tab1, i, 2, cols)
@@ -99,7 +104,7 @@ class displayWidget():
         for bus in self.simulation.buses:
             cols = []
             self.add_item(bus.id, self.tab3, i, 0, cols)
-            self.add_item(bus.line, self.tab3, i, 1, cols)
+            self.add_item(bus.line.number, self.tab3, i, 1, cols)
             self.add_item(bus.route, self.tab3, i, 2, cols)
             self.add_item(bus.current_stop_name, self.tab3, i, 3, cols)
             self.add_item(bus.next_stop_name, self.tab3, i, 4, cols)
@@ -128,7 +133,14 @@ class GUI():
 
 
     def run(self):
+        self.root.after(1000, self.my_mainloop)
         self.root.mainloop()
 
 
+
+    def my_mainloop(self):
+        print("Hello World!")
+        self.simulation.refresh()
+        self.D.create_tables()
+        self.root.after(1000, self.my_mainloop)
 
