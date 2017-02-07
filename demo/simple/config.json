@@ -1,4 +1,5 @@
 {
+  "tick": 1,
   "stops": ["A", "B", "C", "D", "E", "F"],
   "connections": {
     "A": [["B", 1]],
