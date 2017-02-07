@@ -1,12 +1,12 @@
 """
 File containing main Simulation class
 """
-from core.data_structures import Graph
-from core.simulation import Bus
-from core.simulation import PassengersGroup
-from core.simulation.generators import PoissonPassengerGenerator
-from core.simulation.line import LineStop, Line
-from core.simulation.stop import Stop
+from data_structures import Graph
+from .bus import Bus
+from .passenger_group import PassengersGroup
+from .generators import PoissonPassengerGenerator
+from .line import LineStop, Line
+from .stop import Stop
 
 
 class Simulation:

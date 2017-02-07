@@ -1,9 +1,8 @@
 import sys
 import time
 
-from core.configuration import config
-from core.drawing.gui import GUI
-from core.simulation.simulation import Simulation
+from configuration import config
+from simulation.simulation import Simulation
 
 
 def read_configuration():
@@ -13,18 +12,13 @@ def read_configuration():
 def entrypoint():
     configuration = read_configuration()
     simulation = Simulation(configuration)
-    GUI(simulation, configuration).run()
-    # while True:
-    #     simulation.refresh()
-    #     time.sleep(0.2)
-    exit()
+    while True:
+        simulation.refresh()
+        time.sleep(0.2)
 
 
 def main():
     entrypoint()
-
-
-
     # try:
     #     entrypoint()
     # except Exception as e:

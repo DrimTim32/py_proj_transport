@@ -3,7 +3,7 @@ File containing Bus class
 """
 from random import shuffle
 
-from core.simulation.passenger_group import PassengersGroup
+from .passenger_group import PassengersGroup
 
 
 class Bus:

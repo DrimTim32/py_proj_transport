@@ -3,10 +3,10 @@ This file contains functional tests bus generation
 """
 import sys
 
-from core import Bus
-from core.configuration import Config
-from core.simulation import Simulation
-
+from simulation import Bus
+from configuration import Config
+from simulation import Simulation
+from utils.helpers import get_full_class_name
 if sys.version_info[0] >= 3:
     from unittest.mock import PropertyMock, patch
 else:
@@ -15,9 +15,10 @@ else:
 
 def test_bus_generation():
     """Tests bus generation"""
-    with patch('core.configuration.Config.graph_dict', new_callable=PropertyMock) as mock_graph_dict:
-        with patch('core.configuration.Config.lines_dict', new_callable=PropertyMock) as mock_lines_dict:
-            with patch('core.configuration.Config.traffic_data_dict',
+    config_name = get_full_class_name(Config)
+    with patch(config_name + '.graph_dict', new_callable=PropertyMock) as mock_graph_dict:
+        with patch(config_name + '.lines_dict', new_callable=PropertyMock) as mock_lines_dict:
+            with patch(config_name + '.traffic_data_dict',
                        new_callable=PropertyMock) as mock_traffic_dict:
                 mock_graph_dict.return_value = {'A': [('B', 1)],
                                                 'B': [('A', 1)]}
