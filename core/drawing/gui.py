@@ -5,7 +5,7 @@ import collections
 
 class displayWidget():
     def __init__(self, note, parent, simulation):
-        self.tab1 =[]
+        self.tab1 = []
         self.tab2 = []
         self.tab3 = []
         self.note = note
@@ -13,11 +13,11 @@ class displayWidget():
         self.simulation = simulation
 
     def create_tabs(self, *args):
+
         self.tab1 = tk.Frame(self.note)
         self.tab2 = tk.Frame(self.note)
         self.tab3 = tk.Frame(self.note)
-        # self.buttonb = tk.Button(self.tab2, text = 'Pause', command = self.root.destroy).pack(side = tk.BOTTOM)
-        # self.buttonc = tk.Button(self.tab3, text = 'Pause', command = self.root.destroy).pack(side = tk.BOTTOM)
+        self.buttonb = tk.Button(self.root, text = 'Pause', command = self.root.destroy).pack(side = tk.BOTTOM)
 
         self.note.add(self.tab1, text = "     Lines       ")
         self.note.add(self.tab2, text = "     Stops       ")
@@ -128,6 +128,7 @@ class GUI():
         self.D.create_tabs()
         self.D.create_tables()
         self.root.resizable(height=False, width=False)
+        self.go = True
 
 
     def run(self):
