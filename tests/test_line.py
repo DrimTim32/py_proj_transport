@@ -2,7 +2,7 @@
 This file contains test for Line class
 """
 import unittest
-from core.simulation.line import Line, LineStop
+from simulation.line import Line, LineStop
 
 
 class LineTests(unittest.TestCase):

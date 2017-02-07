@@ -1,6 +1,6 @@
 import pytest
 
-from core.simulation.passenger_group import PassengersGroup
+from simulation.passenger_group import PassengersGroup
 
 @pytest.mark.parametrize(("dest", "count"),
                          [

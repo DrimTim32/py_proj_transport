@@ -2,9 +2,14 @@
 import sys
 import time
 
-sys.path.append('../../')
-from core.configuration.config import Config
-from core.simulation import simulation as sim
+if "core" not in sys.path[0]:
+    if "\\" in sys.path[0]:
+        sys.path.insert(0, '..\\..\\core')
+    else:
+        sys.path.insert(0, '../../core')
+
+from configuration.config import Config
+from simulation import simulation as sim
 
 
 def read_configuration():

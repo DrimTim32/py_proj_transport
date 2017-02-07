@@ -2,7 +2,7 @@
 This file contains Graph class tests
 """
 import unittest
-from core.data_structures.graph import Node, Graph, connect_both
+from data_structures.graph import Node, Graph, connect_both
 
 
 class GraphTests(unittest.TestCase):

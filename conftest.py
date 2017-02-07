@@ -1,10 +1,13 @@
 import sys
-from core.simulation.passenger_group import PassengersGroup
+
+if "core" not in sys.path[0]:
+    sys.path.insert(0, 'core')
 
 collect_ignore = ["setup.py"]
 if sys.version_info[0] <= 2:
     collect_ignore.append("tests/python_3")
 
+from simulation.passenger_group import PassengersGroup
 
 def pytest_assertrepr_compare(op, left, right):
     if isinstance(left, PassengersGroup) and isinstance(right, PassengersGroup) and (op == "==" or op == "!="):

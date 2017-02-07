@@ -5,8 +5,8 @@ import sys
 
 import numpy as np
 
-from core.configuration import Config
-from core.simulation import Simulation
+from configuration import Config
+from simulation import Simulation
 
 if sys.version_info[0] >= 3:
     from unittest.mock import PropertyMock, patch
@@ -33,7 +33,6 @@ def test_passenger_generation():
 
                 generated = []
                 model = []
-                mean = 120 / 60
                 simulation = Simulation(config)
                 simulation.refresh()
                 simulation.refresh()

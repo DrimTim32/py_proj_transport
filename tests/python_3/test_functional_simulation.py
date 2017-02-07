@@ -6,8 +6,8 @@ import sys
 from core.configuration import Config
 from core.simulation import PassengersGroup
 from core.simulation import Simulation
-from tests_utils.TestsBase import TestBase
-from tests_utils.helpers import add_property, add_variable
+from utils.TestsBase import TestBase
+from utils.helpers import add_property, add_variable
 
 if sys.version_info[0] >= 3:
     from unittest.mock import PropertyMock, patch

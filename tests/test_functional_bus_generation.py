@@ -3,9 +3,9 @@ This file contains functional tests bus generation
 """
 import sys
 
-from core import Bus
-from core.configuration import Config
-from core.simulation import Simulation
+from simulation import Bus
+from configuration import Config
+from simulation import Simulation
 
 if sys.version_info[0] >= 3:
     from unittest.mock import PropertyMock, patch
