@@ -112,7 +112,7 @@ class GUI():
             cols = []
             self.add_item(bus.id, self.tab3, i, 0, cols)
             self.add_item(bus.line.number, self.tab3, i, 1, cols)
-            _route = [stop.name for stop in bus.line.routes[bus.route] if stop.name != "P"]
+            _route = [stop.name.encode("utf-8") for stop in bus.line.routes[bus.route] if stop.name != "P"]
             self.add_item(_route, self.tab3, i, 2, cols)
             self.add_item(bus.current_stop_name, self.tab3, i, 3, cols)
             self.add_item(bus.next_stop_name, self.tab3, i, 4, cols)
