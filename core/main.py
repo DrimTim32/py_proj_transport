@@ -13,7 +13,7 @@ def read_configuration():
 def entrypoint():
     configuration = read_configuration()
     simulation = Simulation(configuration)
-    GUI(simulation).run()
+    GUI(simulation, configuration).run()
     # while True:
     #     simulation.refresh()
     #     time.sleep(0.2)
