@@ -19,7 +19,8 @@ class GUI():
         self.tab1 = []
         self.tab2 = []
         self.tab3 = []
-        self.button = []
+        self.button = tk.Button(self.root, text="Pause", command=self.pause)
+        self.button.pack(side=tk.BOTTOM)
         self.create_tabs()
         self.create_tables()
         self.root.resizable(height=False, width=False)
@@ -29,8 +30,6 @@ class GUI():
         self.tab1 = tk.Frame(self.note)
         self.tab2 = tk.Frame(self.note)
         self.tab3 = tk.Frame(self.note)
-        self.button = tk.Button(self.root, text='Pause', command=self.pause).pack(side=tk.BOTTOM)
-
         self.note.add(self.tab1, text="     Lines       ")
         self.note.add(self.tab2, text="     Stops       ")
         self.note.add(self.tab3, text="     Buses       ")
@@ -129,13 +128,20 @@ class GUI():
         cols.append(e)
 
     def run(self):
-        self.root.after(1000, self.my_mainloop)
+        self.root.after(3000, self.my_mainloop)
         self.root.mainloop()
 
     def pause(self):
-        print("PAUSE")
+        if self.is_executing:
+            self.is_executing = False
+            self.button["text"] = "Run"
+        else:
+            self.is_executing = True
+            self.button["text"] = "Pause"
+            self.my_mainloop()
 
     def my_mainloop(self):
-        self.simulation.refresh()
-        self.create_tables()
-        self.root.after(3000, self.my_mainloop)
+        if self.is_executing:
+            self.simulation.refresh()
+            self.create_tables()
+            self.root.after(3000, self.my_mainloop)
