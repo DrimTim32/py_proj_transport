@@ -1,9 +1,11 @@
-import sys
+"""This file contains GUI class"""
 import tkinter as tk
 from tkinter import ttk
 import collections
 
+
 class GUI():
+    """This class handles windows for the project"""
     def __init__(self, simulation):
         self.simulation = simulation
         self.root = tk.Tk()
@@ -15,19 +17,18 @@ class GUI():
         self.create_tabs()
         self.create_tables()
         self.root.resizable(height=False, width=False)
-        self.go = True
+        self.is_executing = True
 
     def create_tabs(self, *args):
         self.tab1 = tk.Frame(self.note)
         self.tab2 = tk.Frame(self.note)
         self.tab3 = tk.Frame(self.note)
-        self.button = tk.Button(self.root, text = 'Pause', command = self.pause).pack(side = tk.BOTTOM)
+        self.button = tk.Button(self.root, text='Pause', command=self.pause).pack(side=tk.BOTTOM)
 
-        self.note.add(self.tab1, text = "     Lines       ")
-        self.note.add(self.tab2, text = "     Stops       ")
-        self.note.add(self.tab3, text = "     Buses       ")
-        self.note.pack(side = tk.TOP)
-
+        self.note.add(self.tab1, text="     Lines       ")
+        self.note.add(self.tab2, text="     Stops       ")
+        self.note.add(self.tab3, text="     Buses       ")
+        self.note.pack(side=tk.TOP)
 
     def create_tables(self):
         self.create_lines_table()
@@ -49,16 +50,16 @@ class GUI():
             cols = []
             self.add_item(line.number, self.tab1, i, 0, cols)
             self.add_item(line.last_stop_name(0), self.tab1, i, 1, cols)
-            r = [stop.name for stop in line.routes[0] if stop.name != "P"]
-            self.add_item(r, self.tab1, i, 2, cols)
+            _route = [stop.name for stop in line.routes[0] if stop.name != "P"]
+            self.add_item(_route, self.tab1, i, 2, cols)
             self.add_item(line.frequencies[0], self.tab1, i, 3, cols)
             self.add_item(line.bus_capacity, self.tab1, i, 4, cols)
             i += 1
             cols = []
             self.add_item(line.number, self.tab1, i, 0, cols)
             self.add_item(line.last_stop_name(1), self.tab1, i, 1, cols)
-            r = [stop.name for stop in line.routes[1] if stop.name != "P"]
-            self.add_item(r, self.tab1, i, 2, cols)
+            _route = [stop.name for stop in line.routes[1] if stop.name != "P"]
+            self.add_item(_route, self.tab1, i, 2, cols)
             self.add_item(line.frequencies[1], self.tab1, i, 3, cols)
             self.add_item(line.bus_capacity, self.tab1, i, 4, cols)
             i += 1
@@ -72,7 +73,7 @@ class GUI():
         self.add_item('name', self.tab2, i, 0, cols)
         j = 0
         for key in all_stops_info.keys():
-            self.add_item(('to ' + key), self.tab2, i, j+1, cols)
+            self.add_item(('to ' + key), self.tab2, i, j + 1, cols)
             j += 1
         rows.append(cols)
         i += 1
@@ -105,8 +106,8 @@ class GUI():
             cols = []
             self.add_item(bus.id, self.tab3, i, 0, cols)
             self.add_item(bus.line.number, self.tab3, i, 1, cols)
-            r = [stop.name for stop in bus.line.routes[bus.route] if stop.name != "P"]
-            self.add_item(r, self.tab3, i, 2, cols)
+            _route = [stop.name for stop in bus.line.routes[bus.route] if stop.name != "P"]
+            self.add_item(_route, self.tab3, i, 2, cols)
             self.add_item(bus.current_stop_name, self.tab3, i, 3, cols)
             self.add_item(bus.next_stop_name, self.tab3, i, 4, cols)
             self.add_item(bus.time_to_next_stop, self.tab3, i, 5, cols)
@@ -121,8 +122,6 @@ class GUI():
         e.insert(tk.END, item)
         cols.append(e)
 
-
-
     def run(self):
         self.root.after(1000, self.my_mainloop)
         self.root.mainloop()
@@ -134,4 +133,3 @@ class GUI():
         self.simulation.refresh()
         self.create_tables()
         self.root.after(3000, self.my_mainloop)
-
