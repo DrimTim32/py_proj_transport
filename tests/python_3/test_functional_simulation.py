@@ -45,8 +45,7 @@ class SimulationTest(TestBase):
                         0: {'id': 0, 'bus_capacity': 20, 'frequency1': 17, 'frequency2': 17,
                             'route1': ['A', 'D', 'C', 'B', 'E', 'F'],
                             'route2': ['F', 'E', 'B', 'A']}}
-                    config = Config({}, {}, {}, {})
-                    config.stops = ["A", "B", "C", "D", "E", "F"]
+                    config = Config(["A", "B", "C", "D", "E", "F"], {}, {}, {}, 1.0)
                     mock_traffic_dict.return_value = {'E': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
                                                       'F': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
                                                       'D': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
@@ -115,8 +114,7 @@ class SimulationTest(TestBase):
                         1: {'id': 1, 'bus_capacity': 20, 'frequency1': 1000, 'frequency2': 1000,
                             'route1': ['C', 'B', 'E', 'F'],
                             'route2': ['F', 'E', 'B', 'C']}}
-                    config = Config({}, {}, {}, {})
-                    config.stops = ["A", "B", "C", "D", "E", "F"]
+                    config = Config(["A", "B", "C", "D", "E", "F"], {}, {}, {}, 1.0)
                     mock_traffic_dict.return_value = {'E': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
                                                       'F': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
                                                       'D': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
@@ -202,8 +200,7 @@ class SimulationTest(TestBase):
                         1: {'id': 1, 'bus_capacity': 20, 'frequency1': 1000, 'frequency2': 1000,
                             'route1': ['C', 'B', 'E', 'F'],
                             'route2': ['F', 'E', 'B', 'C']}}
-                    config = Config({}, {}, {}, {})
-                    config.stops = ["A", "B", "C", "D", "E", "F"]
+                    config = Config(["A", "B", "C", "D", "E", "F"], {}, {}, {}, 1.0)
                     mock_traffic_dict.return_value = {'E': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
                                                       'F': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
                                                       'D': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
@@ -254,8 +251,7 @@ class SimulationTest(TestBase):
                         1: {'id': 1, 'bus_capacity': 20, 'frequency1': 1000, 'frequency2': 1000,
                             'route1': ['C', 'B', 'E', 'F'],
                             'route2': ['F', 'E', 'B', 'C']}}
-                    config = Config({}, {}, {}, {})
-                    config.stops = ["A", "B", "C", "D", "E", "F"]
+                    config = Config(["A", "B", "C", "D", "E", "F"], {}, {}, {}, 1.0)
                     mock_traffic_dict.return_value = {'E': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
                                                       'F': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},
                                                       'D': {'E': 0, 'F': 0, 'D': 0, 'A': 0, 'C': 0, 'B': 0},

@@ -26,8 +26,7 @@ def test_bus_generation():
                     0: {'id': 0, 'bus_capacity': 20, 'frequency1': 10, 'frequency2': 1000,
                         'route1': ['B', 'A'],
                         'route2': ['A', 'B']}}
-                config = Config({}, {}, {}, {})
-                config.stops = ["A", "B"]
+                config = Config(["A", "B"], {}, {}, {}, 1.0)
                 mock_traffic_dict.return_value = {'A': {'A': 0, 'B': 0},
                                                   'B': {'A': 0, 'B': 0}}
 

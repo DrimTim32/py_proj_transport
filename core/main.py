@@ -1,29 +1,42 @@
+"""This file contains main method for project"""
 import sys
-import time
 
 from configuration import config
+from drawing.gui import GUI
 from simulation.simulation import Simulation
 
 
-def read_configuration():
-    return config.Config.from_config_file("config.json")
+def read_configuration(path):
+    """Reads configuration from file in path"""
+    return config.Config.from_config_file(path)
 
 
-def entrypoint():
-    configuration = read_configuration()
+def entry_point(path):
+    """
+    Entry point for application
+    """
+
+    configuration = read_configuration(path)
+    print("Configuration readed succesfully.")
     simulation = Simulation(configuration)
-    while True:
-        simulation.refresh()
-        time.sleep(0.2)
+    print("Running simulation.")
+    GUI(simulation).run()
+    exit()
 
 
 def main():
-    entrypoint()
-    # try:
-    #     entrypoint()
-    # except Exception as e:
-    #     print("{0}, message : {1}".format(sys.stderr, e))
-    #     return 2
+    """This is main method for this file"""
+    path = "config.json"
+    if len(sys.argv) < 2:
+        print("Configuration file is not provided, using default.")
+    else:
+        path = sys.argv[1]
+    entry_point(path)
+    try:
+        pass
+    except Exception as exc:
+        print("{0}, message : {1}".format(sys.stderr, exc))
+        return 2
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()

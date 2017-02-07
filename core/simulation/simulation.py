@@ -3,13 +3,14 @@ File containing main Simulation class
 """
 from data_structures import Graph
 from .bus import Bus
-from .passenger_group import PassengersGroup
 from .generators import PoissonPassengerGenerator
 from .line import LineStop, Line
+from .passenger_group import PassengersGroup
 from .stop import Stop
 
 
 class Simulation:
+    """This class represents simulation"""
     def __init__(self, config, passenger_generator=PoissonPassengerGenerator):
         """
         Read configuration and do sth with it
@@ -29,14 +30,17 @@ class Simulation:
 
     @property
     def buses(self):
+        """Returns buses in simulation"""
         return self.__buses
 
     @property
     def stops(self):
+        """Returns stops in simulation"""
         return self.__stops
 
     @property
     def lines(self):
+        """Returns lines in simulation"""
         return self.__lines
 
     def refresh(self):
@@ -46,7 +50,7 @@ class Simulation:
         """
         if not self.finished:
             self.__update()
-            self._print()
+            # self._print()
 
     def _print(self):
         """
@@ -86,6 +90,7 @@ class Simulation:
         self.__generate_buses()
 
     def __update_stops(self):
+        """Updates stops"""
         for src in self.__stops.keys():
             for dest in self.__stops.keys():
                 if src is not dest:
@@ -103,10 +108,12 @@ class Simulation:
                             source_stop.passengers.append(PassengersGroup(dest, new_passengers))
 
     def __update_buses(self):
+        """Updates buses"""
         for bus in self.__buses:
             bus.move()
 
     def __update_passengers(self):
+        """Updates passengers"""
         for bus in self.__buses:
             if bus.time_to_next_stop == 0:
                 Simulation.__transfer_out(self.__stops[bus.current_stop_name], bus)
@@ -115,12 +122,14 @@ class Simulation:
 
     @staticmethod
     def __transfer_out(stop, bus):
+        """here passengers exit buses"""
         for bus_group in bus.passengers:  # wysiadanie
             if bus_group.destination == stop.name:
                 bus.passengers.remove(bus_group)
                 break
 
     def __transfer_in(self, stop, bus):
+        """here passengers enter buses"""
         in_groups = []
         for stop_group in stop.passengers:  # wsiadanie
             destination = stop_group.destination
@@ -132,6 +141,7 @@ class Simulation:
             stop.passengers.append(group)
 
     def __transfer_between(self, stop, bus):
+        """here passengers transfer between buses"""
         for bus_group in bus.passengers:  # wysiadanie do przesiadki
             if self.__graph.get_path_between(stop.name, bus_group.destination)[0] != bus.next_stop_name:
                 j = 0
@@ -146,6 +156,7 @@ class Simulation:
                 bus.passengers.remove(bus_group)
 
     def __generate_buses(self):
+        """Generates buses"""
         for line in self.__lines:
             new_buses = line.tick()
             for i in range(len(new_buses)):
@@ -153,11 +164,13 @@ class Simulation:
                     self.__buses.append(Bus(line, i))
 
     def __clean_buses(self):
+        """Clears unused buses"""
         buses_to_remove = [bus for bus in self.__buses if bus.current_stop == bus.line.last_stop(bus.route)]
         for bus in buses_to_remove:
             self.__buses.remove(bus)
 
     def __create_lines(self, lines):
+        """Builds lines"""
         for line in lines.values():
             route1, route2 = [], []
             curr_route = line['route1']
@@ -175,4 +188,5 @@ class Simulation:
             self.__lines.append(Line(line, route1, route2))
 
     def __create_stops(self, stops):
+        """Creates stops"""
         self.__stops = {stop_name: Stop(stop_name) for stop_name in stops}
