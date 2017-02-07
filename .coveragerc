@@ -24,7 +24,7 @@ exclude_lines =
 
     # non-runnable code
     if 0:
-    if __name__ == .__main__.: 
+    if __name__ == .__main__.:
 
 ignore_errors = False
 precision = 2

@@ -10,7 +10,7 @@ if "core" not in sys.path[0]:
 from configuration import config
 from simulation.simulation import Simulation
 
-from core.drawing.gui import GUI
+from drawing.gui import GUI
 
 
 def read_configuration():
