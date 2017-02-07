@@ -5,8 +5,7 @@ import sys
 
 import pytest
 
-from tests_utils.helpers import get_full_class_name
-
+from utils.helpers import get_full_class_name
 
 @pytest.mark.parametrize(("cls", "type_name"), [
     (list, "list"),

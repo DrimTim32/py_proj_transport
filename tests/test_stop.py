@@ -5,9 +5,9 @@ import sys
 
 import pytest
 
-from core.simulation.passenger_group import PassengersGroup
-from core.simulation.stop import Stop
-from tests_utils.helpers import get_full_class_name
+from simulation.passenger_group import PassengersGroup
+from simulation.stop import Stop
+from utils.helpers import get_full_class_name
 
 if sys.version_info[0] >= 3:
     import unittest.mock as mock

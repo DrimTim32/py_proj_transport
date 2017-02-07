@@ -6,9 +6,8 @@ import sys
 from core.configuration import Config
 from core.simulation import PassengersGroup
 from core.simulation import Simulation
-from tests_utils.TestsBase import TestBase
-from tests_utils.helpers import add_property, add_variable
-
+from utils.TestsBase import TestBase
+from utils.helpers import add_property, add_variable, get_full_class_name
 if sys.version_info[0] >= 3:
     from unittest.mock import PropertyMock, patch
 else:
@@ -30,11 +29,11 @@ class SimulationTest(TestBase):
     """Class for testing simulation class"""
 
     def test_graph_and_lines(self):
-
         """Tests simulation with graph and lines"""
-        with patch('core.configuration.Config.graph_dict', new_callable=PropertyMock) as mock_graph_dict:
-            with patch('core.configuration.Config.lines_dict', new_callable=PropertyMock) as mock_lines_dict:
-                with patch('core.configuration.Config.traffic_data_dict',
+        config_name = get_full_class_name(Config)
+        with patch(config_name+'.graph_dict', new_callable=PropertyMock) as mock_graph_dict:
+            with patch(config_name+'.lines_dict', new_callable=PropertyMock) as mock_lines_dict:
+                with patch(config_name+'.traffic_data_dict',
                            new_callable=PropertyMock) as mock_traffic_dict:
                     mock_graph_dict.return_value = {'A': [('B', 7), ('D', 2)],
                                                     'B': [('A', 7), ('C', 1), ('E', 2)],
@@ -88,9 +87,10 @@ class SimulationTest(TestBase):
 
     def test_graph_and_lines_transfer(self):
         """Tests simulation with graph and lines - choosing better way"""
-        with patch('core.configuration.Config.graph_dict', new_callable=PropertyMock) as mock_graph_dict:
-            with patch('core.configuration.Config.lines_dict', new_callable=PropertyMock) as mock_lines_dict:
-                with patch('core.configuration.Config.traffic_data_dict',
+        config_name = get_full_class_name(Config)
+        with patch(config_name+'.graph_dict', new_callable=PropertyMock) as mock_graph_dict:
+            with patch(config_name+'.lines_dict', new_callable=PropertyMock) as mock_lines_dict:
+                with patch(config_name+'.traffic_data_dict',
                            new_callable=PropertyMock) as mock_traffic_dict:
                     class MockedGenerator:
                         def __init__(self, empty_argument):
@@ -174,9 +174,10 @@ class SimulationTest(TestBase):
 
     def test_graph_and_lines_transfer_2(self):
         """Tests simulation with graph and lines - duplication"""
-        with patch('core.configuration.Config.graph_dict', new_callable=PropertyMock) as mock_graph_dict:
-            with patch('core.configuration.Config.lines_dict', new_callable=PropertyMock) as mock_lines_dict:
-                with patch('core.configuration.Config.traffic_data_dict',
+        config_name = get_full_class_name(Config)
+        with patch(config_name+'.graph_dict', new_callable=PropertyMock) as mock_graph_dict:
+            with patch(config_name+'.lines_dict', new_callable=PropertyMock) as mock_lines_dict:
+                with patch(config_name+'.traffic_data_dict',
                            new_callable=PropertyMock) as mock_traffic_dict:
                     class MockedGenerator:
                         def __init__(self, empty_argument):
@@ -225,9 +226,10 @@ class SimulationTest(TestBase):
 
     def test_graph_and_lines_transfer_3(self):
         """Tests simulation with graph and lines - looong bus stops"""
-        with patch('core.configuration.Config.graph_dict', new_callable=PropertyMock) as mock_graph_dict:
-            with patch('core.configuration.Config.lines_dict', new_callable=PropertyMock) as mock_lines_dict:
-                with patch('core.configuration.Config.traffic_data_dict',
+        config_name = get_full_class_name(Config)
+        with patch(config_name+'.graph_dict', new_callable=PropertyMock) as mock_graph_dict:
+            with patch(config_name+'.lines_dict', new_callable=PropertyMock) as mock_lines_dict:
+                with patch(config_name+'.traffic_data_dict',
                            new_callable=PropertyMock) as mock_traffic_dict:
                     class MockedGenerator:
                         def __init__(self, empty_argument):

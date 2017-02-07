@@ -3,9 +3,9 @@ This file contains graph integration tests
 """
 import unittest
 
-from core.configuration.config import Config
-from core.data_structures.graph import Graph
-from tests_utils.helpers import get_full_class_name
+from configuration.config import Config
+from data_structures.graph import Graph
+from utils.helpers import get_full_class_name
 
 try:
     from mock import patch, mock_open, mock, PropertyMock

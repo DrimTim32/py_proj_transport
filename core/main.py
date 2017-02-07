@@ -1,8 +1,8 @@
 import sys
 import time
 
-from core.configuration import config
-from core.simulation.simulation import Simulation
+from configuration import config
+from simulation.simulation import Simulation
 
 
 def read_configuration():

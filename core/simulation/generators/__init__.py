@@ -1,1 +1,1 @@
-from core.simulation.generators.passenger_generator import PoissonPassengerGenerator
+from simulation.generators.passenger_generator import PoissonPassengerGenerator
