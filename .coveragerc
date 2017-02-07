@@ -5,6 +5,7 @@ omit =
     tests/*
     *\__init__.py
     conftest.py
+    core/main.py
     setup.py
 
 data_file = docs/coverage/.coverage
