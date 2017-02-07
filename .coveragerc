@@ -6,6 +6,8 @@ omit =
     *\__init__.py
     conftest.py
     setup.py
+    core/drawing/*
+    core/main.py
 
 data_file = docs/coverage/.coverage
 source = core
