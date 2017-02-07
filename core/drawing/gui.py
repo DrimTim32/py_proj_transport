@@ -1,7 +1,13 @@
 """This file contains GUI class"""
-import tkinter as tk
-from tkinter import ttk
+import sys
 import collections
+
+if sys.version_info[0] >= 3:
+    import tkinter as tk
+    from tkinter import ttk
+else:
+    import Tkinter as tk
+    import ttk
 
 
 class GUI():
@@ -50,7 +56,7 @@ class GUI():
             cols = []
             self.add_item(line.number, self.tab1, i, 0, cols)
             self.add_item(line.last_stop_name(0), self.tab1, i, 1, cols)
-            _route = [stop.name for stop in line.routes[0] if stop.name != "P"]
+            _route = [stop.name.encode("utf-8") for stop in line.routes[0] if stop.name != "P"]
             self.add_item(_route, self.tab1, i, 2, cols)
             self.add_item(line.frequencies[0], self.tab1, i, 3, cols)
             self.add_item(line.bus_capacity, self.tab1, i, 4, cols)
@@ -58,7 +64,7 @@ class GUI():
             cols = []
             self.add_item(line.number, self.tab1, i, 0, cols)
             self.add_item(line.last_stop_name(1), self.tab1, i, 1, cols)
-            _route = [stop.name for stop in line.routes[1] if stop.name != "P"]
+            _route = [stop.name.encode("utf-8") for stop in line.routes[1] if stop.name != "P"]
             self.add_item(_route, self.tab1, i, 2, cols)
             self.add_item(line.frequencies[1], self.tab1, i, 3, cols)
             self.add_item(line.bus_capacity, self.tab1, i, 4, cols)
