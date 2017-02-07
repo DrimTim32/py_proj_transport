@@ -60,6 +60,7 @@ class Line:
 
     @property
     def last_bus(self):
+        """Returns last bus"""
         return self.__last_bus
 
     def first_stop_name(self, route):

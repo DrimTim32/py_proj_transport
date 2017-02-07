@@ -1,5 +1,4 @@
 import sys
-import time
 
 if "core" not in sys.path[0]:
     if "\\" in sys.path[0]:
@@ -11,6 +10,8 @@ if "core" not in sys.path[0]:
 from configuration import config
 from simulation.simulation import Simulation
 
+from drawing.gui import GUI
+
 
 def read_configuration():
     return config.Config.from_config_file("config.json")
@@ -19,17 +20,20 @@ def read_configuration():
 def entrypoint():
     configuration = read_configuration()
     simulation = Simulation(configuration)
-    while True:
-        simulation.refresh()
-        time.sleep(0.2)
+    GUI(simulation).run()
+    exit()
 
 
 def main():
-    try:
-        entrypoint()
-    except Exception as e:
-        print("{0}, message : {1}".format(sys.stderr, e))
-        return 2
+    entrypoint()
+
+
+
+    # try:
+    #     entrypoint()
+    # except Exception as e:
+    #     print("{0}, message : {1}".format(sys.stderr, e))
+    #     return 2
 
 
 if __name__ == "__main__":
