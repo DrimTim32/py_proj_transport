@@ -1,6 +1,5 @@
 """This file contains GUI class"""
 import sys
-import collections
 
 if sys.version_info[0] >= 3:
     import tkinter as tk
@@ -71,27 +70,76 @@ class GUI():
             rows.append(cols)
 
     def create_stops_table(self):
-        all_stops_info = collections.OrderedDict(sorted(self.simulation.stops.items()))
+        all_stops_info = []
+        print(self.simulation.stops.items())
+        for key, value in self.simulation.stops.items():
+
+            if sys.version_info[0] >= 3:
+                temp = [key, value]
+            else:
+                temp = [key.encode("utf-8"), value]
+            all_stops_info.append(temp)
+        all_stops_info.sort()
+        print(all_stops_info)
+        nr_stops = len(all_stops_info)
         i = 0
         rows = []
         cols = []
         self.add_item('name', self.tab2, i, 0, cols)
         j = 0
-        for key in all_stops_info.keys():
-            self.add_item(('to ' + key), self.tab2, i, j + 1, cols)
+        for element in all_stops_info:
+            self.add_item(('to ' + element[0]), self.tab2, i, j + 1, cols)
             j += 1
         rows.append(cols)
         i += 1
-
-        for current_stop in all_stops_info:
+        for current_stop in range(nr_stops):
             cols = []
             j = 0
-            self.add_item(current_stop, self.tab2, i, 0, cols)
-            for destination_stop in all_stops_info.keys():
-                self.add_item(all_stops_info[current_stop].count(destination_stop), self.tab2, i, j + 1, cols)
+            self.add_item(all_stops_info[current_stop][0], self.tab2, current_stop + 1, 0, cols)
+            for destination_stop in range(nr_stops):
+                if sys.version_info[0] >= 3:
+                    self.add_item(all_stops_info[current_stop][1].count(all_stops_info[destination_stop][0]), self.tab2,
+                                  i, j + 1, cols)
+                else:
+                    self.add_item(all_stops_info[current_stop][1].count(all_stops_info[destination_stop][0]),
+                                   self.tab2, i, j + 1, cols)
+
                 j += 1
             rows.append(cols)
             i += 1
+
+
+
+
+        # for current_stop in all_stops_info:
+        #     cols = []
+        #     j = 0
+        #     self.add_item(current_stop[0], self.tab2, i, 0, cols)
+        #     for destination_stop in all_stops_info:
+        #         # print(all_stops_info[current_stop].name)
+        #         if sys.version_info[0] >= 3:
+        #             self.add_item(all_stops_info[j][1].count(destination_stop[0]), self.tab2, i, j + 1, cols)
+        #         else:
+        #             self.add_item(all_stops_info[j][1].count(destination_stop[0]), self.tab2, i, j + 1, cols)
+        #         j += 1
+        #     rows.append(cols)
+        #     i += 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     def create_buses_table(self):
         i = 0
