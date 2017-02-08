@@ -5,11 +5,11 @@ import sys
 
 import pytest
 
-from core.simulation import Bus
-from core.simulation.line import Line, LineStop
-from core.simulation.passenger_group import PassengersGroup
-from tests_utils.TestsBase import TestBase
-from tests_utils.helpers import get_full_class_name
+from simulation import Bus
+from simulation.line import Line, LineStop
+from simulation.passenger_group import PassengersGroup
+from utils.TestsBase import TestBase
+from utils.helpers import get_full_class_name
 
 if sys.version_info[0] >= 3:
     import unittest.mock as mock

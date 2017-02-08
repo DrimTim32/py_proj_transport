@@ -1,0 +1,169 @@
+{
+  "tick": 1,
+  "stops": [
+    "Maki", "Chmieleniec", "Kampus", "Ruczaj", "Norymberska", "Grota", "Lipinskiego", "Kobierzynska", "Slomiana",
+    "Kapelanka", "Szwedzka", "ICE", "Ludwinow", "Matecznego", "Rzemieslnicza", "Lagiewniki", "Brozka", "Borsucza"
+  ],
+  "connections": {
+    "Maki": [["Chmieleniec", 1]],
+    "Chmieleniec": [["Maki", 1], ["Kampus", 1]],
+    "Kampus": [["Chmieleniec", 1], ["Ruczaj", 1]],
+    "Ruczaj": [["Kampus", 1], ["Norymberska", 1]],
+    "Norymberska": [["Ruczaj", 1], ["Grota", 2]],
+    "Grota": [["Norymberska", 2], ["Lipinskiego", 1]],
+    "Lipinskiego": [["Grota", 1], ["Kobierzynska", 2], ["Borsucza", 1]],
+    "Kobierzynska": [["Lipinskiego", 2], ["Slomiana", 1], ["Borsucza", 2]],
+    "Slomiana": [["Kobierzynska", 1], ["Kapelanka", 1]],
+    "Kapelanka": [["Slomiana", 1], ["Szwedzka", 1]],
+    "Szwedzka": [["Kapelanka", 1], ["ICE", 1]],
+    "ICE": [["Szwedzka", 1], ["Ludwinow", 1]],
+    "Ludwinow": [["ICE", 1], ["Matecznego", 3]],
+    "Matecznego": [["Ludwinow", 3], ["Rzemieslnicza", 2]],
+    "Rzemieslnicza": [["Matecznego", 2], ["Lagiewniki", 1]],
+    "Lagiewniki": [["Rzemieslnicza", 1], ["Brozka", 1]],
+    "Brozka": [["Lagiewniki", 1], ["Borsucza", 1]],
+    "Borsucza": [["Brozka", 1], ["Kobierzynska", 2], ["Lipinskiego", 1]]
+  },
+  "lines": [
+    {
+      "id": 194,
+      "bus_capacity": 150,
+      "route1": [
+        "Maki", "Chmieleniec", "Kampus", "Ruczaj", "Norymberska", "Grota", "Lipinskiego", "Kobierzynska", "Slomiana",
+        "Kapelanka", "Szwedzka", "ICE"
+      ],
+      "frequency1": 7,
+      "route2": [
+        "ICE", "Szwedzka", "Kapelanka", "Slomiana", "Kobierzynska", "Lipinskiego", "Grota", "Norymberska", "Ruczaj",
+        "Kampus", "Chmieleniec", "Maki"
+      ],
+      "frequency2": 7
+    },
+    {
+      "id": 164,
+      "bus_capacity": 90,
+      "route1": ["ICE", "Ludwinow", "Matecznego"],
+      "frequency1": 15,
+      "route2": ["Matecznego", "Ludwinow", "ICE"],
+      "frequency2": 15
+    },
+    {
+      "id": 23,
+      "bus_capacity": 60,
+      "route1": [
+        "Maki", "Chmieleniec", "Kampus", "Ruczaj", "Norymberska", "Grota", "Lipinskiego", "Borsucza", "Brozka",
+        "Lagiewniki", "Rzemieslnicza", "Matecznego"
+      ],
+      "frequency1": 15,
+      "route2": [
+        "Matecznego", "Rzemieslnicza", "Lagiewniki", "Brozka", "Borsucza", "Lipinskiego", "Grota", "Norymberska",
+        "Ruczaj", "Kampus", "Chmieleniec", "Maki"
+      ],
+      "frequency2": 15
+    },
+    {
+      "id": 22,
+      "bus_capacity": 60,
+      "route1": [
+        "ICE", "Szwedzka", "Kapelanka", "Slomiana", "Kobierzynska", "Borsucza", "Brozka", "Lagiewniki"
+      ],
+      "frequency1": 15,
+      "route2": [
+        "Lagiewniki", "Brozka", "Borsucza", "Kobierzynska", "Slomiana", "Kapelanka", "Szwedzka", "ICE"
+      ],
+      "frequency2": 15
+    }
+  ],
+  "traffic_data": {
+    "Maki": [
+      ["Maki", 0], ["Chmieleniec", 5], ["Kampus", 5], ["Ruczaj", 5], ["Norymberska", 5], ["Grota", 5],
+      ["Lipinskiego", 5], ["Kobierzynska", 5], ["Slomiana", 5], ["Kapelanka", 5], ["Szwedzka", 5], ["ICE", 8],
+      ["Ludwinow", 5], ["Matecznego", 7], ["Rzemieslnicza", 5], ["Lagiewniki", 5], ["Brozka", 5], ["Borsucza", 5]
+    ],
+    "Chmieleniec": [
+      ["Maki", 5], ["Chmieleniec", 0], ["Kampus", 5], ["Ruczaj", 5], ["Norymberska", 5], ["Grota", 5],
+      ["Lipinskiego", 5], ["Kobierzynska", 5], ["Slomiana", 5], ["Kapelanka", 5], ["Szwedzka", 5], ["ICE", 8],
+      ["Ludwinow", 5], ["Matecznego", 7], ["Rzemieslnicza", 5], ["Lagiewniki", 5], ["Brozka", 5], ["Borsucza", 5]
+    ],
+    "Kampus": [
+      ["Maki", 5], ["Chmieleniec", 5], ["Kampus", 0], ["Ruczaj", 5], ["Norymberska", 5], ["Grota", 5],
+      ["Lipinskiego", 5], ["Kobierzynska", 5], ["Slomiana", 5], ["Kapelanka", 5], ["Szwedzka", 5], ["ICE", 8],
+      ["Ludwinow", 5], ["Matecznego", 7], ["Rzemieslnicza", 5], ["Lagiewniki", 5], ["Brozka", 5], ["Borsucza", 5]
+    ],
+    "Ruczaj": [
+      ["Maki", 5], ["Chmieleniec", 5], ["Kampus", 5], ["Ruczaj", 0], ["Norymberska", 5], ["Grota", 5],
+      ["Lipinskiego", 5], ["Kobierzynska", 5], ["Slomiana", 5], ["Kapelanka", 5], ["Szwedzka", 5], ["ICE", 8],
+      ["Ludwinow", 5], ["Matecznego", 7], ["Rzemieslnicza", 5], ["Lagiewniki", 5], ["Brozka", 5], ["Borsucza", 5]
+    ],
+    "Norymberska": [
+      ["Maki", 5], ["Chmieleniec", 5], ["Kampus", 5], ["Ruczaj", 5], ["Norymberska", 0], ["Grota", 5],
+      ["Lipinskiego", 5], ["Kobierzynska", 5], ["Slomiana", 5], ["Kapelanka", 5], ["Szwedzka", 5], ["ICE", 8],
+      ["Ludwinow", 5], ["Matecznego", 7], ["Rzemieslnicza", 5], ["Lagiewniki", 5], ["Brozka", 5], ["Borsucza", 5]
+    ],
+    "Grota": [
+      ["Maki", 5], ["Chmieleniec", 5], ["Kampus", 5], ["Ruczaj", 5], ["Norymberska", 5], ["Grota", 0],
+      ["Lipinskiego", 5], ["Kobierzynska", 5], ["Slomiana", 5], ["Kapelanka", 5], ["Szwedzka", 5], ["ICE", 8],
+      ["Ludwinow", 5], ["Matecznego", 7], ["Rzemieslnicza", 5], ["Lagiewniki", 5], ["Brozka", 5], ["Borsucza", 5]
+    ],
+    "Lipinskiego": [
+      ["Maki", 5], ["Chmieleniec", 5], ["Kampus", 5], ["Ruczaj", 5], ["Norymberska", 5], ["Grota", 5],
+      ["Lipinskiego", 0], ["Kobierzynska", 5], ["Slomiana", 5], ["Kapelanka", 5], ["Szwedzka", 5], ["ICE", 8],
+      ["Ludwinow", 5], ["Matecznego", 7], ["Rzemieslnicza", 5], ["Lagiewniki", 5], ["Brozka", 5], ["Borsucza", 5]
+    ],
+    "Kobierzynska": [
+      ["Maki", 5], ["Chmieleniec", 5], ["Kampus", 5], ["Ruczaj", 5], ["Norymberska", 5], ["Grota", 5],
+      ["Lipinskiego", 5], ["Kobierzynska", 0], ["Slomiana", 5], ["Kapelanka", 5], ["Szwedzka", 5], ["ICE", 8],
+      ["Ludwinow", 5], ["Matecznego", 7], ["Rzemieslnicza", 5], ["Lagiewniki", 5], ["Brozka", 5], ["Borsucza", 5]
+    ],
+    "Slomiana": [
+      ["Maki", 5], ["Chmieleniec", 5], ["Kampus", 5], ["Ruczaj", 5], ["Norymberska", 5], ["Grota", 5],
+      ["Lipinskiego", 5], ["Kobierzynska", 5], ["Slomiana", 0], ["Kapelanka", 5], ["Szwedzka", 5], ["ICE", 8],
+      ["Ludwinow", 5], ["Matecznego", 7], ["Rzemieslnicza", 5], ["Lagiewniki", 5], ["Brozka", 5], ["Borsucza", 5]
+    ],
+    "Kapelanka": [
+      ["Maki", 5], ["Chmieleniec", 5], ["Kampus", 5], ["Ruczaj", 5], ["Norymberska", 5], ["Grota", 5],
+      ["Lipinskiego", 5], ["Kobierzynska", 5], ["Slomiana", 5], ["Kapelanka", 0], ["Szwedzka", 5], ["ICE", 8],
+      ["Ludwinow", 5], ["Matecznego", 7], ["Rzemieslnicza", 5], ["Lagiewniki", 5], ["Brozka", 5], ["Borsucza", 5]
+    ],
+    "Szwedzka": [
+      ["Maki", 5], ["Chmieleniec", 5], ["Kampus", 5], ["Ruczaj", 5], ["Norymberska", 5], ["Grota", 5],
+      ["Lipinskiego", 5], ["Kobierzynska", 5], ["Slomiana", 5], ["Kapelanka", 5], ["Szwedzka", 0], ["ICE", 8],
+      ["Ludwinow", 5], ["Matecznego", 7], ["Rzemieslnicza", 5], ["Lagiewniki", 5], ["Brozka", 5], ["Borsucza", 5]
+    ],
+    "ICE": [
+      ["Maki", 5], ["Chmieleniec", 5], ["Kampus", 5], ["Ruczaj", 5], ["Norymberska", 5], ["Grota", 5],
+      ["Lipinskiego", 5], ["Kobierzynska", 5], ["Slomiana", 5], ["Kapelanka", 5], ["Szwedzka", 5], ["ICE", 0],
+      ["Ludwinow", 5], ["Matecznego", 13], ["Rzemieslnicza", 5], ["Lagiewniki", 5], ["Brozka", 5], ["Borsucza", 5]
+    ],
+    "Ludwinow": [
+      ["Maki", 5], ["Chmieleniec", 5], ["Kampus", 5], ["Ruczaj", 5], ["Norymberska", 5], ["Grota", 5],
+      ["Lipinskiego", 5], ["Kobierzynska", 5], ["Slomiana", 5], ["Kapelanka", 5], ["Szwedzka", 5], ["ICE", 8],
+      ["Ludwinow", 0], ["Matecznego", 7], ["Rzemieslnicza", 5], ["Lagiewniki", 5], ["Brozka", 5], ["Borsucza", 5]
+    ],
+    "Matecznego": [
+      ["Maki", 5], ["Chmieleniec", 5], ["Kampus", 5], ["Ruczaj", 5], ["Norymberska", 5], ["Grota", 5],
+      ["Lipinskiego", 5], ["Kobierzynska", 5], ["Slomiana", 5], ["Kapelanka", 5], ["Szwedzka", 5], ["ICE", 18],
+      ["Ludwinow", 5], ["Matecznego", 0], ["Rzemieslnicza", 5], ["Lagiewniki", 5], ["Brozka", 5], ["Borsucza", 5]
+    ],
+    "Rzemieslnicza": [
+      ["Maki", 5], ["Chmieleniec", 5], ["Kampus", 5], ["Ruczaj", 5], ["Norymberska", 5], ["Grota", 5],
+      ["Lipinskiego", 5], ["Kobierzynska", 5], ["Slomiana", 5], ["Kapelanka", 5], ["Szwedzka", 5], ["ICE", 8],
+      ["Ludwinow", 5], ["Matecznego", 7], ["Rzemieslnicza", 0], ["Lagiewniki", 5], ["Brozka", 5], ["Borsucza", 5]
+    ],
+    "Lagiewniki": [
+      ["Maki", 5], ["Chmieleniec", 5], ["Kampus", 5], ["Ruczaj", 5], ["Norymberska", 5], ["Grota", 5],
+      ["Lipinskiego", 5], ["Kobierzynska", 5], ["Slomiana", 5], ["Kapelanka", 5], ["Szwedzka", 5], ["ICE", 8],
+      ["Ludwinow", 5], ["Matecznego", 7], ["Rzemieslnicza", 5], ["Lagiewniki", 0], ["Brozka", 5], ["Borsucza", 5]
+    ],
+    "Brozka": [
+      ["Maki", 5], ["Chmieleniec", 5], ["Kampus", 5], ["Ruczaj", 5], ["Norymberska", 5], ["Grota", 5],
+      ["Lipinskiego", 5], ["Kobierzynska", 5], ["Slomiana", 5], ["Kapelanka", 5], ["Szwedzka", 5], ["ICE", 8],
+      ["Ludwinow", 5], ["Matecznego", 7], ["Rzemieslnicza", 5], ["Lagiewniki", 5], ["Brozka", 0], ["Borsucza", 5]
+    ],
+    "Borsucza": [
+      ["Maki", 5], ["Chmieleniec", 5], ["Kampus", 5], ["Ruczaj", 5], ["Norymberska", 5], ["Grota", 5],
+      ["Lipinskiego", 5], ["Kobierzynska", 5], ["Slomiana", 5], ["Kapelanka", 5], ["Szwedzka", 5], ["ICE", 8],
+      ["Ludwinow", 5], ["Matecznego", 7], ["Rzemieslnicza", 5], ["Lagiewniki", 5], ["Brozka", 5], ["Borsucza", 0]
+    ]
+  }
+}

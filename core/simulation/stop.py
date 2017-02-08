@@ -1,3 +1,8 @@
+"""
+File containing Bus class
+"""
+
+
 class Stop:
     """
     Bus Stop class
@@ -25,4 +30,8 @@ class Stop:
 
     @property
     def name(self):
+        """
+        :return: name of stop
+        :rtype str
+        """
         return self.__name

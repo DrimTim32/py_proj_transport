@@ -21,7 +21,7 @@ def add_property(instance, name, method):
     """
     cls = type(instance)
     cls = type(cls.__name__, (cls,), {})
-    cls.__perinstance = True
+    cls.__perinstance = True  # pylint: disable=W0212
     instance.__class__ = cls
     setattr(cls, name, property(method))
 

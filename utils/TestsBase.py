@@ -19,6 +19,7 @@ class TestBase(unittest.TestCase):
         :param equality_method: equality method
         :return: None
         """
+        i = 0
         if len(list1) != len(list2):
             raise AssertionError(
                 "length of {} is not equal to length of {}\n {} != {}".format(list1, list2, len(list1), len(list2)))
@@ -28,7 +29,7 @@ class TestBase(unittest.TestCase):
         except AssertionError as err:
             raise AssertionError("Assertion error on element {}: {}".format(i, err))
 
-    def are_equal(self, obj1, obj2, equality_method=lambda x, y: x == y):
+    def are_equal(self, obj1, obj2, equality_method=lambda x, y: x == y): # pylint: disable=R0201
         """
         Checks if two objecs are are equal using equality method
         :param obj1: first object

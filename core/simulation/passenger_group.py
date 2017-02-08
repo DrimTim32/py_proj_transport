@@ -1,3 +1,8 @@
+"""
+File containing PassengersGroup class
+"""
+
+
 class PassengersGroup:
     """
         Group of passengers going to the same bus stop
@@ -19,6 +24,10 @@ class PassengersGroup:
 
     @property
     def destination(self):
+        """
+        :return: destination(name of stop) of passengers from group
+        :rtype: str
+        """
         return self.__destination
 
     def __add__(self, other):
