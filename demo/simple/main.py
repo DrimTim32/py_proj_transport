@@ -26,7 +26,7 @@ def entrypoint():
 
 def main():
     entrypoint()
-    
+
     # try:
     #     entrypoint()
     # except Exception as e:
