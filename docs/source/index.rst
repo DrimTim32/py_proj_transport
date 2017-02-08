@@ -3,13 +3,17 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to py_proj_lights's documentation!
-==========================================
+Welcome to py_proj_transport's documentation!
+=============================================
 
 .. toctree::
    :maxdepth: 2
 
-   core
+                                                                                                                           configuration
+                                                                                                                           data_structures
+                                                                                                                           drawing
+                                                                                                                           simulation
+                                                                                                                           simulation-generators
 
 
 
